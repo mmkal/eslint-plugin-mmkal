@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "../../../../../../../*.*",
+    "../../../../../../../**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*ignoreme*",
+    "../../../../../../../node_modules",
+    "../../../../../../../dist",
+    "../../../../../../../*ignoreme*"
+  ]
+}
