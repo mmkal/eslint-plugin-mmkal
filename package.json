@@ -1,0 +1,42 @@
+{
+  "name": "eslint-plugin-mmkal",
+  "version": "0.0.1",
+  "description": "My eslint plugin with rules I find good",
+  "main": "index.js",
+  "scripts": {
+    "eslint": "eslint",
+    "lint": "yarn eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "typescript": "4.8.1-rc"
+  },
+  "dependencies": {
+    "@rushstack/eslint-config": "^3.0.0",
+    "@rushstack/eslint-plugin": "^0.10.0",
+    "@rushstack/eslint-plugin-packlets": "^0.5.0",
+    "@rushstack/eslint-plugin-security": "^0.4.0",
+    "@types/eslint": "^8.4.6",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
+    "eslint-config-xo": "^0.42.0",
+    "eslint-config-xo-react": "^0.27.0",
+    "eslint-config-xo-typescript": "^0.53.0",
+    "eslint-plugin-codegen": "^0.16.1",
+    "eslint-plugin-functional": "^4.2.2",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.0.1",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.1",
+    "eslint-plugin-react": "^7.31.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unicorn": "^43.0.2",
+    "eslint-plugin-wrapper": "^0.0.3",
+    "lodash": "^4.17.21",
+    "prettier": "^2.7.1"
+  }
+}
