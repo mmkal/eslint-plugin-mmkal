@@ -1,18 +1,20 @@
-const lodash = require('lodash')
+const {EslintPluginWrapper} = require('eslint-plugin-wrapper')
 
-const { EslintPluginWrapper } = require('eslint-plugin-wrapper')
-
-const wrapper = new EslintPluginWrapper({ pluginName: 'mmkal' })
+const wrapper = new EslintPluginWrapper({pluginName: 'mmkal'})
 
 process.env.BROWSERSLIST_IGNORE_OLD_DATA = 'true'
 
 // model external configs as plugins that just expose one config each, so we can use the same wrapping method
 wrapper.addPlugins({
-  'config:xo': { configs: { recommended: require('eslint-config-xo') } },
+  'config:xo': {configs: {recommended: require('eslint-config-xo')}},
   // 'config:xo-react': {configs: {recommended: require('eslint-config-xo-react')}},
-  'config:xo-typescript': { configs: { recommended: require('eslint-config-xo-typescript') } },
+  'config:xo-typescript': {
+    configs: {recommended: require('eslint-config-xo-typescript')},
+  },
   'config:@rushstack/eslint-config': {
-    configs: { recommended: require('@rushstack/eslint-config/profile/node').overrides[0] },
+    configs: {
+      recommended: require('@rushstack/eslint-config/profile/node').overrides[0],
+    },
   },
 })
 
@@ -56,19 +58,21 @@ wrapper.addPlugins({
               noNonNull: `Use "!!!" instead of a single non-null assertion, if you want to avoid a noisy lint suppression.`,
             },
           },
-          create: context => {
+          create(context) {
             const parentRule = parentDef.create(context)
             const isNNE = node => node && node.type === 'TSNonNullExpression'
 
             return {
-              TSNonNullExpression: node => {
+              TSNonNullExpression(node) {
                 if (isNNE(node.expression) && isNNE(node.expression.expression)) {
                   return // !!!, permitted
                 }
+
                 if (isNNE(node.parent)) {
                   return // probably the child of a !!!, rely on parent for linting
                 }
 
+                // eslint-disable-next-line mmkal/@typescript-eslint/no-confusing-void-expression
                 return parentRule.TSNonNullExpression(node)
               },
             }
@@ -88,8 +92,8 @@ wrapper.addPlugins({
           extraFileExtensions: ['.md', '.mjs', '.js'],
         },
         settings: {
-          jest: { version: 27 },
-          react: { version: '17.0' },
+          jest: {version: 27},
+          react: {version: '17.0'},
         },
         env: {
           browser: true,
@@ -112,7 +116,7 @@ wrapper.addPlugins({
 
           'mmkal/unicorn/no-abusive-eslint-disable': 'off',
 
-          'mmkal/prettier/prettier': 'warn',
+          'mmkal/prettier/prettier': ['warn', require('./prettierrc')],
           'mmkal/codegen/codegen': 'error',
           'mmkal/@typescript-eslint/naming-convention': 'off',
           'mmkal/@typescript-eslint/no-extra-non-null-assertion': 'off',
@@ -138,7 +142,7 @@ wrapper.addPlugins({
           ],
 
           // beware: this will affect _all_ multiline templates. suppress if you have a template you don't want that with
-          'mmkal/unicorn/template-indent': ['warn', { selectors: ['*'] }],
+          'mmkal/unicorn/template-indent': ['warn', {selectors: ['*']}],
 
           'prefer-arrow-callback': 'error',
           'prefer-const': 'error',
@@ -150,7 +154,9 @@ wrapper.addPlugins({
 
           'mmkal/jest/expect-expect': [
             'error',
-            { assertFunctionNames: ['expect', 'expectTypeOf', 'verify', 'expectCDK', 't.expect', 'click', 'waitFor'] },
+            {
+              assertFunctionNames: ['expect', 'expectTypeOf', 'verify', 'expectCDK', 't.expect', 'click', 'waitFor'],
+            },
           ],
           'mmkal/@typescript-eslint/ban-types': 'off',
           'mmkal/@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -167,12 +173,12 @@ wrapper.addPlugins({
           ],
           'mmkal/@typescript-eslint/no-confusing-void-expression': [
             'warn',
-            { ignoreArrowShorthand: true, ignoreVoidOperator: true },
+            {ignoreArrowShorthand: true, ignoreVoidOperator: true},
           ],
           'mmkal/@typescript-eslint/prefer-function-type': 'error',
           'mmkal/@typescript-eslint/restrict-template-expressions': [
             'warn',
-            { allowBoolean: true, allowNumber: true, allowNullish: true },
+            {allowBoolean: true, allowNumber: true, allowNullish: true},
           ],
           'mmkal/@typescript-eslint/no-shadow': 'error',
           'mmkal/@typescript-eslint/no-unused-vars': [
@@ -185,7 +191,7 @@ wrapper.addPlugins({
               args: 'after-used',
             },
           ],
-          'mmkal/@typescript-eslint/no-namespace': ['warn', { allowDeclarations: true }],
+          'mmkal/@typescript-eslint/no-namespace': ['warn', {allowDeclarations: true}],
           'mmkal/@typescript-eslint/no-unsafe-return': 'warn',
 
           'mmkal/import/newline-after-import': 'warn',
@@ -212,7 +218,7 @@ wrapper.addPlugins({
           'mmkal/import/order': [
             'warn',
             {
-              alphabetize: { order: 'asc' },
+              alphabetize: {order: 'asc'},
               groups: [['index', 'external', 'internal', 'builtin', 'object'], 'parent', 'sibling'],
             },
           ],
@@ -220,7 +226,7 @@ wrapper.addPlugins({
             'warn',
             {
               styles: {
-                path: { default: false, namespace: true },
+                path: {default: false, namespace: true},
               },
             },
           ],
@@ -264,18 +270,12 @@ wrapper.addPlugins({
           'mmkal/unicorn/catch-error-name': 'off',
           'mmkal/unicorn/consistent-function-scoping': 'off',
           // warning in vscode, don't bug me in CI, and make CLI commands match CI
-          'mmkal/unicorn/expiring-todo-comments': !process.env.VSCODE_CWD
-            ? 'off'
-            : [
-              'warn',
-              {
-                allowWarningComments: false,
-                ignoreDatesOnPullRequests: true,
-              },
-            ],
+          'mmkal/unicorn/expiring-todo-comments': process.env.VSCODE_CWD
+            ? ['warn', {allowWarningComments: false, ignoreDatesOnPullRequests: true}]
+            : 'off',
           'mmkal/react/react-in-jsx-scope': 'off',
           'mmkal/react/prop-types': 'off',
-          'mmkal/react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
+          'mmkal/react/no-unescaped-entities': ['error', {forbid: ['>', '}']}],
           'mmkal/react/display-name': 'off', // lots of false positives from React.useMemo and only really helps with React.createElement
           'mmkal/unicorn/filename-case': [
             'warn',
@@ -337,7 +337,7 @@ wrapper.addPlugins({
           {
             files: ['test/**/*.ts', '**/tests/**/*.ts'],
             rules: {
-              'no-console': ['warn', { allow: ['warn', 'error'] }],
+              'no-console': ['warn', {allow: ['warn', 'error']}],
               'mmkal/@typescript-eslint/no-unsafe-return': 'off',
               'mmkal/custom/bang-bang-bang': 'off',
               'mmkal/@typescript-eslint/no-extra-non-null-assertion': 'warn',
