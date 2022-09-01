@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-mmkal",
   "version": "0.0.1",
-  "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use.",
+  "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint",
