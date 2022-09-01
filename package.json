@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-mmkal",
   "version": "0.0.1",
-  "description": "My eslint plugin with rules I find good",
+  "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use.",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint",
@@ -11,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^8.23.0",
-    "typescript": "4.8.1-rc"
+    "eslint": "8.23.0",
+    "typescript": "4.8.2"
   },
   "dependencies": {
     "@rushstack/eslint-config": "^3.0.0",
