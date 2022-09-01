@@ -6,6 +6,7 @@ specifiers:
   '@rushstack/eslint-plugin-packlets': ^0.5.0
   '@rushstack/eslint-plugin-security': ^0.4.0
   '@types/eslint': ^8.4.6
+  '@types/node': ^18.7.14
   '@typescript-eslint/eslint-plugin': ^5.36.1
   '@typescript-eslint/parser': ^5.36.1
   eslint: 8.23.0
@@ -53,6 +54,7 @@ dependencies:
   prettier: 2.7.1
 
 devDependencies:
+  '@types/node': 18.7.14
   eslint: 8.23.0
   typescript: 4.8.2
 
@@ -505,7 +507,6 @@ packages:
 
   /@types/node/18.7.14:
     resolution: {integrity: sha512-6bbDaETVi8oyIARulOE9qF1/Qdi/23z6emrUh0fNJRUmjznqrixD4MpGDdgOFk5Xb0m2H6Xu42JGdvAxaJR/wA==}
-    dev: false
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}

@@ -2,6 +2,10 @@
   "name": "eslint-plugin-mmkal",
   "version": "0.0.1",
   "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
+  "files": [
+    "index.js",
+    "src/*"
+  ],
   "main": "index.js",
   "scripts": {
     "eslint": "eslint",
@@ -11,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.7.14",
     "eslint": "8.23.0",
     "typescript": "4.8.2"
   },
