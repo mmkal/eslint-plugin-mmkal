@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-mmkal",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
   "files": [
     "README.md",
