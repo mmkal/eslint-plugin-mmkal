@@ -368,4 +368,17 @@ wrapper.addPlugins({
   },
 })
 
+// todo: make a helper along these lines in eslint-plugin-wrapper
+wrapper.getRecommended = () => {
+  const recommended = wrapper.plugins.custom.configs.recommended
+  return {
+    // this loads all the stuff like parser, parserOptions, overrides, so you don't have to manually fiddle
+    ...recommended,
+    // no need to take the literal `extends` array. instead rely on eslint referencing it
+    extends: ['plugin:mmkal/recommended'],
+    // the rules etc. are also defined in 
+    rules: {},
+  }
+}
+
 module.exports = wrapper
