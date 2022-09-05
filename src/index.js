@@ -329,9 +329,12 @@ wrapper.addPlugins({
             },
           },
           {
+            // commonjs is stil useful, but don't assume it unless
             files: ['**/*.cjs'],
             rules: {
               'mmkal/unicorn/no-process-exit': 'off',
+              'mmkal/@typescript-eslint/no-require-imports': 'off',
+              'mmkal/@typescript-eslint/no-var-requires': 'off',
             },
           },
           {
