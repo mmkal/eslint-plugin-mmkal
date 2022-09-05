@@ -335,6 +335,7 @@ wrapper.addPlugins({
               'mmkal/unicorn/no-process-exit': 'off',
               'mmkal/@typescript-eslint/no-require-imports': 'off',
               'mmkal/@typescript-eslint/no-var-requires': 'off',
+              'mmkal/@typescript-eslint/no-unsafe-assignment': 'off',
             },
           },
           {
