@@ -1,4 +1,9 @@
-node_modules/*
-!node_modules/eslint-plugin-mmkal
+node_modules
+dist
 *ignoreme*
-*.tgz
+coverage
+
+# ignore non-pnpm lockfiles
+package-lock.json
+yarn.lock
+!node_modules/eslint-plugin-mmkal

@@ -1,16 +1,28 @@
 {
-    "compilerOptions": {
-        "noEmit": true,
-        "allowJs": true,
-        "resolveJsonModule": true
-    },
-    "include": [
-        "*.*",
-        "**/*"
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "lib": [
+      "es2017",
+      "DOM"
     ],
-    "exclude": [
-        "node_modules",
-        "dist",
-        "*ignoreme*"
-    ]
+    "target": "es2017",
+    "module": "commonjs",
+    "strict": true,
+    "noErrorTruncation": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src",
+    "test",
+    "*.js",
+    ".*.*js",
+    "*.md"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*ignoreme*"
+  ]
 }
