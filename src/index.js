@@ -89,7 +89,7 @@ wrapper.addPlugins({
           ecmaVersion: 2018,
           sourceType: 'module',
           project: ['./tsconfig.json'],
-          extraFileExtensions: ['.md'],
+          extraFileExtensions: ['.md', '.json', '.yml', '.yaml', '.css'],
         },
         settings: {
           jest: {version: 27},

@@ -54,6 +54,5 @@
     "eslint-plugin-wrapper": "^0.0.3",
     "lodash": "^4.17.21",
     "prettier": "^2.7.1"
-  },
-  "bin": "dist/bin.js"
+  }
 }
