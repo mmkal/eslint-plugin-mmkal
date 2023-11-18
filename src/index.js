@@ -90,7 +90,7 @@ wrapper.addPlugins({
                   return // probably the child of a !!!, rely on parent for linting
                 }
 
-                // eslint-disable-next-line mmkal/@typescript-eslint/no-confusing-void-expression
+                // eslint-disable-next-line mmkal/@typescript-eslint/no-confusing-void-expression, mmkal/@typescript-eslint/no-unsafe-argument
                 return parentRule.TSNonNullExpression(node)
               },
             }
