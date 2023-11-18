@@ -4,12 +4,30 @@ const wrapper = new EslintPluginWrapper({pluginName: 'mmkal'})
 
 process.env.BROWSERSLIST_IGNORE_OLD_DATA = 'true'
 
+/** @type {<T, K extends keyof T>(obj: T, keys: K[]) => Omit<T, K>} */
+const omit = (obj, keys) => {
+  const nope = new Set(keys)
+  return Object.fromEntries(Object.entries(obj).filter(([key]) => !nope.has(key)))
+}
+
 // model external configs as plugins that just expose one config each, so we can use the same wrapping method
 wrapper.addPlugins({
-  'config:xo': {configs: {recommended: require('eslint-config-xo')}},
+  'config:xo': {
+    configs: {
+      recommended: (() => {
+        const xo = require('eslint-config-xo')
+        return {
+          ...xo,
+          rules: omit(xo.rules, ['array-callback-return']),
+        }
+      })(),
+    },
+  },
   // 'config:xo-react': {configs: {recommended: require('eslint-config-xo-react')}},
   'config:xo-typescript': {
-    configs: {recommended: require('eslint-config-xo-typescript')},
+    configs: {
+      recommended: require('eslint-config-xo-typescript'),
+    },
   },
   'config:@rushstack/eslint-config': {
     configs: {
@@ -261,6 +279,7 @@ wrapper.addPlugins({
 
           // valid rule, but the type system can make sure we don't do this unsafely
           'mmkal/unicorn/no-array-callback-reference': 'off',
+          'array-callback-return': 'off',
 
           'no-warning-comments': 'off',
           'no-dupe-class-members': 'off',
