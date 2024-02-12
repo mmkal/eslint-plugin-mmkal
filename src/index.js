@@ -1,4 +1,4 @@
-const {EslintPluginWrapper} = require('eslint-plugin-wrapper')
+const EslintPluginWrapper = require('eslint-plugin-wrapper')
 
 const wrapper = new EslintPluginWrapper({pluginName: 'mmkal'})
 
