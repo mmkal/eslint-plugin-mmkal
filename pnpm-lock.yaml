@@ -66,8 +66,8 @@ dependencies:
     specifier: ^49.0.0
     version: 49.0.0(eslint@8.56.0)
   eslint-plugin-wrapper:
-    specifier: ^0.0.3
-    version: 0.0.3
+    specifier: 0.1.0-0
+    version: 0.1.0-0
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -3079,6 +3079,11 @@ packages:
 
   /eslint-plugin-wrapper@0.0.3:
     resolution: {integrity: sha512-3TTbwODwacBi+ce6hPiq5vq7Rc+/C5SRZNyAmiaJ0l+9hehS5jXpSQkL5aBArGj0Icvctf/xGQKJeZ1bn5p0lA==}
+    dev: true
+
+  /eslint-plugin-wrapper@0.1.0-0:
+    resolution: {integrity: sha512-ZAMPMnEKu5vsy0SbTJsPiO3QKiaOa9i0teBF6uvhR86KlI4Sqj/la6V5IPuBFkmVJpIeY+PLR4BamGZkLjXJ/w==}
+    dev: false
 
   /eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
