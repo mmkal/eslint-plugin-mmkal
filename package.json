@@ -10,6 +10,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
+    "bootstrap": "node scripts/bootstrap.cjs",
     "lint": "eslint .",
     "test": "vitest run",
     "build": "rm -rf dist && tsc -p tsconfig.lib.json"
@@ -23,7 +24,6 @@
   "devDependencies": {
     "@types/node": "20.9.1",
     "eslint": "^8.56.0",
-    "eslint-plugin-mmkal": "0.2.0",
     "execa": "^8.0.1",
     "np": "github:mmkal/np#pnpm",
     "typescript": "5.2.2",

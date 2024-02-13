@@ -400,4 +400,18 @@ wrapper.getRecommended = () => {
   }
 }
 
+wrapper.speedyConfig = () => {
+  const recommended = wrapper.getRecommended()
+  return {
+    ...recommended,
+    extends: [
+      'plugin:mmkal/prettier.recommended', //
+      'plugin:mmkal/codegen.recommended',
+      'plugin:mmkal/unicorn.recommended',
+    ],
+  }
+}
+
+console.log('helloo')
+
 module.exports = wrapper
