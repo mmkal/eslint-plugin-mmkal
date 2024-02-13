@@ -7,8 +7,8 @@
       "es2017",
       "DOM"
     ],
-    "target": "es2017",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "NodeNext",
     "strict": true,
     "noErrorTruncation": true,
     "esModuleInterop": true
