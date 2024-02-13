@@ -1,8 +1,9 @@
-const childProcess = require('child_process')
-const fs = require('fs')
-const path = require('path')
+import {execa} from 'execa'
+import * as fs from 'fs'
+import * as path from 'path'
+import {test, expect} from 'vitest'
 
-test('fix works', () => {
+test('fix works', async () => {
   // for now, just test that semicolons are prettiered away
   const testdir = path.join(__dirname, 'ignoreme')
   const typescript = path.join(testdir, 'typescript.ts')
@@ -11,7 +12,7 @@ test('fix works', () => {
   fs.readdirSync(testdir).forEach(file => fs.unlinkSync(path.join(testdir, file)))
   fs.writeFileSync(typescript, 'export const a = 1;')
   fs.writeFileSync(commonjs, `const fs = require('fs');\nexport const read = fs.readFile;`)
-  childProcess.execSync(`yarn eslint 'test/ignoreme/*' --fix --no-ignore`, {stdio: 'pipe'})
+  await execa('pnpm', ['eslint', 'test/ignoreme/*', '--fix', '--no-ignore'])
   /** @type {(file: string) => string} */
   const read = file => fs.readFileSync(file).toString().trim()
   expect(read(typescript)).toEqual('export const a = 1')
