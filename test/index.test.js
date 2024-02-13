@@ -13,15 +13,15 @@ test('fix works', async () => {
 
   fs.mkdirSync(testdir, {recursive: true})
   fs.readdirSync(testdir).forEach(file => fs.unlinkSync(path.join(testdir, file)))
-  fs.writeFileSync(typescript, 'export const a = 1;')
-  fs.writeFileSync(esm, `import * as fs from 'node:fs';\nexport const read = fs.readFile;`)
-  fs.writeFileSync(commonjs, `const fs = require('node:fs');\nexport const read = fs.readFile;`)
+  fs.writeFileSync(typescript, 'export const a: [number] = [1];')
+  fs.writeFileSync(esm, `export const a = [1];`)
+  fs.writeFileSync(commonjs, `exports.a = [1];`)
 
   await execa('pnpm', ['eslint', 'test/ignoreme/*', '--fix', '--no-ignore'])
   /** @type {(file: string) => string} */
   const read = file => fs.readFileSync(file).toString().trim()
 
-  expect(read(typescript)).toEqual('export const a = 1')
-  expect(read(esm)).toEqual(`import * as fs from 'node:fs'\nexport const read = fs.readFile`)
-  expect(read(commonjs)).toEqual(`const fs = require('node:fs')\nexport const read = fs.readFile`)
+  expect(read(typescript)).toEqual('export const a: [number] = [1]')
+  expect(read(esm)).toEqual(`export const a = [1]`)
+  expect(read(commonjs)).toEqual(`exports.a = [1]`)
 }, 10_000)
