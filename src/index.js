@@ -412,6 +412,4 @@ wrapper.speedyConfig = () => {
   }
 }
 
-console.log('helloo')
-
 module.exports = wrapper
