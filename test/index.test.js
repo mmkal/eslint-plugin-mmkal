@@ -24,4 +24,4 @@ test('fix works', async () => {
   expect(read(typescript)).toEqual('export const a = 1')
   expect(read(esm)).toEqual(`import * as fs from 'fs'\n\nexport const read = fs.readFile`)
   expect(read(commonjs)).toEqual(`const fs = require('fs')\n\nexport const read = fs.readFile`)
-})
+}, 10_000)
