@@ -3,7 +3,10 @@ dist
 *ignoreme*
 coverage
 
+# unignore the fake path in node_modules for this package, so we can use the plugin on this repo
+!node_modules/eslint-plugin-mmkal
+
 # ignore non-pnpm lockfiles
 package-lock.json
 yarn.lock
-!node_modules/eslint-plugin-mmkal
+

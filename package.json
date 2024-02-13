@@ -10,8 +10,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "eslint": "eslint",
-    "lint": "yarn eslint .",
+    "lint": "eslint .",
     "test": "vitest run",
     "build": "rm -rf dist && tsc -p tsconfig.lib.json"
   },
