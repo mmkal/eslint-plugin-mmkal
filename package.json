@@ -11,6 +11,7 @@
   "types": "src/index.d.ts",
   "scripts": {
     "bootstrap": "node scripts/bootstrap.cjs",
+    "prepare": "pnpm bootstrap && pnpm build",
     "lint": "eslint .",
     "test": "vitest run",
     "build": "rm -rf dist && tsc -p tsconfig.lib.json"
