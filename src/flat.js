@@ -1,8 +1,10 @@
 const eslint = require('@eslint/js')
 const prettierConfig = require('eslint-config-prettier') // disables rules that conflict with prettier
 const codegen = require('eslint-plugin-codegen')
+const _import = require('eslint-plugin-import')
 const prettier = require('eslint-plugin-prettier')
 const unicorn = require('eslint-plugin-unicorn')
+const vitest = require('eslint-plugin-vitest')
 const tseslint = require('typescript-eslint')
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
@@ -12,10 +14,14 @@ const flatConfig = [
       prettier,
       codegen,
       unicorn,
+      import: _import,
+      vitest,
     },
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  unicorn.configs.recommended,
+  vitest.config.recommended,
   prettierConfig,
   {
     rules: {
@@ -58,8 +64,6 @@ const flatConfig = [
       strict: ['error', 'never'],
 
       'no-await-in-loop': 'off',
-
-      'jest/expect-expect': ['error', {assertFunctionNames: ['expect', 'expectTypeOf']}],
 
       // ur not my mum
       '@typescript-eslint/ban-types': 'off',
