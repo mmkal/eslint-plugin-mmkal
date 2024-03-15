@@ -1,14 +1,29 @@
-const eslint = require('@eslint/js')
-const prettierConfig = require('eslint-config-prettier') // disables rules that conflict with prettier
-const codegen = require('eslint-plugin-codegen')
-const _import = require('eslint-plugin-import')
-const prettier = require('eslint-plugin-prettier')
-const unicorn = require('eslint-plugin-unicorn')
-const vitest = require('eslint-plugin-vitest')
-const tseslint = require('typescript-eslint')
+import eslint from '@eslint/js'
+import prettierConfig from 'eslint-config-prettier' // disables rules that conflict with prettier
+import * as codegen from 'eslint-plugin-codegen'
+import * as _import from 'eslint-plugin-import'
+import prettier from 'eslint-plugin-prettier'
+import unicorn from 'eslint-plugin-unicorn'
+import vitest from 'eslint-plugin-vitest'
+import tseslint from 'typescript-eslint'
+
+const omit = <T extends {}, K extends keyof T>(obj: T, keys: K[]) => {
+  const omitted = new Set(keys)
+  return Object.fromEntries(Object.entries(obj).filter(([k]) => !omitted.has(k as K))) as Pick<T, K>
+}
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
-const flatConfig = [
+const typescriptConfig = [
+  {
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigDirName: __dirname,
+      },
+    },
+  },
+  eslint.configs!.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
     plugins: {
       prettier,
@@ -18,10 +33,8 @@ const flatConfig = [
       vitest,
     },
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  unicorn.configs.recommended,
-  vitest.config.recommended,
+  omit(unicorn.configs!.recommended as any, ['env', 'parserOptions', 'plugins']),
+  omit(vitest.configs.recommended as any, ['env', 'parserOptions', 'plugins']),
   prettierConfig,
   {
     rules: {
@@ -184,7 +197,7 @@ const flatConfig = [
         : 'off',
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
-      'react/no-unescaped-entities': ['error', {forbid: ['>', '}']}],
+      // 'react/no-unescaped-entities': ['error', {forbid: ['>', '}']}],
       'react/display-name': 'off', // lots of false positives from React.useMemo and only really helps with React.createElement
       'unicorn/filename-case': [
         'warn',
@@ -209,30 +222,6 @@ const flatConfig = [
       'unicorn/prefer-spread': 'off',
       // a foolish consistency is the hobgoblin of little minds
       'unicorn/prefer-query-selector': 'off',
-    },
-  },
-  {
-    files: ['**/*.js'],
-    rules: {
-      '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/restrict-template-expressions': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/prefer-optional-chain': 'off',
-      '@typescript-eslint/no-implicit-any-catch': 'off',
-      'no-undef': 'error',
-      'no-console': 'off',
-    },
-  },
-  {
-    // commonjs is stil useful, but don't assume it unless
-    files: ['**/*.cjs'],
-    rules: {
-      'unicorn/no-process-exit': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
-      '@typescript-eslint/no-var-requires': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
   {
@@ -261,4 +250,34 @@ const flatConfig = [
   },
 ]
 
-exports.flatConfig = flatConfig
+const jsConfg = [
+  {
+    files: ['**/*.js'],
+    rules: {
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/no-implicit-any-catch': 'off',
+      'no-undef': 'error',
+      'no-console': 'off',
+    },
+  },
+  {
+    // commonjs is stil useful, but don't assume it unless
+    files: ['**/*.cjs'],
+    rules: {
+      'unicorn/no-process-exit': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+    },
+  },
+]
+
+export const flatConfig = typescriptConfig.map(cfg => ({
+  files: ['**/*.ts', '**/*.tsx'],
+  ...cfg,
+}))
