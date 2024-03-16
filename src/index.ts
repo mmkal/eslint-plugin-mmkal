@@ -1,12 +1,13 @@
 import eslint from '@eslint/js'
-import prettierConfig from 'eslint-config-prettier' // disables rules that conflict with prettier
 import * as codegen from 'eslint-plugin-codegen'
 import * as _import from 'eslint-plugin-import'
 import prettier from 'eslint-plugin-prettier'
+import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import {prettierrc} from './prettierrc'
 
 const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
   const omitted = new Set(keys)
@@ -264,6 +265,12 @@ const ignoreCommonNonSourceFiles: ConfigLike = {
   ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/coverage/**'],
 }
 
+const prettierrcConfig: ConfigLike = {
+  rules: {
+    'prettier/prettier': ['warn', prettierrc],
+  },
+}
+
 const globalsConfigs = Object.fromEntries(
   Object.entries(globals).map(([k, v]) => {
     return [`globals_${k}`, [{languageOptions: {globals: v}}] as ConfigLike[]]
@@ -277,7 +284,9 @@ const configsRecord = {
   import: [flatify('import', _import)],
   vitest: [flatify('vitest', vitest)],
   prettier: [flatify('prettier', prettier)],
-  prettierConfig: [omit(prettierConfig, ['plugins'])],
+  prettierRecommended: [prettierRecommended as ConfigLike],
+  /** my subjective preferreed prettier config */
+  prettierPreset: [prettierrcConfig],
   eslintRecommended: [eslint.configs.recommended as ConfigLike],
   tseslintOverrides: [tseslintOverrides],
   externalPluginRuleOverrides: [externalPluginRuleOverrides],
@@ -293,7 +302,10 @@ export const configs = Object.fromEntries(
   Object.entries(configsRecord).map(([k, v]) => {
     const named = v.map((cfg, i) => {
       const clone = {...cfg}
-      Object.defineProperty(clone, 'name', {value: `${k}.${i}`, enumerable: false})
+      Object.defineProperty(clone, 'name', {
+        value: `${k}.${i}`,
+        enumerable: false,
+      })
       return clone
     })
     return [k, named]
@@ -304,8 +316,8 @@ export const configs = Object.fromEntries(
 
 export type ConfigName = keyof ConfigsRecord
 
-export const withoutConfigs = (cfgs: NamedConfigLike[], names: ConfigName): ConfigLike[] => {
-  const set = new Set(names)
+export const withoutConfigs = (cfgs: NamedConfigLike[], names: ConfigName[]): ConfigLike[] => {
+  const set = new Set<string>(names)
   return cfgs.filter(cfg => !set.has(cfg.name.replace(/\.\d+$/, '')))
 }
 
@@ -328,12 +340,13 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   })),
   ...configs.vitest,
   ...configs.prettier,
-  ...configs.prettierConfig,
-  ...configs.externalPluginRuleOverrides,
   ...configs.nonProdTypescript.map(cfg => ({
     ...cfg,
     files: ['test/**/*.ts', '**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
   })),
+  ...configs.prettierRecommended,
+  ...configs.prettierPreset,
+  ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
   // todo: enable this. currently it throws Cannot read properties of undefined (reading 'comments') which I think is the fault of eslint-plugin-markdown
   // {
