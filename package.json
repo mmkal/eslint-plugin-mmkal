@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-mmkal",
-  "version": "0.4.0-4",
+  "version": "0.4.0-5",
   "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
   "packageManager": "pnpm@8.10.2",
   "files": [
