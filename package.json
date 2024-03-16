@@ -10,8 +10,7 @@
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "bootstrap": "node scripts/bootstrap.cjs",
-    "prepare": "pnpm bootstrap && pnpm build",
+    "prepare": "pnpm build",
     "lint": "eslint .",
     "test": "vitest run",
     "build": "rm -rf dist && tsc -p tsconfig.lib.json"
@@ -26,7 +25,7 @@
     "@types/node": "20.9.1",
     "eslint": "^8.57.0",
     "execa": "^8.0.1",
-    "np": "github:mmkal/np#pnpm",
+    "np": "^10.0.0",
     "tsx": "^4.7.1",
     "typescript": "5.2.2",
     "vitest": "^1.2.2"
