@@ -14,6 +14,8 @@ const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) 
 }
 
 export type ConfigLike = {
+  files?: string[]
+  processor?: string
   languageOptions?: unknown
   plugins?: Record<string, unknown>
   rules?: Record<string, unknown>
@@ -333,6 +335,17 @@ export const recommendedFlatConfigs: ConfigLike[] = [
     files: ['test/**/*.ts', '**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
   })),
   ...configs.ignoreCommonNonSourceFiles,
+  // todo: enable this. currently it throws Cannot read properties of undefined (reading 'comments') which I think is the fault of eslint-plugin-markdown
+  // {
+  //   files: ['*.md', '*.mdx'],
+  //   plugins: {
+  //     codegen,
+  //   },
+  //   processor: 'codegen/processor',
+  //   rules: {
+  //     'codegen/codegen': 'warn',
+  //   },
+  // },
 ]
 
 const validate = (flatConfigs: NamedConfigLike[]) => {
