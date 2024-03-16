@@ -1,5 +1,7 @@
 declare module '@eslint/js' {
-  const plugin: import('eslint').ESLint.Plugin
+  const plugin: import('eslint').ESLint.Plugin & {
+    configs: Record<'recommended' | 'all', import('eslint').Linter.FlatConfig>
+  }
   export = plugin
 }
 
