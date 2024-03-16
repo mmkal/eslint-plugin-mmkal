@@ -20,6 +20,7 @@ export type ConfigLike = {
   // watch out re: ignores: https://github.com/eslint/eslint/issues/17400
   ignores?: string[]
 }
+export type NamedConfigLike = ConfigLike & {name: string}
 
 const tseslintOverrides: ConfigLike = {
   rules: {
@@ -215,26 +216,11 @@ const externalPluginRuleOverrides: ConfigLike = {
   },
 }
 
-const externalPluginsRecommended: ConfigLike[] = [
-  {
-    plugins: {
-      prettier,
-      codegen,
-      unicorn,
-      import: _import,
-      vitest,
-    },
-  },
-  {
-    ...omit(unicorn.configs!.recommended, ['env', 'parserOptions', 'plugins']),
-  },
-  {
-    ...omit(vitest.configs.recommended, ['env', 'parserOptions', 'plugins']),
-  },
-  {
-    ...omit(prettierConfig, ['plugins']),
-  },
-]
+const flatify = <Name extends string>(name: Name, legacyPlugin: import('eslint').ESLint.Plugin) =>
+  ({
+    ...omit(legacyPlugin.configs!.recommended, ['env', 'parserOptions', 'plugins', 'extends', 'overrides']),
+    plugins: {[name]: legacyPlugin},
+  }) as ConfigLike
 
 const typescriptLanguageSetup: ConfigLike = {
   languageOptions: {
@@ -284,7 +270,12 @@ const globalsConfigs = Object.fromEntries(
 
 const configsRecord = {
   ...globalsConfigs,
-  externalPluginsRecommended,
+  codegen: [flatify('codegen', codegen)],
+  unicorn: [flatify('unicorn', unicorn)],
+  import: [flatify('import', _import)],
+  vitest: [flatify('vitest', vitest)],
+  prettier: [flatify('prettier', prettier)],
+  prettierConfig: [omit(prettierConfig, ['plugins'])],
   eslintRecommended: [eslint.configs.recommended as ConfigLike],
   tseslintOverrides: [tseslintOverrides],
   externalPluginRuleOverrides: [externalPluginRuleOverrides],
@@ -301,7 +292,7 @@ export const configs = Object.fromEntries(
     const named = v.map((cfg, i) => {
       const clone = {...cfg}
       Object.defineProperty(clone, 'name', {value: `${k}.${i}`, enumerable: false})
-      return clone as typeof cfg & {name: `${typeof k}.${number}`}
+      return clone
     })
     return [k, named]
   }),
@@ -311,7 +302,7 @@ export const configs = Object.fromEntries(
 
 export type ConfigName = keyof ConfigsRecord
 
-export const withoutConfigs = (cfgs: (ConfigLike & {name: ConfigName})[], names: ConfigName): ConfigLike[] => {
+export const withoutConfigs = (cfgs: NamedConfigLike[], names: ConfigName): ConfigLike[] => {
   const set = new Set(names)
   return cfgs.filter(cfg => !set.has(cfg.name.replace(/\.\d+$/, '')))
 }
@@ -328,7 +319,14 @@ export const recommendedFlatConfigs: ConfigLike[] = [
     files: ['**/*.ts', '**/*.tsx'],
   })),
   ...configs.eslintRecommended,
-  ...configs.externalPluginsRecommended,
+  ...configs.codegen,
+  ...configs.unicorn,
+  ...configs.import.map(cfg => ({
+    plugins: cfg.plugins, // various problems related to parserOptions with import recommended
+  })),
+  ...configs.vitest,
+  ...configs.prettier,
+  ...configs.prettierConfig,
   ...configs.externalPluginRuleOverrides,
   ...configs.nonProdTypescript.map(cfg => ({
     ...cfg,
@@ -336,3 +334,25 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   })),
   ...configs.ignoreCommonNonSourceFiles,
 ]
+
+const validate = (flatConfigs: NamedConfigLike[]) => {
+  const rules = {
+    usesExtends: (cfg: ConfigLike) => 'extends' in cfg,
+    arrayPlugins: (cfg: ConfigLike) => Array.isArray(cfg.plugins),
+    usesEnv: (cfg: ConfigLike) => 'env' in cfg,
+    usesOverrides: (cfg: ConfigLike) => 'overrides' in cfg,
+  }
+
+  const errors = flatConfigs.flatMap(cfg => {
+    return Object.entries(rules).flatMap(([rule, fn]) => {
+      const bad = fn(cfg)
+      return bad ? [`config ${cfg.name} violates rule ${rule}`] : []
+    })
+  })
+
+  if (errors.length > 0) {
+    throw new Error(`Config errors:\n\n` + errors.join('\n'))
+  }
+}
+
+validate(recommendedFlatConfigs as NamedConfigLike[])
