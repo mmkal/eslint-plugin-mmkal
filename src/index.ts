@@ -38,6 +38,7 @@ const tseslintOverrides: ConfigLike = {
     // ur not my mum
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/require-await': 'off', // bad idea. if you have a non-async function that usually returns a promise, but sometimes throws synchronously, if the caller uses `.catch(...)` it won't work as expected
 
     // https://github.com/typescript-eslint/typescript-eslint/issues/2585#issuecomment-696269611
     '@typescript-eslint/no-redeclare': 'off',
@@ -314,7 +315,14 @@ const configsRecord = (() => {
     codegen: [flatify('codegen', codegen)],
     unicorn: [flatify('unicorn', unicorn)],
     import: [flatify('import', _import)],
-    vitest: [flatify('vitest', vitest)],
+    vitest: [
+      flatify('vitest', vitest),
+      {
+        rules: {
+          'vitest/expect-expect': ['error', {assertFunctionNames: ['expect', 'expectTypeOf']}],
+        },
+      },
+    ],
     prettier: [
       {
         plugins: {
