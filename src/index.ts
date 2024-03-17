@@ -275,12 +275,11 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
   const files = ['*.md', '*.mdx', '*.yml', '*.yaml', '*.json', '*.json5']
   return [
     {
-      ...prettierrcConfig,
       files: files.map(f => `**/${f}/*.js`),
       rules: {
-        ...prettierrcConfig.rules,
+        'prettier/prettier': 'off',
+        'prettier/markdown': ['warn', {...prettierrc, printWidth: 80}],
         'codegen/codegen': 'warn',
-        'prettier/prettier': 'warn',
         indent: ['warn', 2],
       },
     },
@@ -309,8 +308,34 @@ const configsRecord = {
   unicorn: [flatify('unicorn', unicorn)],
   import: [flatify('import', _import)],
   vitest: [flatify('vitest', vitest)],
-  prettier: [flatify('prettier', prettier)],
-  prettierRecommended: [prettierRecommended as ConfigLike],
+  prettier: [
+    {
+      plugins: {
+        prettier: {
+          ...prettier,
+          rules: {
+            ...prettier.rules,
+            // workaround prettier refusing to fix markdown files, it thinks it's smart enough to run on the whole file but it's not
+            markdown: {
+              ...prettier.rules!.prettier,
+              create: ((context, ...args) => {
+                // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+                const shimmedContext = new Proxy<typeof context>({} as typeof context, {
+                  get(_target, prop, receiver) {
+                    const newProp = prop === 'physicalFilename' ? 'filename' : prop
+                    return Reflect.get(context, newProp, receiver) as {}
+                  },
+                })
+                const rule = prettier.rules!.prettier as import('eslint').Rule.RuleModule
+                return rule.create(shimmedContext, ...args)
+              }) as import('eslint').Rule.RuleModule['create'],
+            },
+          },
+        },
+      },
+    },
+  ],
+  prettierRecommended: [omit(prettierRecommended as ConfigLike, ['plugins'])],
   /** my subjective preferreed prettier config */
   prettierPreset: [prettierrcConfig],
   eslintRecommended: [eslint.configs.recommended as ConfigLike],

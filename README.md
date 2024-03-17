@@ -82,10 +82,10 @@ This is somewhat experimental and I might change how this works, but there's a j
 ```js
 const mmkal = require('eslint-plugin-mmkal')
 
-module.exports = mmkal.withoutConfigs(
-  mmkal.recommendedFlatConfigs,
-  ['globals_node', 'prettierPreset'],
-)
+module.exports = mmkal.withoutConfigs(mmkal.recommendedFlatConfigs, [
+  'globals_node',
+  'prettierPreset',
+])
 ```
 
 Since this is experimental and subject to change, what the actual names are isn't documented here, but the `withoutConfigs` function is strongly typed, so IDE intellisense/autocomplete should hint what you can disable.

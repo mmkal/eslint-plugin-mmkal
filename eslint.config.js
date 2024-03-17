@@ -29,6 +29,6 @@ module.exports = [
   files: i === length - 1 ? ['*.md'] : ['**/*.md/*.js', '*.md'],
 }))
 
-// console.log('exports', module.exports)
-
 module.exports = require('./src').recommendedFlatConfigs
+
+console.log('exports', module.exports)
