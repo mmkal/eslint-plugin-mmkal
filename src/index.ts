@@ -278,7 +278,13 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
       files: files.map(f => `**/${f}/*.js`),
       rules: {
         'prettier/prettier': 'off',
-        'prettier/markdown': ['warn', {...prettierrc, printWidth: 80}],
+        'prettier/processed': [
+          'warn',
+          {
+            ...prettierrc,
+            printWidth: 80, // docs files should be narrower to avoid needing to scroll
+          },
+        ],
         'codegen/codegen': 'warn',
         indent: ['warn', 2],
       },
@@ -315,8 +321,8 @@ const configsRecord = {
           ...prettier,
           rules: {
             ...prettier.rules,
-            // workaround prettier refusing to fix markdown files, it thinks it's smart enough to run on the whole file but it's not
-            markdown: {
+            // workaround prettier refusing to fix markdown files which have js snippets extracted by processors, it thinks it's smart enough to run on the whole file but it's not
+            processed: {
               ...prettier.rules!.prettier,
               create: ((context, ...args) => {
                 // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy

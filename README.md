@@ -10,7 +10,7 @@ My eslint plugin with rules I find good. If you aren't me you probably shouldn't
 - [Notes](#notes)
    - [Prettier is pre-configured](#prettier-is-pre-configured)
    - [Common globals are enabled](#common-globals-are-enabled)
-   - [Disabling configs](#disabling-configs)
+   - [🧪 Disabling configs](#-disabling-configs)
 <!-- codegen:end -->
 
 ## Goals
@@ -54,8 +54,10 @@ module.exports = require('eslint-plugin-mmkal').recommendedFlatConfigs
 That is, there are prettier options baked into this package, and the above usage will use them. If you want to rely on the default prettier resolution, just override:
 
 ```js
+const mmkal = require('eslint-plugin-mmkal')
+
 module.exports = [
-  ...require('eslint-plugin-mmkal').recommendedFlatConfigs,
+  ...mmkal.recommendedFlatConfigs,
   {rules: {'prettier/prettier': 'warn'}},
 ]
 ```
@@ -64,7 +66,9 @@ This will rely on [prettier's built-in config resolution](https://prettier.io/do
 
 ### Common globals are enabled
 
-Because the goal of this plugin is to make it quick to write sensible code rather than be 100% sure to prevent you from writing silly code (which no lint library can really achieve), globals for nodejs, browsers, commonjs and esm are all enabled by default. All of the globals in the [globals package](https://npmjs.com/package/globals) (which are the [official globals eslint uses](https://eslint.org/blog/2022/08/new-config-system-part-2/#goodbye-environments%2C-hello-globals)) are available as configs:
+Because the goal of this plugin is to make it quick to write sensible code rather than be 100% sure to prevent you from writing silly code (which no lint library can really achieve), globals for nodejs, browsers, commonjs and es2021 are enabled by default. Use typescript to get compiler errors on undefined globals.
+
+All of the globals in the [globals package](https://npmjs.com/package/globals) (which are the [official globals eslint uses](https://eslint.org/blog/2022/08/new-config-system-part-2/#goodbye-environments%2C-hello-globals)) are available as configs:
 
 ```js
 const mmkal = require('eslint-plugin-mmkal')
@@ -75,9 +79,9 @@ module.exports = [
 ]
 ```
 
-### Disabling configs
+### 🧪 Disabling configs
 
-This is somewhat experimental and I might change how this works, but there's a jerry-rigged "naming" system that ships with this package to make it easier to disable internal configs (which are pretty modular) if you don't want it:
+This is somewhat experimental and might be changed, but there's a jerry-rigged "naming" system that ships with this package to make it easier to disable internal configs (which are pretty modular) if you don't want it:
 
 ```js
 const mmkal = require('eslint-plugin-mmkal')
