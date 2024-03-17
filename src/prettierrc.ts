@@ -1,5 +1,4 @@
-/** @type {import('prettier').Options} */
-module.exports = {
+export const prettierrc: import('prettier').Options = {
   singleQuote: true,
   semi: false,
   arrowParens: 'avoid',
