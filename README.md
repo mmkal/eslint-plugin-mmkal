@@ -2,6 +2,17 @@
 
 My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.
 
+<!-- codegen:start {preset: markdownTOC} -->
+- [Goals](#goals)
+   - [Included](#included)
+- [Non-goals](#non-goals)
+- [How to use](#how-to-use)
+- [Notes](#notes)
+   - [Prettier is pre-configured](#prettier-is-pre-configured)
+   - [Common globals are enabled](#common-globals-are-enabled)
+   - [Disabling configs](#disabling-configs)
+<!-- codegen:end -->
+
 ## Goals
 
 1. Work out of the box
@@ -44,8 +55,8 @@ That is, there are prettier options baked into this package, and the above usage
 
 ```js
 module.exports = [
-    ...require('eslint-plugin-mmkal').recommendedFlatConfigs,
-    {rules: {'prettier/prettier': 'warn'}},
+  ...require('eslint-plugin-mmkal').recommendedFlatConfigs,
+  {rules: {'prettier/prettier': 'warn'}},
 ]
 ```
 
@@ -59,8 +70,8 @@ Because the goal of this plugin is to make it quick to write sensible code rathe
 const mmkal = require('eslint-plugin-mmkal')
 
 module.exports = [
-    ...mmkal.recommendedFlatConfigs,
-    ...mmkal.configs.globals_greasemonkey,
+  ...mmkal.recommendedFlatConfigs,
+  ...mmkal.configs.globals_greasemonkey,
 ]
 ```
 
@@ -71,9 +82,9 @@ This is somewhat experimental and I might change how this works, but there's a j
 ```js
 const mmkal = require('eslint-plugin-mmkal')
 
-module.exports = withoutConfigs(
-    mmkal.recommendedFlatConfigs,
-    ['globals_node', 'prettierPreset'],
+module.exports = mmkal.withoutConfigs(
+  mmkal.recommendedFlatConfigs,
+  ['globals_node', 'prettierPreset'],
 )
 ```
 

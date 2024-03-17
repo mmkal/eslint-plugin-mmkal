@@ -271,6 +271,32 @@ const prettierrcConfig: ConfigLike = {
   },
 }
 
+const codegenSpecialFiles = ((): ConfigLike[] => {
+  const files = ['*.md', '*.mdx', '*.yml', '*.yaml', '*.json', '*.json5']
+  return [
+    {
+      ...prettierrcConfig,
+      files: files.map(f => `**/${f}/*.js`),
+      rules: {
+        ...prettierrcConfig.rules,
+        'codegen/codegen': 'warn',
+        'prettier/prettier': 'warn',
+        indent: ['warn', 2],
+      },
+    },
+    {
+      files,
+      plugins: {codegen},
+      processor: 'codegen/processor',
+      rules: {
+        'codegen/codegen': 'warn',
+        // prettier doesn't work with processors - it has some logic to skip based on the physical file because it thinks it's going to run the whole file. see node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
+        'prettier/prettier': 'warn',
+      },
+    },
+  ]
+})()
+
 const globalsConfigs = Object.fromEntries(
   Object.entries(globals).map(([k, v]) => {
     return [`globals_${k}`, [{languageOptions: {globals: v}}] as ConfigLike[]]
@@ -294,6 +320,7 @@ const configsRecord = {
   nonProdTypescript: [nonProdTypescript],
   fullTypescriptConfig,
   ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
+  codegenSpecialFiles,
 } satisfies Record<string, ConfigLike[]>
 
 type ConfigsRecord = typeof configsRecord
@@ -348,17 +375,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettierPreset,
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
-  // todo: enable this. currently it throws Cannot read properties of undefined (reading 'comments') which I think is the fault of eslint-plugin-markdown
-  // {
-  //   files: ['*.md', '*.mdx'],
-  //   plugins: {
-  //     codegen,
-  //   },
-  //   processor: 'codegen/processor',
-  //   rules: {
-  //     'codegen/codegen': 'warn',
-  //   },
-  // },
+  ...configs.codegenSpecialFiles,
 ]
 
 const validate = (flatConfigs: NamedConfigLike[]) => {
