@@ -308,51 +308,55 @@ const globalsConfigs = Object.fromEntries(
   }),
 ) as {[K in keyof typeof globals as `globals_${K}`]: ConfigLike[]}
 
-const configsRecord = {
-  ...globalsConfigs,
-  codegen: [flatify('codegen', codegen)],
-  unicorn: [flatify('unicorn', unicorn)],
-  import: [flatify('import', _import)],
-  vitest: [flatify('vitest', vitest)],
-  prettier: [
-    {
-      plugins: {
-        prettier: {
-          ...prettier,
-          rules: {
-            ...prettier.rules,
-            // workaround prettier refusing to fix markdown files which have js snippets extracted by processors, it thinks it's smart enough to run on the whole file but it's not
-            processed: {
-              ...prettier.rules!.prettier,
-              create: ((context, ...args) => {
-                // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
-                const shimmedContext = new Proxy<typeof context>({} as typeof context, {
-                  get(_target, prop, receiver) {
-                    const newProp = prop === 'physicalFilename' ? 'filename' : prop
-                    return Reflect.get(context, newProp, receiver) as {}
-                  },
-                })
-                const rule = prettier.rules!.prettier as import('eslint').Rule.RuleModule
-                return rule.create(shimmedContext, ...args)
-              }) as import('eslint').Rule.RuleModule['create'],
+const configsRecord = (() => {
+  const record = {
+    ...globalsConfigs,
+    codegen: [flatify('codegen', codegen)],
+    unicorn: [flatify('unicorn', unicorn)],
+    import: [flatify('import', _import)],
+    vitest: [flatify('vitest', vitest)],
+    prettier: [
+      {
+        plugins: {
+          prettier: {
+            ...prettier,
+            rules: {
+              ...prettier.rules,
+              // workaround prettier refusing to fix markdown files which have js snippets extracted by processors, it thinks it's smart enough to run on the whole file but it's not
+              processed: {
+                ...prettier.rules!.prettier,
+                create: ((context, ...args) => {
+                  // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+                  const shimmedContext = new Proxy<typeof context>({} as typeof context, {
+                    get(_target, prop, receiver) {
+                      const newProp = prop === 'physicalFilename' ? 'filename' : prop
+                      return Reflect.get(context, newProp, receiver) as {}
+                    },
+                  })
+                  const rule = prettier.rules!.prettier as import('eslint').Rule.RuleModule
+                  return rule.create(shimmedContext, ...args)
+                }) as import('eslint').Rule.RuleModule['create'],
+              },
             },
           },
         },
       },
-    },
-  ],
-  prettierRecommended: [omit(prettierRecommended as ConfigLike, ['plugins'])],
-  /** my subjective preferreed prettier config */
-  prettierPreset: [prettierrcConfig],
-  eslintRecommended: [eslint.configs.recommended as ConfigLike],
-  tseslintOverrides: [tseslintOverrides],
-  externalPluginRuleOverrides: [externalPluginRuleOverrides],
-  typescriptLanguageSetup: [typescriptLanguageSetup],
-  nonProdTypescript: [nonProdTypescript],
-  fullTypescriptConfig,
-  ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
-  codegenSpecialFiles,
-} satisfies Record<string, ConfigLike[]>
+    ],
+    prettierRecommended: [omit(prettierRecommended as ConfigLike, ['plugins'])],
+    /** my subjective preferreed prettier config */
+    prettierPreset: [prettierrcConfig],
+    eslintRecommended: [eslint.configs.recommended as ConfigLike],
+    tseslintOverrides: [tseslintOverrides],
+    externalPluginRuleOverrides: [externalPluginRuleOverrides],
+    typescriptLanguageSetup: [typescriptLanguageSetup],
+    nonProdTypescript: [nonProdTypescript],
+    fullTypescriptConfig,
+    ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
+    codegenSpecialFiles,
+  } satisfies Record<string, ConfigLike[]>
+
+  return record as Record<keyof typeof record, ConfigLike[]>
+})()
 
 type ConfigsRecord = typeof configsRecord
 
