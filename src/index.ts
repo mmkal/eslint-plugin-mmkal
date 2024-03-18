@@ -31,6 +31,7 @@ const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts,jsx,ts
 const codegenSpecialFiles = ((): ConfigLike[] => {
   return [
     {
+      // typescript-eslint complains about processed files not being included by tsconfig - because they're not real files. So use babel for those and forgo typescript-eslint
       files: codegenFileGlobs.map(f => `**/${f}/*.ts`),
       languageOptions: {
         parser: babelParser,
@@ -39,7 +40,7 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
           babelOptions: {
             babelrc: false,
             configFile: false,
-            presets: ['@babel/preset-typescript'],
+            presets: [require.resolve('@babel/preset-typescript')], // use require.resolve to get an absolute path, since for downstream consumers this is a transient dependency and might not be at the root of node_modules. https://babeljs.io/docs/presets#using-a-preset
           },
         },
       },
