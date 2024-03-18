@@ -71,7 +71,7 @@ Because the goal of this plugin is to make it quick to write sensible code rathe
 
 All of the globals in the [globals package](https://npmjs.com/package/globals) (which are the [official globals eslint uses](https://eslint.org/blog/2022/08/new-config-system-part-2/#goodbye-environments%2C-hello-globals)) are available as configs:
 
-```js
+```ts
 const mmkal = require('eslint-plugin-mmkal')
 
 module.exports = [

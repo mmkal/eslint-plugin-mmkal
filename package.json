@@ -32,8 +32,6 @@
     "vitest": "^1.2.2"
   },
   "dependencies": {
-    "@babel/eslint-parser": "^7.23.10",
-    "@babel/preset-typescript": "^7.23.3",
     "@eslint/js": "^8.57.0",
     "@rushstack/eslint-config": "^3.4.1",
     "@rushstack/eslint-plugin": "^0.13.1",
