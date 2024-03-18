@@ -11,6 +11,7 @@ My eslint plugin with rules I find good. If you aren't me you probably shouldn't
    - [Prettier is pre-configured](#prettier-is-pre-configured)
    - [Common globals are enabled](#common-globals-are-enabled)
    - [🧪 Disabling configs](#-disabling-configs)
+   - [Some rules are shimmed](#some-rules-are-shimmed)
 <!-- codegen:end -->
 
 ## Goals
@@ -93,3 +94,7 @@ module.exports = mmkal.withoutConfigs(mmkal.recommendedFlatConfigs, [
 ```
 
 Since this is experimental and subject to change, what the actual names are isn't documented here, but the `withoutConfigs` function is strongly typed, so IDE intellisense/autocomplete should hint what you can disable.
+
+### Some rules are shimmed
+
+There's a rule added to the prettier plugin, `prettier/processed`. This is the same as the `prettier/prettier` rule but it shims `context.physicalFilename` with `context.filename` - because the builtin prettier rule refuses to shim javascript embedded within a markdown file, thinking that the whole markdown file will be linted. There's a similar shim with `unicorn/filename-case`.

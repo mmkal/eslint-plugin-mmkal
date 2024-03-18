@@ -1,3 +1,4 @@
+import * as babelParser from '@babel/eslint-parser'
 import eslint from '@eslint/js'
 import * as codegen from 'eslint-plugin-codegen'
 import * as _import from 'eslint-plugin-import'
@@ -25,7 +26,56 @@ export type ConfigLike = {
 }
 export type NamedConfigLike = ConfigLike & {name: string}
 
+const codegenFileGlobs = ['*.md', '*.mdx', '*.yml', '*.yaml']
+const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts,jsx,tsx,cjs,mjs,cts,mts}`)
+const codegenSpecialFiles = ((): ConfigLike[] => {
+  return [
+    {
+      files: codegenFileGlobs.map(f => `**/${f}/*.ts`),
+      languageOptions: {
+        parser: babelParser,
+        parserOptions: {
+          requireConfigFile: false,
+          babelOptions: {
+            babelrc: false,
+            configFile: false,
+            presets: ['@babel/preset-typescript'],
+          },
+        },
+      },
+    },
+    {
+      files: codegenProcessedGlobs,
+      rules: {
+        'unicorn/filename-case': 'off',
+        'prettier/prettier': 'off',
+        'prettier/processed': [
+          'warn',
+          {
+            ...prettierrc,
+            printWidth: 80, // docs files should be narrower to avoid needing to scroll
+          },
+        ],
+        'codegen/codegen': 'warn',
+        indent: ['warn', 2],
+      },
+    },
+    {
+      files: codegenFileGlobs,
+      plugins: {codegen},
+      processor: 'codegen/processor',
+      rules: {
+        'codegen/codegen': 'warn',
+        // prettier doesn't work with processors - it has some logic to skip based on the physical file because it thinks it's going to run the whole file. see node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
+        'prettier/prettier': 'warn',
+        'unicorn/filename-case': 'off',
+      },
+    },
+  ]
+})()
+
 const tseslintOverrides: ConfigLike = {
+  ignores: codegenProcessedGlobs,
   rules: {
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-extra-non-null-assertion': 'off',
@@ -231,6 +281,7 @@ const typescriptLanguageSetup: ConfigLike = {
     parserOptions: {
       project: true,
       tsconfigDirName: __dirname,
+      extraFileExtensions: ['.md'],
     },
   },
 }
@@ -239,6 +290,7 @@ const fullTypescriptConfig: ConfigLike[] = [
   typescriptLanguageSetup,
   ...tseslint.configs.recommendedTypeChecked.map(cfg => ({
     ...cfg,
+    ignores: codegenProcessedGlobs,
   })),
   tseslintOverrides,
 ] as ConfigLike[]
@@ -272,37 +324,6 @@ const prettierrcConfig: ConfigLike = {
   },
 }
 
-const codegenSpecialFiles = ((): ConfigLike[] => {
-  const files = ['*.md', '*.mdx', '*.yml', '*.yaml', '*.json', '*.json5']
-  return [
-    {
-      files: files.map(f => `**/${f}/*.js`),
-      rules: {
-        'prettier/prettier': 'off',
-        'prettier/processed': [
-          'warn',
-          {
-            ...prettierrc,
-            printWidth: 80, // docs files should be narrower to avoid needing to scroll
-          },
-        ],
-        'codegen/codegen': 'warn',
-        indent: ['warn', 2],
-      },
-    },
-    {
-      files,
-      plugins: {codegen},
-      processor: 'codegen/processor',
-      rules: {
-        'codegen/codegen': 'warn',
-        // prettier doesn't work with processors - it has some logic to skip based on the physical file because it thinks it's going to run the whole file. see node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
-        'prettier/prettier': 'warn',
-      },
-    },
-  ]
-})()
-
 const globalsConfigs = Object.fromEntries(
   Object.entries(globals).map(([k, v]) => {
     return [`globals_${k}`, [{languageOptions: {globals: v}}] as ConfigLike[]]
@@ -313,7 +334,33 @@ const configsRecord = (() => {
   const record = {
     ...globalsConfigs,
     codegen: [flatify('codegen', codegen)],
-    unicorn: [flatify('unicorn', unicorn)],
+    unicorn: [
+      {
+        ...flatify('unicorn', unicorn),
+        plugins: {
+          unicorn: {
+            ...unicorn,
+            rules: {
+              ...unicorn.rules,
+              'filename-case': {
+                ...unicorn.rules!['filename-case'],
+                create: ((context, ...args) => {
+                  // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+                  const shimmedContext = new Proxy<typeof context>({} as typeof context, {
+                    get(_target, prop, receiver) {
+                      const newProp = prop === 'physicalFilename' ? 'filename' : prop
+                      return Reflect.get(context, newProp, receiver) as {}
+                    },
+                  })
+                  const rule = unicorn.rules!['filename-case'] as import('eslint').Rule.RuleModule
+                  return rule.create(shimmedContext, ...args)
+                }) as import('eslint').Rule.RuleModule['create'],
+              },
+            },
+          },
+        },
+      },
+    ],
     import: [flatify('import', _import)],
     vitest: [
       flatify('vitest', vitest),

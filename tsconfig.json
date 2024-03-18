@@ -19,7 +19,8 @@
     "*.js",
     "*/*.cjs",
     ".*.*js",
-    "*.md"
+    "*.md",
+    "**/*.md/*.ts"
   ],
   "exclude": [
     "node_modules",
