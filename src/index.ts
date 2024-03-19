@@ -30,6 +30,23 @@ const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts,jsx,ts
 const codegenSpecialFiles = ((): ConfigLike[] => {
   return [
     {
+      files: codegenFileGlobs,
+      processor: 'codegen/processor',
+      rules: {
+        'codegen/codegen': 'warn',
+        // prettier doesn't work with processors - it has some logic to skip based on the physical file because it thinks it's going to run the whole file. see node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
+        'prettier/prettier': 'warn',
+        'unicorn/filename-case': 'off',
+      },
+    },
+    ...[eslint.configs.recommended as ConfigLike]
+      .concat(tseslint.configs.recommended as ConfigLike[])
+      .concat(tseslint.configs.disableTypeChecked as ConfigLike[])
+      .map(c => ({
+        ...c,
+        files: codegenProcessedGlobs,
+      })),
+    {
       files: codegenProcessedGlobs,
       rules: {
         'unicorn/filename-case': 'off',
@@ -42,18 +59,6 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
           },
         ],
         'codegen/codegen': 'warn',
-        indent: ['warn', 2],
-      },
-    },
-    {
-      files: codegenFileGlobs,
-      plugins: {codegen},
-      processor: 'codegen/processor',
-      rules: {
-        'codegen/codegen': 'warn',
-        // prettier doesn't work with processors - it has some logic to skip based on the physical file because it thinks it's going to run the whole file. see node_modules/eslint-plugin-prettier/eslint-plugin-prettier.js
-        'prettier/prettier': 'warn',
-        'unicorn/filename-case': 'off',
       },
     },
   ]
@@ -395,7 +400,7 @@ const configsRecord = (() => {
     codegenSpecialFiles,
   } satisfies Record<string, ConfigLike[]>
 
-  return record as Record<keyof typeof record, ConfigLike[]>
+  return record as {[K in keyof typeof record]: ConfigLike[]}
 })()
 
 type ConfigsRecord = typeof configsRecord
