@@ -28,11 +28,23 @@ My eslint plugin with rules I find good. If you aren't me you probably shouldn't
 
 ### Included
 
-The following plugins/libraries are usable and should "just work" without needing to add extra configs. They should also "just work" if you _have_ defined extra configs like `.prettierrc.js` or `tsconfig.json`.
+The following plugins/libraries are usable and should "just work" without needing to add extra configs.
 
 1. Prettier
 1. typescript-eslint
+1. embedded js/ts in markdown
+1. eslint-plugin-codegen
 1. eslint-plugin-unicorn
+1. eslint-plugin-import
+1. eslint-plugin-vitest
+
+There's some effort to make sure the rules only aplly to relevant files, but of course there are many different possible projedt setups. 
+
+Not enabled currently but may be soon:
+
+1. eslint-plugin-react
+1. eslint-plugin-react-hooks
+1. eslint-plugin-functional
 
 ## Non-goals
 
@@ -42,7 +54,7 @@ The following plugins/libraries are usable and should "just work" without needin
 
 ## How to use
 
-Install with `npm install eslint-plugin-mmkal`, then in your eslint.config.js:
+Install with `npm install eslint-plugin-mmkal --save-dev`, then in your eslint.config.js:
 
 ```js
 module.exports = require('eslint-plugin-mmkal').recommendedFlatConfigs
@@ -63,7 +75,7 @@ module.exports = [
 ]
 ```
 
-This will rely on [prettier's built-in config resolution](https://prettier.io/docs/en/configuration.html#sharing-configurations). The reason this package doesn't do this is so that you can install it in a project *without* a `.prettierrc.js` file, you get what *I* think is a better prettier config than the default.
+This will rely on [prettier's built-in config resolution](https://prettier.io/docs/en/configuration.html#sharing-configurations). The reason this package doesn't do this is so that you can install it in a project *without* a `.prettierrc.js` file, and you get what *I* think is a better prettier config than the default.
 
 ### Common globals are enabled
 
@@ -71,7 +83,7 @@ Because the goal of this plugin is to make it quick to write sensible code rathe
 
 All of the globals in the [globals package](https://npmjs.com/package/globals) (which are the [official globals eslint uses](https://eslint.org/blog/2022/08/new-config-system-part-2/#goodbye-environments%2C-hello-globals)) are available as configs:
 
-```ts
+```js
 const mmkal = require('eslint-plugin-mmkal')
 
 module.exports = [
@@ -97,4 +109,4 @@ Since this is experimental and subject to change, what the actual names are isn'
 
 ### Some rules are shimmed
 
-There's a rule added to the prettier plugin, `prettier/processed`. This is the same as the `prettier/prettier` rule but it shims `context.physicalFilename` with `context.filename` - because the builtin prettier rule refuses to shim javascript embedded within a markdown file, thinking that the whole markdown file will be linted. There's a similar shim with `unicorn/filename-case`.
+There's a rule added to the prettier plugin, `prettier/processed`. This is the same as the `prettier/prettier` rule but it shims `context.physicalFilename` with `context.filename` - because the builtin prettier rule refuses to lint javascript embedded within a markdown file, thinking that the whole markdown file will be linted. There's a similar shim with `unicorn/filename-case`.
