@@ -157,24 +157,7 @@ const externalPluginRuleOverrides: ConfigLike = {
     'import/newline-after-import': 'warn',
     // doesn't understand typescript, and is covered by the compiler anyway
     'import/no-unresolved': 'off',
-    // by default allows dev depenencies everywhere
-    'import/no-extraneous-dependencies': [
-      'warn',
-      {
-        devDependencies: [
-          '**/*.test.ts',
-          'test/**',
-          'scripts/**',
-          '**/*.js',
-          '*.js',
-          '.*.js',
-          'cdk/**',
-          '**/cdk/**',
-          '**/cdk.ts',
-          '**/*.stories.tsx',
-        ],
-      },
-    ],
+    'import/no-extraneous-dependencies': 'warn',
     'import/order': [
       'warn',
       {
@@ -297,6 +280,7 @@ const nonProdTypescript: ConfigLike = {
     '@typescript-eslint/no-base-to-string': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/require-array-sort-compare': 'off',
+    'import/no-extraneous-dependencies': ['warn', {devDependencies: true}],
   },
 }
 
@@ -390,8 +374,8 @@ const configsRecord = (() => {
     tseslintOverrides: [tseslintOverrides],
     externalPluginRuleOverrides: [externalPluginRuleOverrides],
     typescriptLanguageSetup: [typescriptLanguageSetup],
-    nonProdTypescript: [nonProdTypescript],
     fullTypescriptConfig,
+    nonProdTypescript: [nonProdTypescript],
     ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
     codegenSpecialFiles,
   } satisfies Record<string, ConfigLike[]>
