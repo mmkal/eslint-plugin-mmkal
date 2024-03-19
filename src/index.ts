@@ -51,13 +51,8 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
       rules: {
         'unicorn/filename-case': 'off',
         'prettier/prettier': 'off',
-        'prettier/processed': [
-          'warn',
-          {
-            ...prettierrc,
-            printWidth: 80, // docs files should be narrower to avoid needing to scroll
-          },
-        ],
+        // docs files should be narrower to avoid needing to scroll
+        'prettier/processed': ['warn', {...prettierrc, printWidth: 80}],
         'codegen/codegen': 'warn',
       },
     },
@@ -296,6 +291,7 @@ const nonProdTypescript: ConfigLike = {
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'object-shorthand': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/no-base-to-string': 'off',
