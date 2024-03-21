@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.0.1
     version: 1.0.1(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint@8.57.0)(typescript@5.2.2)
   eslint-plugin-codegen:
-    specifier: 0.27.0
-    version: 0.27.0(eslint@8.57.0)
+    specifier: 0.27.1-0
+    version: 0.27.1-0(eslint@8.57.0)
   eslint-plugin-functional:
     specifier: ^6.0.0
     version: 6.0.0(eslint@8.57.0)(typescript@5.2.2)
@@ -2762,8 +2762,8 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-plugin-codegen@0.27.0(eslint@8.57.0):
-    resolution: {integrity: sha512-oiXSiSi2yLxPc2pjP+dtVFu9hVj2rCiKoOmvmcybGMOD9/VXn2f0GkC4eoxrXEB7UARoSbdP8ffjDOQBvr9N4Q==}
+  /eslint-plugin-codegen@0.27.1-0(eslint@8.57.0):
+    resolution: {integrity: sha512-WeeuWKwIjmGuCbBGo4RbKlb3BPD13HCfXHC/R42k0B5r+jMCxAJc643+UPQ96LCBV7IkWlFsCnopVOI8yUNbKA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@babel/core': 7.24.0
@@ -2778,7 +2778,7 @@ packages:
       '@types/lodash': 4.17.0
       '@types/node': 20.9.1
       dedent: 1.5.1
-      eslint-plugin-markdown: 3.0.1(eslint@8.57.0)
+      eslint-plugin-markdown: 4.0.1(eslint@8.57.0)
       expect: 29.7.0
       fp-ts: 2.16.3
       glob: 10.3.10
@@ -2894,18 +2894,6 @@ packages:
       minimatch: 3.1.2
       object.entries: 1.1.7
       object.fromentries: 2.0.7
-    dev: false
-
-  /eslint-plugin-markdown@3.0.1(eslint@8.57.0):
-    resolution: {integrity: sha512-8rqoc148DWdGdmYF6WSQFT3uQ6PO7zXYgeBpHAOAakX/zpq+NvFYbDA/H7PYzHajwtmaOzAwfxyl++x0g1/N9A==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-    dependencies:
-      eslint: 8.57.0
-      mdast-util-from-markdown: 0.8.5
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /eslint-plugin-markdown@4.0.1(eslint@8.57.0):
