@@ -10,6 +10,10 @@
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmkal/eslint-plugin-mmkal"
+  },
   "scripts": {
     "prepare": "pnpm build",
     "lint": "eslint .",
