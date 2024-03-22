@@ -26,7 +26,7 @@
     "@types/node": "20.9.1",
     "eslint": "^8.57.0",
     "execa": "^8.0.1",
-    "np": "github:mmkal/np#pnpm",
+    "np": "github:sindresorhus/np#pnpm-vs-npm-tag-version-prefix",
     "tsx": "^4.7.1",
     "typescript": "5.2.2",
     "vitest": "^1.2.2"
