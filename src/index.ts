@@ -49,6 +49,10 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
     {
       files: codegenProcessedGlobs,
       rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+        'no-console': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-unused-vars': 'off',
         'unicorn/filename-case': 'off',
         'prettier/prettier': 'off',
         // docs files should be narrower to avoid needing to scroll
@@ -132,6 +136,7 @@ const externalPluginRuleOverrides: ConfigLike = {
     '@rushstack/no-new-null': 'off', // pg returns nulls so this is a non-starter
 
     'promise/param-names': 'off',
+    'no-redeclare': 'off', // typescript has valid redeclare use cases
     'no-void': 'off',
     'require-atomic-updates': 'off',
 

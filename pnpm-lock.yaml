@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.0.1
     version: 1.0.1(@typescript-eslint/eslint-plugin@7.0.1)(@typescript-eslint/parser@7.0.1)(eslint@8.57.0)(typescript@5.2.2)
   eslint-plugin-codegen:
-    specifier: 0.27.1-0
-    version: 0.27.1-0(eslint@8.57.0)
+    specifier: 0.28.0
+    version: 0.28.0(eslint@8.57.0)
   eslint-plugin-functional:
     specifier: ^6.0.0
     version: 6.0.0(eslint@8.57.0)(typescript@5.2.2)
@@ -2762,8 +2762,8 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-plugin-codegen@0.27.1-0(eslint@8.57.0):
-    resolution: {integrity: sha512-WeeuWKwIjmGuCbBGo4RbKlb3BPD13HCfXHC/R42k0B5r+jMCxAJc643+UPQ96LCBV7IkWlFsCnopVOI8yUNbKA==}
+  /eslint-plugin-codegen@0.28.0(eslint@8.57.0):
+    resolution: {integrity: sha512-tM8Pj0Ej2QYqN7hpREA8IJ2P36fpvW5TIu8Vx/Y4JlyLy+pAO8PsVYRIdw0+qQ900eCQSyDoSa93O0+NfNjbnQ==}
     engines: {node: '>=18.0.0'}
     dependencies:
       '@babel/core': 7.24.0
