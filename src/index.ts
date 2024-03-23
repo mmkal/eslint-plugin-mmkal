@@ -196,6 +196,8 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/expiring-todo-comments': process.env.VSCODE_CWD
       ? ['warn', {allowWarningComments: false, ignoreDatesOnPullRequests: true}]
       : 'off',
+    'unicorn/consistent-destructuring': 'off',
+    'unicorn/no-await-expression-member': 'off',
 
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
@@ -277,6 +279,7 @@ const nonProdTypescript: ConfigLike = {
     '@typescript-eslint/no-extra-non-null-assertion': 'warn',
     '@typescript-eslint/consistent-type-assertions': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-require-imports': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
