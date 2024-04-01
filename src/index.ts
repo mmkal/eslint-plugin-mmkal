@@ -14,6 +14,9 @@ const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) 
   return Object.fromEntries(Object.entries(obj).filter(([k]) => !omitted.has(k as K))) as Omit<T, K>
 }
 
+/** Re-export of the `Preset` type from `eslint-plugin-codegen`. Useful for adding types to custom codegen functions */
+export type CodegenPreset<T extends {} = {}> = codegen.Preset<T>
+
 export type ConfigLike = {
   files?: string[]
   processor?: string
