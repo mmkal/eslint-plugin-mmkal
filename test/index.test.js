@@ -24,4 +24,6 @@ test('fix works', async () => {
   expect(read(typescript)).toEqual('export const a: [number] = [1]')
   expect(read(esm)).toEqual(`export const a = [1]`)
   expect(read(commonjs)).toEqual(`exports.a = [1]`)
+
+  fs.rmSync(testdir, {recursive: true})
 }, 10_000)

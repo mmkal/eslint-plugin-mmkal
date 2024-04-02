@@ -8,6 +8,14 @@ import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import {
+  ANTFU_GLOB_EXCLUDE,
+  codegenFileGlobs,
+  codegenProcessedGlobs,
+  nonProdGlobs,
+  sourceCodeGlobs,
+  typescriptGlobs,
+} from './globs'
 import {prettierrc} from './prettierrc'
 
 const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
@@ -22,8 +30,6 @@ export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
 export type NamedConfigLike = ConfigLike & {name: string}
 
-const codegenFileGlobs = ['*.md', '*.mdx', '*.yml', '*.yaml']
-const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts,jsx,tsx,cjs,mjs,cts,mts}`)
 const codegenSpecialFiles = ((): ConfigLike[] => {
   return [
     {
@@ -251,7 +257,7 @@ const flatify = <Name extends string>(name: Name, legacyPlugin: import('eslint')
 const typescriptLanguageSetup: ConfigLike = {
   languageOptions: {
     parserOptions: {
-      project: true,
+      project: true, // does a `find-up(tsconfig.json | tsconfig.eslint.json)`
       tsconfigDirName: process.cwd(),
       extraFileExtensions: ['.md'],
     },
@@ -290,7 +296,7 @@ const nonProdTypescript: ConfigLike = {
 }
 
 const ignoreCommonNonSourceFiles: ConfigLike = {
-  ignores: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/coverage/**'],
+  ignores: ANTFU_GLOB_EXCLUDE,
 }
 
 const prettierrcConfig: ConfigLike = {
@@ -310,8 +316,48 @@ const configsRecord = (() => {
     ...globalsConfigs,
     codegen: [flatify('codegen', codegen)],
     packlets: [
-      flatify('@rushstack/packlets', packlets as {} as import('eslint').ESLint.Plugin),
-      {rules: {'@rushstack/packlets/mechanics': 'error'}},
+      {
+        plugins: {
+          '@rushstack/packlets': {
+            ...packlets,
+            rules: {
+              ...Object.fromEntries(
+                Object.entries(packlets.rules).map(([name, _rule]) => {
+                  const rule = _rule as {} as import('eslint').Rule.RuleModule
+                  const create: import('eslint').Rule.RuleModule['create'] = context => {
+                    try {
+                      return rule.create(context)
+                    } catch (err: unknown) {
+                      // todo[@rushstack/eslint-plugin-packlets@>0.8.1]: hopefully we can remove this. Right now, packlets throws an error if *any* files don't have parser services.
+                      // Change the runtime error into a lint warning so we can avoid it by just not running the rule on those files. No point crashing the whole of eslint.
+                      const parserServicesError = /You have used a rule which requires parserServices to be generated./
+                      if (parserServicesError.test(String(err))) {
+                        return {
+                          Program: node => {
+                            const messages = [
+                              `This rule requires parser services, so can't be run on ${context.filename}.`,
+                              `Try disabling this rule for this file, or fix the parser services error.`,
+                              `Error: ${err as string}`,
+                            ]
+                            context.report({node, message: messages.join(' ')})
+                          },
+                        }
+                      }
+                      throw err
+                    }
+                  }
+
+                  return [name, {...rule, create}]
+                }),
+              ),
+            },
+          },
+        },
+      },
+      {
+        files: sourceCodeGlobs,
+        rules: {'@rushstack/packlets/mechanics': 'error'},
+      },
     ],
     unicorn: [
       {
@@ -426,7 +472,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
 
   ...configs.fullTypescriptConfig.map(cfg => ({
     ...cfg,
-    files: ['**/*.ts', '**/*.tsx'],
+    files: typescriptGlobs,
   })),
   ...configs.eslintRecommended,
   ...configs.codegen,
@@ -439,8 +485,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettier,
   ...configs.nonProdTypescript.map(cfg => ({
     ...cfg,
-    // todo: consider just stealing all globs and boilerplate stuff from https://github.com/antfu/eslint-config
-    files: ['test/**/*.ts', '**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts', 'e2e/**/*.ts'],
+    files: nonProdGlobs,
   })),
   ...configs.prettierRecommended,
   ...configs.prettierPreset,
