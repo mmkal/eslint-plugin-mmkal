@@ -306,11 +306,19 @@ const prettierrcConfig: ConfigLike = {
   },
 }
 
+const extendedGlobals = {
+  ...globals,
+  // react not in `globals` package at time of writing https://github.com/sindresorhus/globals/issues/82#issuecomment-2032260165
+  react: {JSX: false, React: false},
+}
+
 const globalsConfigs = Object.fromEntries(
-  Object.entries(globals).map(([k, v]) => {
-    return [`globals_${k}`, [{languageOptions: {globals: v}}] as ConfigLike[]]
+  Object.entries(extendedGlobals).map(([k, v]) => {
+    return [`globals_${k}`, [{languageOptions: {globals: v}}]]
   }),
-) as {[K in keyof typeof globals as `globals_${K}`]: ConfigLike[]}
+) as {
+  [K in keyof typeof extendedGlobals as `globals_${K}`]: [{languageOptions: {globals: (typeof extendedGlobals)[K]}}]
+}
 
 const configsRecord = (() => {
   const record = {
