@@ -551,6 +551,11 @@ export const recommendedReactConfigs = [
   ...configs.jsxA11yRecommended,
   {settings: {react: {version: '18'}}},
   ...jsxStyleConfigs,
+  {
+    rules: {
+      'react/prop-types': 'off', // prop-types are soo 2015
+    },
+  },
 ]
 
 export const recommendedNextConfigs = [
