@@ -37,6 +37,7 @@ The following plugins/libraries are usable and should "just work" without needin
 1. eslint-plugin-unicorn
 1. eslint-plugin-import
 1. eslint-plugin-vitest
+1. eslint-plugin-promise
 1. @rushstack/eslint-plugin-packlets
 1. eslint-plugin-react
 1. eslint-plugin-react-hooks

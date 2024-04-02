@@ -25,6 +25,11 @@ declare module 'eslint-plugin-react' {
   export = plugin
 }
 
+declare module 'eslint-plugin-promise' {
+  const plugin: import('eslint').ESLint.Plugin
+  export = plugin
+}
+
 declare module 'eslint-plugin-react/configs/recommended' {
   const config: import('eslint').Linter.FlatConfig
   export = config

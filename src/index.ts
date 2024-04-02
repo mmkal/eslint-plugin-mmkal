@@ -7,6 +7,7 @@ import * as _import from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
+import promise from 'eslint-plugin-promise'
 import reactRecommended from 'eslint-plugin-react/configs/recommended'
 import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
@@ -411,6 +412,7 @@ const configsRecord = (() => {
       },
     ],
     import: [flatify('import', _import)],
+    promise: [flatify('promise', promise)],
     vitest: [
       flatify('vitest', vitest),
       {
@@ -422,6 +424,7 @@ const configsRecord = (() => {
     reactHooks: [flatify('react-hooks', reactHooks)],
     jsxA11y: [flatify('jsx-a11y', jsxA11y)],
     next: [flatify('@next/next', next)],
+    promiseRecommended: [stripConfig(promise.configs!.recommended as ConfigLike)],
     reactRecommended: [reactRecommended],
     reactHooksRecommended: [stripConfig(reactHooks.configs!.recommended as ConfigLike)],
     jsxA11yRecommended: [stripConfig(jsxA11y.configs!.recommended as ConfigLike)],
@@ -513,6 +516,8 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.import.map(cfg => ({
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
+  ...configs.promise,
+  ...configs.promiseRecommended,
   ...configs.vitest,
   ...configs.prettier,
   ...configs.nonProdTypescript.map(cfg => ({
