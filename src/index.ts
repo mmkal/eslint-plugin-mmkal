@@ -529,6 +529,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
 export const jsxStyleConfigs: ConfigLike[] = [
   {
     files: ['**/*.jsx', '**/*.tsx'],
+    ignores: codegenProcessedGlobs,
     rules: {
       'unicorn/filename-case': ['warn', {cases: {kebabCase: true, pascalCase: true}}],
     },
@@ -537,6 +538,7 @@ export const jsxStyleConfigs: ConfigLike[] = [
 
 export const recommendedReactConfigs = [
   ...recommendedFlatConfigs,
+  ...configs.globals_react,
   ...configs.reactRecommended,
   ...configs.reactHooks,
   ...configs.jsxA11y,
