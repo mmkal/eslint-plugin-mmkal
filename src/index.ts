@@ -1,4 +1,5 @@
 import eslint from '@eslint/js'
+import * as packlets from '@rushstack/eslint-plugin-packlets'
 import * as codegen from 'eslint-plugin-codegen'
 import * as _import from 'eslint-plugin-import'
 import prettier from 'eslint-plugin-prettier'
@@ -17,15 +18,8 @@ const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) 
 /** Re-export of the `Preset` type from `eslint-plugin-codegen`. Useful for adding types to custom codegen functions */
 export type CodegenPreset<T extends {} = {}> = codegen.Preset<T>
 
-export type ConfigLike = {
-  files?: string[]
-  processor?: string
-  languageOptions?: unknown
-  plugins?: Record<string, unknown>
-  rules?: Record<string, unknown>
-  // watch out re: ignores: https://github.com/eslint/eslint/issues/17400
-  ignores?: string[]
-}
+export type ConfigLike = import('eslint').Linter.FlatConfig
+// todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
 export type NamedConfigLike = ConfigLike & {name: string}
 
 const codegenFileGlobs = ['*.md', '*.mdx', '*.yml', '*.yaml']
@@ -42,7 +36,7 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
         'unicorn/filename-case': 'off',
       },
     },
-    ...[eslint.configs.recommended as ConfigLike]
+    ...[eslint.configs.recommended]
       .concat(tseslint.configs.recommended as ConfigLike[])
       .concat(tseslint.configs.disableTypeChecked as ConfigLike[])
       .map(c => ({
@@ -258,7 +252,7 @@ const typescriptLanguageSetup: ConfigLike = {
   languageOptions: {
     parserOptions: {
       project: true,
-      tsconfigDirName: __dirname,
+      tsconfigDirName: process.cwd(),
       extraFileExtensions: ['.md'],
     },
   },
@@ -315,6 +309,10 @@ const configsRecord = (() => {
   const record = {
     ...globalsConfigs,
     codegen: [flatify('codegen', codegen)],
+    packlets: [
+      flatify('@rushstack/packlets', packlets as {} as import('eslint').ESLint.Plugin),
+      {rules: {'@rushstack/packlets/mechanics': 'error'}},
+    ],
     unicorn: [
       {
         ...flatify('unicorn', unicorn),
@@ -378,10 +376,10 @@ const configsRecord = (() => {
         },
       },
     ],
-    prettierRecommended: [omit(prettierRecommended as ConfigLike, ['plugins'])],
+    prettierRecommended: [omit(prettierRecommended, ['plugins'])],
     /** my subjective preferreed prettier config */
     prettierPreset: [prettierrcConfig],
-    eslintRecommended: [eslint.configs.recommended as ConfigLike],
+    eslintRecommended: [eslint.configs.recommended],
     tseslintOverrides: [tseslintOverrides],
     externalPluginRuleOverrides: [externalPluginRuleOverrides],
     typescriptLanguageSetup: [typescriptLanguageSetup],
@@ -433,6 +431,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.eslintRecommended,
   ...configs.codegen,
   ...configs.unicorn,
+  ...configs.packlets,
   ...configs.import.map(cfg => ({
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
@@ -440,7 +439,8 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettier,
   ...configs.nonProdTypescript.map(cfg => ({
     ...cfg,
-    files: ['test/**/*.ts', '**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts'],
+    // todo: consider just stealing all globs and boilerplate stuff from https://github.com/antfu/eslint-config
+    files: ['test/**/*.ts', '**/tests/**/*.ts', '**/*.test.ts', '**/*.spec.ts', 'e2e/**/*.ts'],
   })),
   ...configs.prettierRecommended,
   ...configs.prettierPreset,
