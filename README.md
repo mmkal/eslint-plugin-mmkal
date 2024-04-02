@@ -1,6 +1,6 @@
 # eslint-plugin-mmkal
 
-My eslint plugin with rules I find good. If you aren't me, or don't no me, you probably shouldn't use this.
+My eslint plugin with rules I find good. If you aren't me, or don't know me, you probably shouldn't use this.
 
 <!-- codegen:start {preset: markdownTOC} -->
 - [Goals](#goals)
@@ -30,20 +30,23 @@ My eslint plugin with rules I find good. If you aren't me, or don't no me, you p
 
 The following plugins/libraries are usable and should "just work" without needing to add extra configs.
 
-1. Prettier
+1. prettier
 1. typescript-eslint
 1. embedded js/ts in markdown
 1. eslint-plugin-codegen
 1. eslint-plugin-unicorn
 1. eslint-plugin-import
 1. eslint-plugin-vitest
+1. @rushstack/eslint-plugin-packlets
+1. eslint-plugin-react
+1. eslint-plugin-react-hooks
+1. @next/eslint-plugin-next
+1. eslint-plugin-jsx-a11y
 
 There's some effort to make sure the rules only aplly to relevant files, but of course there are many different possible projedt setups. 
 
 Not enabled currently but may be soon:
 
-1. eslint-plugin-react
-1. eslint-plugin-react-hooks
 1. eslint-plugin-functional
 
 ## Non-goals
