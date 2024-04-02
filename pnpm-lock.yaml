@@ -8,6 +8,9 @@ dependencies:
   '@eslint/js':
     specifier: ^8.57.0
     version: 8.57.0
+  '@next/eslint-plugin-next':
+    specifier: ^14.1.4
+    version: 14.1.4
   '@rushstack/eslint-config':
     specifier: ^3.4.1
     version: 3.4.1(eslint@8.57.0)(typescript@5.2.2)
@@ -666,6 +669,12 @@ packages:
 
   /@microsoft/tsdoc@0.14.2:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
+    dev: false
+
+  /@next/eslint-plugin-next@14.1.4:
+    resolution: {integrity: sha512-n4zYNLSyCo0Ln5b7qxqQeQ34OZKXwgbdcx6kmkQbywr+0k6M3Vinft0T72R6CDAcDrne2IAgSud4uWCzFgc5HA==}
+    dependencies:
+      glob: 10.3.10
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
@@ -4341,7 +4350,7 @@ packages:
     resolution: {integrity: sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==}
     engines: {node: 14 || >=16.14}
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.0
 
   /lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
@@ -5264,6 +5273,7 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
 
   /semver@7.6.0:
     resolution: {integrity: sha512-EnwXhrlwXMk9gKu5/flx5sv/an57AkRplG3hTK68W7FRDN+k+OWBj65M7719OkA82XLBxrcX0KSHj+X5COhOVg==}
@@ -5271,7 +5281,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: true
 
   /set-function-length@1.1.1:
     resolution: {integrity: sha512-VoaqjbBJKiWtg4yRcKBQ7g7wnGnLV3M8oLvVWwOk2PdYY6PEFegR1vezXR0tw6fZGF9csVakIRjrJiy2veSBFQ==}

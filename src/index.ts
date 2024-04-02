@@ -1,10 +1,14 @@
 import eslint from '@eslint/js'
+import next from '@next/eslint-plugin-next'
 import * as packlets from '@rushstack/eslint-plugin-packlets'
 import * as rushSecurity from '@rushstack/eslint-plugin-security'
 import * as codegen from 'eslint-plugin-codegen'
 import * as _import from 'eslint-plugin-import'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
+import react from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
@@ -411,6 +415,14 @@ const configsRecord = (() => {
         },
       },
     ],
+    react: [flatify('react', react)],
+    reactHooks: [flatify('react-hooks', reactHooks)],
+    jsxA11y: [flatify('jsx-a11y', jsxA11y)],
+    next: [flatify('next', next)],
+    reactRecommended: [react.configs!.recommended as ConfigLike],
+    reactHooksRecommended: [reactHooks.configs!.recommended as ConfigLike],
+    jsxA11yRecommended: [jsxA11y.configs!.recommended as ConfigLike],
+    nextRecommended: [next.configs!.recommended as ConfigLike],
     prettier: [
       {
         plugins: {
@@ -479,6 +491,7 @@ export const withoutConfigs = (cfgs: NamedConfigLike[], names: ConfigName[]): Co
   return cfgs.filter(cfg => !set.has(cfg.name.replace(/\.\d+$/, '')))
 }
 
+// todo: consider a more consistent way to export configs
 export const recommendedFlatConfigs: ConfigLike[] = [
   // todo: consider a way to make it easier to have more specific globals. right now it's optimised for things just working. But adds a slight risk of using `window` in node, or `__dirname` in the esm etc., when those might not work
   ...configs.globals_node,
@@ -508,6 +521,32 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
   ...configs.codegenSpecialFiles,
+]
+
+export const jsxStyleConfigs: ConfigLike[] = [
+  {
+    files: ['**/*.jsx', '**/*.tsx'],
+    rules: {
+      'unicorn/filename-case': ['warn', {cases: {kebabCase: true, pascalCase: true}}],
+    },
+  },
+]
+
+export const recommendedReactConfigs = [
+  ...recommendedFlatConfigs,
+  ...configs.react,
+  ...configs.reactHooks,
+  ...configs.jsxA11y,
+  ...configs.reactRecommended,
+  ...configs.reactHooksRecommended,
+  ...configs.jsxA11yRecommended,
+  ...jsxStyleConfigs,
+]
+
+export const recommendedNextConfigs = [
+  ...recommendedReactConfigs,
+  ...configs.next, //
+  ...configs.nextRecommended,
 ]
 
 const validate = (flatConfigs: NamedConfigLike[]) => {
