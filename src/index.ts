@@ -7,7 +7,7 @@ import * as _import from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
-import react from 'eslint-plugin-react'
+import reactRecommended from 'eslint-plugin-react/configs/recommended'
 import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
@@ -259,6 +259,10 @@ const flatify = <Name extends string>(name: Name, legacyPlugin: import('eslint')
     plugins: {[name]: legacyPlugin},
   }) as ConfigLike
 
+export const stripConfig = (cfg: ConfigLike): ConfigLike => ({
+  ...omit(cfg, ['plugins', 'parserOptions']),
+})
+
 const typescriptLanguageSetup: ConfigLike = {
   languageOptions: {
     parserOptions: {
@@ -415,14 +419,13 @@ const configsRecord = (() => {
         },
       },
     ],
-    react: [flatify('react', react)],
     reactHooks: [flatify('react-hooks', reactHooks)],
     jsxA11y: [flatify('jsx-a11y', jsxA11y)],
-    next: [flatify('next', next)],
-    reactRecommended: [react.configs!.recommended as ConfigLike],
-    reactHooksRecommended: [reactHooks.configs!.recommended as ConfigLike],
-    jsxA11yRecommended: [jsxA11y.configs!.recommended as ConfigLike],
-    nextRecommended: [next.configs!.recommended as ConfigLike],
+    next: [flatify('@next/next', next)],
+    reactRecommended: [reactRecommended],
+    reactHooksRecommended: [stripConfig(reactHooks.configs!.recommended as ConfigLike)],
+    jsxA11yRecommended: [stripConfig(jsxA11y.configs!.recommended as ConfigLike)],
+    nextRecommended: [stripConfig(next.configs!.recommended as ConfigLike)],
     prettier: [
       {
         plugins: {
@@ -534,12 +537,12 @@ export const jsxStyleConfigs: ConfigLike[] = [
 
 export const recommendedReactConfigs = [
   ...recommendedFlatConfigs,
-  ...configs.react,
+  ...configs.reactRecommended,
   ...configs.reactHooks,
   ...configs.jsxA11y,
-  ...configs.reactRecommended,
   ...configs.reactHooksRecommended,
   ...configs.jsxA11yRecommended,
+  {settings: {react: {version: '18'}}},
   ...jsxStyleConfigs,
 ]
 
@@ -550,11 +553,14 @@ export const recommendedNextConfigs = [
 ]
 
 const validate = (flatConfigs: NamedConfigLike[]) => {
+  const usesProp = (prop: string) => (cfg: ConfigLike) => prop in cfg
   const rules = {
-    usesExtends: (cfg: ConfigLike) => 'extends' in cfg,
+    // noName: (cfg: ConfigLike) => !('name' in cfg) || !cfg.name,
+    usesExtends: usesProp('extends'),
+    usesParserOptions: usesProp('parserOptions'),
     arrayPlugins: (cfg: ConfigLike) => Array.isArray(cfg.plugins),
-    usesEnv: (cfg: ConfigLike) => 'env' in cfg,
-    usesOverrides: (cfg: ConfigLike) => 'overrides' in cfg,
+    usesEnv: usesProp('env'),
+    usesOverrides: usesProp('overrides'),
   }
 
   const errors = flatConfigs.flatMap(cfg => {
@@ -570,3 +576,5 @@ const validate = (flatConfigs: NamedConfigLike[]) => {
 }
 
 validate(recommendedFlatConfigs as NamedConfigLike[])
+validate(recommendedReactConfigs as NamedConfigLike[])
+validate(recommendedNextConfigs as NamedConfigLike[])
