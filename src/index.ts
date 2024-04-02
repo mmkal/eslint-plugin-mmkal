@@ -1,5 +1,6 @@
 import eslint from '@eslint/js'
 import * as packlets from '@rushstack/eslint-plugin-packlets'
+import * as rushSecurity from '@rushstack/eslint-plugin-security'
 import * as codegen from 'eslint-plugin-codegen'
 import * as _import from 'eslint-plugin-import'
 import prettier from 'eslint-plugin-prettier'
@@ -250,7 +251,7 @@ const externalPluginRuleOverrides: ConfigLike = {
 
 const flatify = <Name extends string>(name: Name, legacyPlugin: import('eslint').ESLint.Plugin) =>
   ({
-    ...omit(legacyPlugin.configs!.recommended, ['env', 'parserOptions', 'plugins', 'extends', 'overrides']),
+    ...omit(legacyPlugin.configs?.recommended || {}, ['env', 'parserOptions', 'plugins', 'extends', 'overrides']),
     plugins: {[name]: legacyPlugin},
   }) as ConfigLike
 
@@ -315,6 +316,10 @@ const configsRecord = (() => {
   const record = {
     ...globalsConfigs,
     codegen: [flatify('codegen', codegen)],
+    rushSecurity: [
+      flatify('@rushstack/security', rushSecurity as {} as import('eslint').ESLint.Plugin),
+      {rules: {'@#rushstack/security/no-unsafe-regex': 'warn'}},
+    ],
     packlets: [
       {
         plugins: {
@@ -356,7 +361,10 @@ const configsRecord = (() => {
       },
       {
         files: sourceCodeGlobs,
-        rules: {'@rushstack/packlets/mechanics': 'error'},
+        rules: {
+          '@rushstack/packlets/mechanics': 'warn',
+          '@rushstack/packlets/circular-deps': 'warn',
+        },
       },
     ],
     unicorn: [
