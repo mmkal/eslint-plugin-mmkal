@@ -2,7 +2,7 @@
   "name": "eslint-plugin-mmkal",
   "version": "0.7.0",
   "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
-  "packageManager": "pnpm@8.10.2",
+  "packageManager": "pnpm@9.4.0",
   "files": [
     "README.md",
     "src/**",
@@ -31,6 +31,7 @@
     "eslint": "^8.57.0",
     "execa": "^8.0.1",
     "np": "github:sindresorhus/np#pnpm-vs-npm-tag-version-prefix",
+    "pkg-pr-new": "^0.0.17",
     "tsx": "^4.7.1",
     "typescript": "5.2.2",
     "vitest": "^1.2.2"
