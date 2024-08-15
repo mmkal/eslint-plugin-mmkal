@@ -477,6 +477,10 @@ type ConfigsRecord = typeof configsRecord
 export const configs = Object.fromEntries(
   Object.entries(configsRecord).map(([k, v]) => {
     const named = v.map((cfg, i) => {
+      // todo[eslint@>=8]: remove this on eslint 9. `ignores` as the only key means a global ignore, and eslint 9 is smart enought to ignore `name`, but eslint 8 isn't.
+      const keys = Object.keys(cfg)
+      if (keys.length === 1 && keys[0] === 'ignores') return cfg
+
       return {name: `${k}.${i}`, ...cfg}
     })
     return [k, named]
@@ -568,6 +572,8 @@ const validate = (flatConfigs: NamedConfigLike[]) => {
     arrayPlugins: (cfg: ConfigLike) => Array.isArray(cfg.plugins),
     usesEnv: usesProp('env'),
     usesOverrides: usesProp('overrides'),
+    // todo[eslint@>=8]: remove this on eslint 9. `ignores` as the only key means a global ignore, and eslint 9 is smart enought to ignore `name`, but eslint 8 isn't.
+    namedGlobalIgnore: (cfg: ConfigLike) => Object.keys(cfg).sort().join(',') === 'ignores,name',
   }
 
   const errors = flatConfigs.flatMap(cfg => {
