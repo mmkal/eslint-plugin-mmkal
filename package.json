@@ -31,7 +31,7 @@
     "@types/node": "20.9.1",
     "eslint": "^8.57.0",
     "execa": "^8.0.1",
-    "np": "github:sindresorhus/np#pnpm-vs-npm-tag-version-prefix",
+    "np": "^10.0.7",
     "pkg-pr-new": "^0.0.17",
     "tsx": "^4.7.1",
     "typescript": "5.2.2",

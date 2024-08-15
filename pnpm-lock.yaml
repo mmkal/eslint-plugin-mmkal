@@ -109,8 +109,8 @@ importers:
         specifier: ^8.0.1
         version: 8.0.1
       np:
-        specifier: github:sindresorhus/np#pnpm-vs-npm-tag-version-prefix
-        version: https://codeload.github.com/sindresorhus/np/tar.gz/044ca1706e7b220690a2a4b79f519b2c1c23d831(typescript@5.2.2)
+        specifier: ^10.0.7
+        version: 10.0.7(typescript@5.2.2)
       pkg-pr-new:
         specifier: ^0.0.17
         version: 0.0.17
@@ -1170,9 +1170,6 @@ packages:
   builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
-
-  builtins@5.0.1:
-    resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
 
   bundle-name@4.1.0:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
@@ -2675,9 +2672,8 @@ packages:
     resolution: {integrity: sha512-uVFpKhj5MheNBJRTiMZ9pE/7hD1QTeEvugSJW/OmLzAp78PB5O6adfMNTvmfKhXBkvCzC+rqifWcVYpGFwTjnw==}
     engines: {node: '>=14.16'}
 
-  np@https://codeload.github.com/sindresorhus/np/tar.gz/044ca1706e7b220690a2a4b79f519b2c1c23d831:
-    resolution: {tarball: https://codeload.github.com/sindresorhus/np/tar.gz/044ca1706e7b220690a2a4b79f519b2c1c23d831}
-    version: 10.0.1
+  np@10.0.7:
+    resolution: {integrity: sha512-vIPKQwOYKpQU40PU5x/vLfN2haj8ObxMvR1QGt7EZnBPWdm4WEbHdumYAnMV7AeR9kACsMqcqAP37sAo5cW5jA==}
     engines: {git: '>=2.11.0', node: '>=18', npm: '>=9', pnpm: '>=8', yarn: '>=1.7.0'}
     hasBin: true
 
@@ -3509,10 +3505,6 @@ packages:
 
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
-
-  validate-npm-package-name@5.0.0:
-    resolution: {integrity: sha512-YuKoXDAhBYxY7SfOKxHBDoSyENFeW5VvIIQp2TGQuit8gpK6MnWaQelBKxso72DoxTZfZdcP3W90LqpSkgPzLQ==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
   validate-npm-package-name@5.0.1:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
@@ -4826,10 +4818,6 @@ snapshots:
 
   builtin-modules@3.3.0: {}
 
-  builtins@5.0.1:
-    dependencies:
-      semver: 7.6.0
-
   bundle-name@4.1.0:
     dependencies:
       run-applescript: 7.0.0
@@ -5786,7 +5774,7 @@ snapshots:
     dependencies:
       dir-glob: 3.0.1
       fast-glob: 3.3.2
-      ignore: 5.3.0
+      ignore: 5.3.1
       merge2: 1.4.1
       slash: 4.0.0
 
@@ -6506,7 +6494,7 @@ snapshots:
 
   normalize-url@8.0.0: {}
 
-  np@https://codeload.github.com/sindresorhus/np/tar.gz/044ca1706e7b220690a2a4b79f519b2c1c23d831(typescript@5.2.2):
+  np@10.0.7(typescript@5.2.2):
     dependencies:
       chalk: 5.3.0
       chalk-template: 1.1.0
@@ -6559,7 +6547,7 @@ snapshots:
       p-map: 7.0.1
       registry-auth-token: 5.0.2
       registry-url: 6.0.1
-      validate-npm-package-name: 5.0.0
+      validate-npm-package-name: 5.0.1
 
   npm-run-path@4.0.1:
     dependencies:
@@ -7425,10 +7413,6 @@ snapshots:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
-
-  validate-npm-package-name@5.0.0:
-    dependencies:
-      builtins: 5.0.1
 
   validate-npm-package-name@5.0.1: {}
 
