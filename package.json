@@ -15,6 +15,7 @@
     "url": "https://github.com/mmkal/eslint-plugin-mmkal"
   },
   "scripts": {
+    "inspect": "npx @eslint/config-inspector",
     "prepare": "pnpm build",
     "lint": "eslint .",
     "test": "vitest run",

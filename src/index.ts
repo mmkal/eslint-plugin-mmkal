@@ -477,12 +477,7 @@ type ConfigsRecord = typeof configsRecord
 export const configs = Object.fromEntries(
   Object.entries(configsRecord).map(([k, v]) => {
     const named = v.map((cfg, i) => {
-      const clone = {...cfg}
-      Object.defineProperty(clone, 'name', {
-        value: `${k}.${i}`,
-        enumerable: false,
-      })
-      return clone
+      return {name: `${k}.${i}`, ...cfg}
     })
     return [k, named]
   }),
