@@ -1,0 +1,11 @@
+name: deps-sync
+on:
+  push:
+    branches: [main, deps]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mmkal/runovate@16429dec896f09d28b9794ed3566c4c6f0cceed9
+
