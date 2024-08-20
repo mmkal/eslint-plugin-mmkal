@@ -3,10 +3,10 @@
   "extends": [
     "config:recommended"
   ],
-  "commitBody": "{{#if logJSON.hasReleaseNotes}}{{#each logJSON.versions as |release|}}{{# if release.releaseNotes}}##### [v{{{release.version}}}]({{{release.releaseNotes.url}}})\n\n{{{release.releaseNotes.body}}}{{/if}}{{/each}}{{/if}}",
   "baseBranches": [
     "deps"
   ],
+  "commitBody": "{{#if logJSON.hasReleaseNotes}}{{#each logJSON.versions as |release|}}{{# if release.releaseNotes}}##### [v{{{release.version}}}]({{{release.releaseNotes.url}}})\n\n{{{release.releaseNotes.body}}}{{/if}}{{/each}}{{/if}}",
   "automerge": true,
   "automergeType": "branch",
   "fetchChangeLogs": "branch"
