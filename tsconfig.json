@@ -3,6 +3,7 @@
     "noEmit": true,
     "allowJs": true,
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "lib": [
       "es2017",
       "DOM"

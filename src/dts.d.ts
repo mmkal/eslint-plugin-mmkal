@@ -10,7 +10,7 @@ declare module 'eslint-config-prettier' {
   export = config
 }
 
-declare module 'eslint-plugin-import' {
+declare module 'eslint-plugin-import-x' {
   const plugin: import('eslint').ESLint.Plugin
   export = plugin
 }

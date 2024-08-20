@@ -3,7 +3,7 @@ import next from '@next/eslint-plugin-next'
 import * as packlets from '@rushstack/eslint-plugin-packlets'
 import * as rushSecurity from '@rushstack/eslint-plugin-security'
 import * as codegen from 'eslint-plugin-codegen'
-import * as _import from 'eslint-plugin-import'
+import * as importX from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
@@ -168,11 +168,11 @@ const externalPluginRuleOverrides: ConfigLike = {
 
     'no-await-in-loop': 'off',
 
-    'import/newline-after-import': 'warn',
+    'import-x/newline-after-import': 'warn',
     // doesn't understand typescript, and is covered by the compiler anyway
-    'import/no-unresolved': 'off',
-    'import/no-extraneous-dependencies': 'warn',
-    'import/order': [
+    'import-x/no-unresolved': 'off',
+    'import-x/no-extraneous-dependencies': 'warn',
+    'import-x/order': [
       'warn',
       {
         alphabetize: {order: 'asc'},
@@ -301,7 +301,7 @@ const nonProdTypescript: ConfigLike = {
     '@typescript-eslint/no-base-to-string': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
     '@typescript-eslint/require-array-sort-compare': 'off',
-    'import/no-extraneous-dependencies': ['warn', {devDependencies: true}],
+    'import-x/no-extraneous-dependencies': ['warn', {devDependencies: true}],
   },
 }
 
@@ -411,7 +411,7 @@ const configsRecord = (() => {
         },
       },
     ],
-    import: [flatify('import', _import)],
+    import_x: [flatify('import-x', importX)],
     promise: [flatify('promise', promise)],
     vitest: [
       flatify('vitest', vitest),
@@ -512,7 +512,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.codegen,
   ...configs.unicorn,
   ...configs.packlets,
-  ...configs.import.map(cfg => ({
+  ...configs['import_x'].map(cfg => ({
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
   ...configs.promise,
