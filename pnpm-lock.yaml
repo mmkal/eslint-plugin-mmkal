@@ -24,8 +24,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1(eslint@8.57.0)(typescript@5.5.4)
       '@rushstack/eslint-plugin-security':
-        specifier: ^0.7.1
-        version: 0.7.1(eslint@8.57.0)(typescript@5.5.4)
+        specifier: ^0.8.0
+        version: 0.8.2(eslint@8.57.0)(typescript@5.5.4)
       '@types/eslint':
         specifier: ^8.44.7
         version: 8.44.7
@@ -818,11 +818,6 @@ packages:
 
   '@rushstack/eslint-plugin-packlets@0.9.2':
     resolution: {integrity: sha512-rZofSLJpwyP7Xo6e4eKYkI7N4JM5PycvPuoX5IEK08PgxPDm/k5pdltH9DkIKnmWvLrxIMU+85VrB5xnjbK0RQ==}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  '@rushstack/eslint-plugin-security@0.7.1':
-    resolution: {integrity: sha512-84N42tlONhcbXdlk5Rkb+/pVxPnH+ojX8XwtFoecCRV88/4Ii7eGEyJPb73lOpHaE3NJxLzLVIeixKYQmdjImA==}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
 
@@ -4639,15 +4634,6 @@ snapshots:
     dependencies:
       '@rushstack/tree-pattern': 0.3.4
       '@typescript-eslint/utils': 6.19.1(eslint@8.57.0)(typescript@5.5.4)
-      eslint: 8.57.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
-  '@rushstack/eslint-plugin-security@0.7.1(eslint@8.57.0)(typescript@5.5.4)':
-    dependencies:
-      '@rushstack/tree-pattern': 0.3.1
-      '@typescript-eslint/experimental-utils': 5.59.11(eslint@8.57.0)(typescript@5.5.4)
       eslint: 8.57.0
     transitivePeerDependencies:
       - supports-color
