@@ -2,7 +2,7 @@
   "name": "eslint-plugin-mmkal",
   "version": "0.9.0",
   "description": "My eslint plugin with rules I find good. If you aren't me you probably shouldn't use this.",
-  "packageManager": "pnpm@9.8.0",
+  "packageManager": "pnpm@9.9.0",
   "files": [
     "README.md",
     "src/**",
