@@ -24,13 +24,13 @@ import {
 } from './globs'
 import {prettierrc} from './prettierrc'
 
-const omit = <T extends {}, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
+const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
   const omitted = new Set(keys)
   return Object.fromEntries(Object.entries(obj).filter(([k]) => !omitted.has(k as K))) as Omit<T, K>
 }
 
 /** Re-export of the `Preset` type from `eslint-plugin-codegen`. Useful for adding types to custom codegen functions */
-export type CodegenPreset<T extends {} = {}> = codegen.Preset<T>
+export type CodegenPreset<T extends object = object> = codegen.Preset<T>
 
 export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
@@ -59,6 +59,7 @@ const codegenSpecialFiles = ((): ConfigLike[] => {
       files: codegenProcessedGlobs,
       rules: {
         '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/no-require-imports': 'off',
         'no-console': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
         'no-unused-vars': 'off',
@@ -86,6 +87,7 @@ const tseslintOverrides: ConfigLike = {
     // ur not my mum
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-empty-object-type': 'off', // sometimes {} is useful
     '@typescript-eslint/require-await': 'off', // bad idea. if you have a non-async function that usually returns a promise, but sometimes throws synchronously, if the caller uses `.catch(...)` it won't work as expected
 
     // https://github.com/typescript-eslint/typescript-eslint/issues/2585#issuecomment-696269611
@@ -117,6 +119,8 @@ const tseslintOverrides: ConfigLike = {
     ],
     '@typescript-eslint/no-namespace': ['warn', {allowDeclarations: true}],
     '@typescript-eslint/no-unsafe-return': 'warn',
+
+    '@typescript-eslint/unbound-method': ['error', {ignoreStatic: true}],
 
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -207,6 +211,7 @@ const externalPluginRuleOverrides: ConfigLike = {
       : 'off',
     'unicorn/consistent-destructuring': 'off',
     'unicorn/no-await-expression-member': 'off',
+    'unicorn/explicit-length-check': 'off', // why should i
 
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
@@ -345,7 +350,7 @@ const configsRecord = (() => {
             rules: {
               ...Object.fromEntries(
                 Object.entries(packlets.rules).map(([name, _rule]) => {
-                  const rule = _rule as {} as import('eslint').Rule.RuleModule
+                  const rule = _rule as unknown as import('eslint').Rule.RuleModule
                   const create: import('eslint').Rule.RuleModule['create'] = context => {
                     try {
                       return rule.create(context)
