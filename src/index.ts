@@ -121,6 +121,7 @@ const tseslintOverrides: ConfigLike = {
     '@typescript-eslint/no-unsafe-return': 'warn',
 
     '@typescript-eslint/unbound-method': ['error', {ignoreStatic: true}],
+    '@typescript-eslint/no-misused-promises': ['warn', {checksVoidReturn: {attributes: false}}],
 
     '@typescript-eslint/prefer-nullish-coalescing': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -212,6 +213,7 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/consistent-destructuring': 'off',
     'unicorn/no-await-expression-member': 'off',
     'unicorn/explicit-length-check': 'off', // why should i
+    'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
 
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
