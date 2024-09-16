@@ -30,7 +30,7 @@
   "devDependencies": {
     "@eslint/config-inspector": "0.5.4",
     "@types/lodash": "^4.17.7",
-    "@types/node": "20.9.1",
+    "@types/node": "20.16.5",
     "eslint": "^8.57.0",
     "execa": "^8.0.1",
     "np": "^10.0.7",
