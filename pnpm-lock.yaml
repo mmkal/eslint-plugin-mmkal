@@ -43,7 +43,7 @@ importers:
         version: 0.46.0(eslint@8.57.1)(typescript@5.6.2)
       eslint-config-xo-react:
         specifier: ^0.27.0
-        version: 0.27.0(eslint-plugin-react-hooks@4.6.2(eslint@8.57.1))(eslint-plugin-react@7.35.1(eslint@8.57.1))(eslint@8.57.1)
+        version: 0.27.0(eslint-plugin-react-hooks@4.6.2(eslint@8.57.1))(eslint-plugin-react@7.36.1(eslint@8.57.1))(eslint@8.57.1)
       eslint-config-xo-typescript:
         specifier: ^6.0.0
         version: 6.0.0(eslint@8.57.1)(typescript@5.6.2)
@@ -70,7 +70,7 @@ importers:
         version: 7.1.0(eslint@8.57.1)
       eslint-plugin-react:
         specifier: ^7.33.2
-        version: 7.35.1(eslint@8.57.1)
+        version: 7.36.1(eslint@8.57.1)
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.2(eslint@8.57.1)
@@ -1938,8 +1938,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
 
-  eslint-plugin-react@7.35.1:
-    resolution: {integrity: sha512-B5ok2JgbaaWn/zXbKCGgKDNL2tsID3Pd/c/yvjcpsd9HQDwyYc/TQv3AZMmOvrJgCs3AnYNUHRCQEMMQAYJ7Yg==}
+  eslint-plugin-react@7.36.1:
+    resolution: {integrity: sha512-/qwbqNXZoq+VP30s1d4Nc1C5GTxjJQjk4Jzs4Wq2qzxFM7dSmuG2UkIjg2USMLh3A/aVcUNrK7v0J5U1XEGGwA==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
@@ -5904,10 +5904,10 @@ snapshots:
     dependencies:
       eslint: 8.57.1
 
-  eslint-config-xo-react@0.27.0(eslint-plugin-react-hooks@4.6.2(eslint@8.57.1))(eslint-plugin-react@7.35.1(eslint@8.57.1))(eslint@8.57.1):
+  eslint-config-xo-react@0.27.0(eslint-plugin-react-hooks@4.6.2(eslint@8.57.1))(eslint-plugin-react@7.36.1(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      eslint-plugin-react: 7.35.1(eslint@8.57.1)
+      eslint-plugin-react: 7.36.1(eslint@8.57.1)
       eslint-plugin-react-hooks: 4.6.2(eslint@8.57.1)
 
   eslint-config-xo-typescript@6.0.0(eslint@8.57.1)(typescript@5.6.2):
@@ -6073,7 +6073,7 @@ snapshots:
       semver: 6.3.1
       string.prototype.matchall: 4.0.11
 
-  eslint-plugin-react@7.35.1(eslint@8.57.1):
+  eslint-plugin-react@7.36.1(eslint@8.57.1):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlast: 1.2.5
@@ -7084,7 +7084,7 @@ snapshots:
 
   lru-cache@10.0.2:
     dependencies:
-      semver: 7.6.3
+      semver: 7.6.0
 
   lru-cache@10.4.3: {}
 
@@ -7208,7 +7208,7 @@ snapshots:
     dependencies:
       hosted-git-info: 7.0.1
       is-core-module: 2.15.1
-      semver: 7.6.3
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
