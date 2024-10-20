@@ -52,7 +52,7 @@ importers:
         version: 0.29.0(eslint@8.57.1)
       eslint-plugin-functional:
         specifier: ^7.0.0
-        version: 7.0.3(eslint@8.57.1)(typescript@5.6.3)
+        version: 7.1.0(eslint@8.57.1)(typescript@5.6.3)
       eslint-plugin-import-x:
         specifier: ^4.0.0
         version: 4.3.1(eslint@8.57.1)(typescript@5.6.3)
@@ -2040,8 +2040,8 @@ packages:
     resolution: {integrity: sha512-C5NqptnJgf5ngxAaPg125OodjYeDD1o79Q2QbRV4Ga8WGX70KyC9KgB5walRy037fl9/JFC8PKVB9lwLOBbVGw==}
     engines: {node: '>=18.0.0'}
 
-  eslint-plugin-functional@7.0.3:
-    resolution: {integrity: sha512-SpXUFZbxAmrUnoNFkQkHNG9GJOUmScgyY8YjvukkyO6yclUJrgCxjJuhWeBp8MVv0KRZK9iT2tcWydvCOfrfGg==}
+  eslint-plugin-functional@7.1.0:
+    resolution: {integrity: sha512-eu7lVAF9dDTw2xzlsLDvJRXx9t4g/S/pmCSdGx2oFmibmkz2LMoPDu7B+UA9CV/RzvNr4wWd4apc71nMAazdKQ==}
     engines: {node: '>=v18.18.0'}
     peerDependencies:
       eslint: ^9.0.0
@@ -6276,7 +6276,7 @@ snapshots:
       - eslint
       - supports-color
 
-  eslint-plugin-functional@7.0.3(eslint@8.57.1)(typescript@5.6.3):
+  eslint-plugin-functional@7.1.0(eslint@8.57.1)(typescript@5.6.3):
     dependencies:
       '@typescript-eslint/utils': 8.10.0(eslint@8.57.1)(typescript@5.6.3)
       deepmerge-ts: 7.1.3
