@@ -46,7 +46,7 @@
     "@rushstack/eslint-plugin": "^0.16.0",
     "@rushstack/eslint-plugin-packlets": "^0.8.1",
     "@rushstack/eslint-plugin-security": "^0.8.0",
-    "@types/eslint": "^8.44.7",
+    "@types/eslint": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint-config-prettier": "^9.1.0",
