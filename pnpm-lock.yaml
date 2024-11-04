@@ -85,7 +85,7 @@ importers:
         version: 0.1.0-1
       globals:
         specifier: ^15.0.0
-        version: 15.11.0
+        version: 15.12.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2418,8 +2418,8 @@ packages:
     resolution: {integrity: sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==}
     engines: {node: '>=8'}
 
-  globals@15.11.0:
-    resolution: {integrity: sha512-yeyNSjdbyVaWurlwCpcA6XNBrHTMIeDdj0/hnvX/OLJ9ekOXYbLsLinH/MucQyGvNnXhidTdNhTtJaffL2sMfw==}
+  globals@15.12.0:
+    resolution: {integrity: sha512-1+gLErljJFhbOVyaetcwJiJ4+eLe45S2E7P5UiZ9xGfeq3ATQf5DOv9G7MH3gGbKQLkzmNh2DxfZwLdw+j6oTQ==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -6208,7 +6208,7 @@ snapshots:
       '@stylistic/eslint-plugin': 2.6.4(eslint@8.57.1)(typescript@5.6.3)
       confusing-browser-globals: 1.0.11
       eslint: 8.57.1
-      globals: 15.11.0
+      globals: 15.12.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -6391,7 +6391,7 @@ snapshots:
       core-js-compat: 3.38.1
       eslint: 8.57.1
       esquery: 1.6.0
-      globals: 15.11.0
+      globals: 15.12.0
       indent-string: 4.0.0
       is-builtin-module: 3.2.1
       jsesc: 3.0.2
@@ -6739,7 +6739,7 @@ snapshots:
     dependencies:
       type-fest: 0.20.2
 
-  globals@15.11.0: {}
+  globals@15.12.0: {}
 
   globalthis@1.0.4:
     dependencies:
