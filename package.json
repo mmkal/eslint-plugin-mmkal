@@ -28,7 +28,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/config-inspector": "0.6.0",
+    "@eslint/config-inspector": "0.7.0",
     "@types/lodash": "^4.17.7",
     "@types/node": "22.10.5",
     "eslint": "^8.57.0",
