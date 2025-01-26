@@ -111,6 +111,9 @@ importers:
       execa:
         specifier: ^9.0.0
         version: 9.4.0
+      link:
+        specifier: ^2.1.1
+        version: 2.1.1
       np:
         specifier: ^10.0.7
         version: 10.0.7(typescript@5.6.2)
@@ -2779,6 +2782,10 @@ packages:
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+
+  link@2.1.1:
+    resolution: {integrity: sha512-NV3AUVYBovJ6eVQcTeRoPnZSxzt2LOijNd+ugEZKRy/XeQlpTRhVRkuDv5kOlXwMAUx30vfUc7asRFb9RT65yg==}
+    hasBin: true
 
   listr-input@0.2.1:
     resolution: {integrity: sha512-oa8iVG870qJq+OuuMK3DjGqFcwsK1SDu+kULp9kEq09TY231aideIZenr3lFOQdASpAr6asuyJBbX62/a3IIhg==}
@@ -7002,6 +7009,8 @@ snapshots:
       type-check: 0.4.0
 
   lines-and-columns@1.2.4: {}
+
+  link@2.1.1: {}
 
   listr-input@0.2.1:
     dependencies:
