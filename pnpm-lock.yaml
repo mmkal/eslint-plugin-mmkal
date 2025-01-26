@@ -110,7 +110,7 @@ importers:
         version: 8.57.1
       execa:
         specifier: ^9.0.0
-        version: 9.4.0
+        version: 9.5.2
       link:
         specifier: ^2.1.1
         version: 2.1.1
