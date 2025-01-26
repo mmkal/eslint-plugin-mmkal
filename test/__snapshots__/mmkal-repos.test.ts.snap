@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`lint https://github.com/mmkal/expect-type 1`] = `
+"
+> expect-type@1.1.0 eslint <dir>/expect-type
+> eslint --max-warnings 0 "." "--fix" "--max-warnings" "0"
+
+
+<dir>/expect-type/src/branding.ts
+  <line>:<col>  error  The \`Function\` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+
+<dir>/expect-type/src/index.ts
+  <line>:<col>  error  The \`Function\` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+
+<dir>/expect-type/src/utils.ts
+  <line>:<col>  error  'secret' is assigned a value but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+<dir>/expect-type/test/ts-output.ts
+  <line>:<col>  warning  Use default import for module \`node:path\`  unicorn/import-style
+
+<dir>/expect-type/test/types.test.ts
+  <line>:<col>  error  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  <line>:<col>  error  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+<dir>/expect-type/test/usage.test.ts
+  <line>:<col>  error  'A' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  <line>:<col>  error  'B' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+  <line>:<col>  error  'C' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+✖ 9 problems (8 errors, 1 warning)
+
+ ELIFECYCLE  Command failed with exit code 1."
+`;
+
+exports[`lint https://github.com/mmkal/trpc-cli 1`] = `
+"
+<dir>/trpc-cli/src/index.ts
+  <line>:<col>  error  The \`Function\` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+  <line>:<col>  error  Expected an error object to be thrown                                                                                    @typescript-eslint/only-throw-error
+
+<dir>/trpc-cli/src/util.ts
+  <line>:<col>  error  The \`Function\` type accepts any function-like value.
+Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
+
+✖ 3 problems (3 errors, 0 warnings)
+"
+`;
