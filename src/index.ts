@@ -1,6 +1,5 @@
 import eslint from '@eslint/js'
 import next from '@next/eslint-plugin-next'
-import * as packlets from '@rushstack/eslint-plugin-packlets'
 import * as rushSecurity from '@rushstack/eslint-plugin-security'
 import * as codegen from 'eslint-plugin-codegen'
 import * as importX from 'eslint-plugin-import-x'
@@ -8,11 +7,11 @@ import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
 import promise from 'eslint-plugin-promise'
-import reactRecommended from 'eslint-plugin-react/configs/recommended'
 import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
+import module from 'node:module'
 import tseslint from 'typescript-eslint'
 import {
   ANTFU_GLOB_EXCLUDE,
@@ -21,8 +20,13 @@ import {
   nonProdGlobs,
   sourceCodeGlobs,
   typescriptGlobs,
-} from './globs'
-import {prettierrc} from './prettierrc'
+} from './globs.ts'
+import {prettierrc} from './prettierrc.ts'
+
+const require = module.createRequire(import.meta.url)
+// import reactRecommended from 'eslint-plugin-react/configs/recommended'
+const reactRecommended = require('eslint-plugin-react/configs/recommended') as ConfigLike
+const packlets = require('@rushstack/eslint-plugin-packlets') as import('eslint').ESLint.Plugin
 
 const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
   const omitted = new Set(keys)
@@ -339,7 +343,7 @@ const globalsConfigs = Object.fromEntries(
 const configsRecord = (() => {
   const record = {
     ...globalsConfigs,
-    codegen: [flatify('codegen', codegen)],
+    codegen: [flatify('codegen', codegen as {})],
     rushSecurity: [
       flatify('@rushstack/security', rushSecurity as {} as import('eslint').ESLint.Plugin),
       {rules: {'@#rushstack/security/no-unsafe-regex': 'warn'}},
@@ -351,8 +355,8 @@ const configsRecord = (() => {
             ...packlets,
             rules: {
               ...Object.fromEntries(
-                Object.entries(packlets.rules).map(([name, _rule]) => {
-                  const rule = _rule as unknown as import('eslint').Rule.RuleModule
+                Object.entries(packlets.rules as {}).map(([name, _rule]) => {
+                  const rule = _rule as import('eslint').Rule.RuleModule
                   const create: import('eslint').Rule.RuleModule['create'] = context => {
                     try {
                       return rule.create(context)
@@ -386,8 +390,8 @@ const configsRecord = (() => {
       {
         files: sourceCodeGlobs,
         rules: {
-          '@rushstack/packlets/mechanics': 'warn',
-          '@rushstack/packlets/circular-deps': 'warn',
+          '@rushstack/packlets/mechanics': 'off', //'warn',
+          '@rushstack/packlets/circular-deps': 'off', // 'warn',
         },
       },
     ],

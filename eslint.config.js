@@ -1,11 +1,17 @@
-require('tsx/cjs')
+import 'tsx/esm'
 
-const library = require('./src')
+import * as library from './src/index.ts'
 
-module.exports = library.recommendedFlatConfigs
+const getDefaultExport = () => {
+  let exp = library.recommendedFlatConfigs
 
-if (process.env.ALT_CONFIG in library) {
-  module.exports = library[process.env.ALT_CONFIG]
-} else if (process.env.ALT_CONFIG) {
-  throw new Error(`Unknown config ${process.env.ALT_CONFIG} (options: ${Object.keys(library).join(', ')})`)
+  if (process.env.ALT_CONFIG in library) {
+    exp = library[process.env.ALT_CONFIG]
+  } else if (process.env.ALT_CONFIG) {
+    throw new Error(`Unknown config ${process.env.ALT_CONFIG} (options: ${Object.keys(library).join(', ')})`)
+  }
+
+  return exp
 }
+
+export default getDefaultExport()
