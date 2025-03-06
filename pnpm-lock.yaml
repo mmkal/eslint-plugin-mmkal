@@ -29,12 +29,6 @@ importers:
       '@types/eslint':
         specifier: ^8.44.7
         version: 8.56.12
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^8.6.0
-        version: 8.6.0(@typescript-eslint/parser@8.6.0(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2)
-      '@typescript-eslint/parser':
-        specifier: ^8.6.0
-        version: 8.6.0(eslint@8.57.1)(typescript@5.6.2)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@8.57.1)
@@ -79,7 +73,7 @@ importers:
         version: 55.0.0(eslint@8.57.1)
       eslint-plugin-vitest:
         specifier: ^0.5.0
-        version: 0.5.4(@typescript-eslint/eslint-plugin@8.6.0(@typescript-eslint/parser@8.6.0(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2)(vitest@2.1.1(@types/node@20.16.5))
+        version: 0.5.4(eslint@8.57.1)(typescript@5.6.2)(vitest@2.1.1(@types/node@20.16.5))
       eslint-plugin-wrapper:
         specifier: 0.1.0-1
         version: 0.1.0-1
@@ -6242,12 +6236,11 @@ snapshots:
       semver: 7.6.3
       strip-indent: 3.0.0
 
-  eslint-plugin-vitest@0.5.4(@typescript-eslint/eslint-plugin@8.6.0(@typescript-eslint/parser@8.6.0(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2)(vitest@2.1.1(@types/node@20.16.5)):
+  eslint-plugin-vitest@0.5.4(eslint@8.57.1)(typescript@5.6.2)(vitest@2.1.1(@types/node@20.16.5)):
     dependencies:
       '@typescript-eslint/utils': 7.18.0(eslint@8.57.1)(typescript@5.6.2)
       eslint: 8.57.1
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.6.0(@typescript-eslint/parser@8.6.0(eslint@8.57.1)(typescript@5.6.2))(eslint@8.57.1)(typescript@5.6.2)
       vitest: 2.1.1(@types/node@20.16.5)
     transitivePeerDependencies:
       - supports-color
