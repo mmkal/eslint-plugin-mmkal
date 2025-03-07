@@ -214,6 +214,8 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/no-await-expression-member': 'off',
     'unicorn/explicit-length-check': 'off', // why should i
     'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
+    'unicorn/prefer-ternary': 'off', // teraries are sometimes better, sometimes worse. linter does not know best.
+    'unicorn/no-null': 'off', // get real m8 nulls are a thing
 
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
@@ -233,7 +235,6 @@ const externalPluginRuleOverrides: ConfigLike = {
       },
     ],
     'unicorn/no-fn-reference-in-iterator': 'off',
-    'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/no-useless-undefined': 'off',
     'unicorn/no-array-for-each': 'off',
