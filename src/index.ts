@@ -216,6 +216,7 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
     'unicorn/prefer-ternary': 'off', // teraries are sometimes better, sometimes worse. linter does not know best.
     'unicorn/no-null': 'off', // get real m8 nulls are a thing
+    'unicorn/no-push-push': 'off', // depends what makes it more readable
 
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
