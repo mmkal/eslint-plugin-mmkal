@@ -217,7 +217,13 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/prefer-ternary': 'off', // teraries are sometimes better, sometimes worse. linter does not know best.
     'unicorn/no-null': 'off', // get real m8 nulls are a thing
     'unicorn/no-push-push': 'off', // depends what makes it more readable
+    'unicorn/prefer-switch': 'off', // wut
 
+    '@typescript-eslint/no-namespace': 'off',
+    'unicorn/prefer-event-target': 'off', // why
+    'no-unsued-vars': 'off', // covered by typescript
+    // 'unicorn/prefer-string-replace-all': 'off', // maybe this one is ok, makes the intention a bit clearer, don't disable for now
+    'unicorn/prefer-at': 'off', // not always better
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     // 'react/no-unescaped-entities': ['error', {forbid: ['>', '}']}],
@@ -346,6 +352,83 @@ const configsRecord = (() => {
       flatify('@rushstack/security', rushSecurity as {} as import('eslint').ESLint.Plugin),
       {rules: {'@#rushstack/security/no-unsafe-regex': 'warn'}},
     ],
+    oneAnyToRuleThemAll: (() => {
+      const ruleNames = [
+        'no-explicit-any',
+        'no-unsafe-assignment',
+        'no-unsafe-call',
+        'no-unsafe-member-access',
+        'no-unsafe-argument',
+        'no-unsafe-return',
+        'no-unsafe-function-type',
+        'no-unsafe-member-access',
+      ]
+      const rules = ruleNames.map(ruleName => {
+        const rule = tseslint.plugin.rules![ruleName] as import('eslint').Rule.RuleModule
+        if (!rule)
+          throw new Error(
+            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslint.plugin.rules!).join(' '),
+          )
+        return {
+          ruleName,
+          rule,
+        }
+      })
+      return [
+        {
+          plugins: {
+            mmkal: {
+              rules: {
+                'no-any': {
+                  meta: {
+                    messages: Object.fromEntries(
+                      rules.flatMap(rule => {
+                        const messages = Object.entries(rule.rule.meta?.messages || {})
+                        return messages.map(([key, message]) => [key, `${rule.ruleName}: ${message}`])
+                      }),
+                    ),
+                    hasSuggestions: true,
+                  },
+                  create: context => {
+                    const rulesInfo = rules.map(rule => {
+                      // eslint-disable-next-line mmkal/no-any
+                      const created = (rule.rule.create as Function)(context) as import('eslint').Rule.RuleListener
+                      return {...rule, created}
+                    })
+
+                    const keysToRules = {} as Record<string, typeof rulesInfo>
+                    for (const rule of rulesInfo) {
+                      for (const key of Object.keys(rule.created)) {
+                        keysToRules[key] = keysToRules[key] ?? []
+                        keysToRules[key].push(rule)
+                      }
+                    }
+
+                    return Object.fromEntries(
+                      Object.entries(keysToRules).map(([key, rulesForKey]) => {
+                        const listener = (...args: [never, never, never]) => {
+                          for (const ruleInfo of rulesForKey) {
+                            // console.log('ruleInfo', key, ruleInfo)
+                            ruleInfo.created[key]!(...args)
+                          }
+                        }
+                        return [key, listener] as [string, import('eslint').Rule.RuleListener[string]]
+                      }),
+                    )
+                  },
+                } satisfies import('eslint').Rule.RuleModule,
+              },
+            },
+          },
+        },
+        {
+          rules: {
+            'mmkal/no-any': 'error',
+            ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
+          },
+        },
+      ]
+    })(),
     packlets: [
       {
         plugins: {
@@ -537,6 +620,10 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
   ...configs.codegenSpecialFiles,
+]
+
+export const crazyConfigs: ConfigLike[] = [
+  ...configs.oneAnyToRuleThemAll, // replaces the various no-any/no-unsafe-* rules with a single mmkal/no-any
 ]
 
 export const jsxStyleConfigs: ConfigLike[] = [
