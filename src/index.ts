@@ -9,10 +9,8 @@ import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
 import promise from 'eslint-plugin-promise'
 import reactRecommended from 'eslint-plugin-react/configs/recommended'
-import reactHooks from 'eslint-plugin-react-hooks'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
-import {readFileSync, writeFileSync} from 'fs'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import {
@@ -24,6 +22,9 @@ import {
   typescriptGlobs,
 } from './globs'
 import {prettierrc} from './prettierrc'
+import {getShimmedReactHooks} from './shim-react-hooks'
+
+const reactHooks = getShimmedReactHooks()
 
 const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
   const omitted = new Set(keys)
@@ -376,52 +377,11 @@ const configsRecord = (() => {
         }
       })
 
-      const reactHooksPluginPath = require.resolve(
-        'eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js',
-      )
-      const reactHooksPluginCode = readFileSync(reactHooksPluginPath, 'utf8')
-      const exports = {} as typeof reactHooks // this needs to be in scope for the eval below - it will set exports.rules = ... as a side effect
-
-      const insertAfter = `function getDependency(node) {`
-      const parts = reactHooksPluginCode.split(insertAfter)
-      if (parts.length !== 2) {
-        throw new Error(
-          `Can't shim react-hooks plugin. Code at ${reactHooksPluginPath} expected to contain the following line exactly once:\n${insertAfter}`,
-        )
-      }
-
-      const newReactHooksPluginCode =
-        parts[0] +
-        insertAfter +
-        `
-          // BEGIN HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it by saying the dependency for 'foo.mutate' is 'foo.mutate' rather than 'foo' (techincally this could cause problems if 'foo.mutate()' relied on this-binding, but react-query doesn't)
-          if ((node.parent.type === 'MemberExpression' || node.parent.type === 'OptionalMemberExpression') && node.parent.object === node && node.parent.property.name !== 'current' && !node.parent.computed && node.parent.property.name === 'mutate') {
-            return getDependency(node.parent)
-          }
-          // END HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it
-  
-        ` +
-        parts[1]
-
-      if (process.env.DEBUG_REACT_HOOKS_HACK) {
-        const changedPath = reactHooksPluginPath + '.changed.js'
-        writeFileSync(changedPath, newReactHooksPluginCode)
-        // eslint-disable-next-line no-console
-        console.log('Wrote changed react-hooks plugin to', changedPath)
-      }
-
-      eval(newReactHooksPluginCode) // this sets to exports.rules = ... as a side effect 😬
-
-      if (!exports.rules?.['exhaustive-deps']) {
-        throw new Error(`Failed to shim react-hooks plugin. Exports: ${JSON.stringify(Object.keys(exports))}`)
-      }
-
       return [
         {
           plugins: {
             mmkal: {
               rules: {
-                'exhaustive-deps': exports.rules['exhaustive-deps'],
                 'no-any': {
                   meta: {
                     messages: Object.fromEntries(
@@ -467,8 +427,6 @@ const configsRecord = (() => {
         {
           rules: {
             'mmkal/no-any': 'error',
-            'mmkal/exhaustive-deps': 'error',
-            'react-hooks/exhaustive-deps': 'off',
             ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
           },
         },
