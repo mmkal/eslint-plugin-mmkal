@@ -374,11 +374,68 @@ const configsRecord = (() => {
           rule,
         }
       })
+      const reactHooksExhaustiveDeps = reactHooks.rules?.['exhaustive-deps'] as import('eslint').Rule.RuleModule
       return [
         {
           plugins: {
             mmkal: {
               rules: {
+                'exhaustive-deps': {
+                  ...reactHooksExhaustiveDeps,
+                  create: _context => {
+                    type Node = {type: string; parent: Node}
+                    const context = _context as typeof _context & {getSource: (node: Node) => string}
+
+                    const getSourceCalls = new Map<number, Node>()
+                    const getSourceShim = (node: Node) => {
+                      const id = getSourceCalls.size
+                      getSourceCalls.set(id, node)
+                      return `${context.getSource(node)}[getSource_nodeId=${id}]`
+                    }
+                    const reportShim = (obj: Parameters<typeof context.report>[0]) => {
+                      const message = 'message' in obj ? `${obj?.message}` : ''
+                      if (message?.includes('getSource_nodeId=') && message.includes('has a missing dependency')) {
+                        const sourceNodeId = Number(message.split('getSource_nodeId=')[1].split(']')[0])
+                        const reactiveHook = getSourceCalls.get(sourceNodeId)
+                        const hookSource = reactiveHook?.parent ? context.getSource(reactiveHook?.parent) : ''
+                        const missingDependencyName = message
+                          .split('has a missing dependency')[1]
+                          .split(/\W/)
+                          .find(Boolean)!
+
+                        if (missingDependencyName && /^\w+$/.test(missingDependencyName)) {
+                          const dotMutate = new RegExp(`\\b${missingDependencyName}\\.mutate\\b`)
+                          // const suggestionDescription =
+                          //   obj.suggest?.[0] && 'desc' in obj.suggest[0] ? obj.suggest[0].desc : ''
+                          // const listWithoutSuggestion = suggestionDescription
+                          //   .split('to be: ')[1]
+                          //   .replace(new RegExp(`\\b${missingDependencyName},`), '')
+                          if (dotMutate.test(hookSource)) {
+                            // console.log({listWithoutSuggestion})
+                            return
+                          }
+                        }
+
+                        context.report({
+                          ...obj,
+                          message: message.replace(/\[getSource_nodeId=\d+]/, ''),
+                        })
+                      }
+                    }
+                    const shimmedContext = new Proxy<typeof context>({} as typeof context, {
+                      get(target, prop, receiver) {
+                        if (prop === 'getSource') {
+                          return getSourceShim
+                        }
+                        if (prop === 'report') {
+                          return reportShim
+                        }
+                        return Reflect.get(context, prop, receiver) as {}
+                      },
+                    })
+                    return reactHooksExhaustiveDeps.create(shimmedContext)
+                  },
+                },
                 'no-any': {
                   meta: {
                     messages: Object.fromEntries(
@@ -424,6 +481,8 @@ const configsRecord = (() => {
         {
           rules: {
             'mmkal/no-any': 'error',
+            'mmkal/exhaustive-deps': 'error',
+            'react-hooks/exhaustive-deps': 'off',
             ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
           },
         },
