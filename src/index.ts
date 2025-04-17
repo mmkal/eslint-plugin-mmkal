@@ -375,79 +375,45 @@ const configsRecord = (() => {
           rule,
         }
       })
-      const reactHooksExhaustiveDeps = reactHooks.rules?.['exhaustive-deps'] as import('eslint').Rule.RuleModule
-      const originalRule = reactHooksExhaustiveDeps
 
       const reactHooksPluginPath = require.resolve(
         'eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js',
       )
       const reactHooksPluginCode = readFileSync(reactHooksPluginPath, 'utf8')
-      const exports = {} as typeof reactHooks
+      const exports = {} as typeof reactHooks // this needs to be in scope for the eval below - it will set exports.rules = ... as a side effect
 
-      if (Math.random() > 1) {
-        const insertBefore = `if (callee.type === 'MemberExpression' && callee.object.name === 'React' && callee.property != null && !callee.computed) {`
-        const insertBeforeIndex = reactHooksPluginCode.indexOf(insertBefore)
-        if (insertBeforeIndex === -1) {
-          throw new Error(
-            `Can't shim react-hooks plugin. Code at ${reactHooksPluginPath} doesn't contain the expected line:\n${insertBefore}`,
-          )
-        }
-
-        const newReactHooksPluginCode =
-          reactHooksPluginCode.slice(0, insertBeforeIndex) +
-          `
-            // BEGIN HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it by pretending 'foo.bar.useMutation()' is stable
-            if (callee.type === 'MemberExpression' && callee.property.type === 'Identifier' && callee.property.name === 'useMutation') {
-              callee = callee.property;
-            }
-            // END HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it
-  
-          ` +
-          reactHooksPluginCode.slice(insertBeforeIndex)
-
-        writeFileSync(reactHooksPluginPath + '.changed.js', newReactHooksPluginCode)
-        console.log('Wrote changed react-hooks plugin to', reactHooksPluginPath + '.changed.js')
-
-        console.log('exports before', exports)
-        eval(newReactHooksPluginCode) // this sets to exports.abc = ... as a side effect 😬
-
-        console.log('exports', exports)
+      const insertAfter = `function getDependency(node) {`
+      const parts = reactHooksPluginCode.split(insertAfter)
+      if (parts.length !== 2) {
+        throw new Error(
+          `Can't shim react-hooks plugin. Code at ${reactHooksPluginPath} expected to contain the following line exactly once:\n${insertAfter}`,
+        )
       }
 
-      if (Math.random()) {
-        const insertAfter = `function getDependency(node) {`
-        const parts = reactHooksPluginCode.split(insertAfter)
-        if (parts.length !== 2) {
-          throw new Error(
-            `Can't shim react-hooks plugin. Code at ${reactHooksPluginPath} expected to contain the following line exactly once:\n${insertAfter}`,
-          )
-        }
-
-        const newReactHooksPluginCode =
-          parts[0] +
-          insertAfter +
-          `
-            // BEGIN HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it by pretending 'foo.bar.useMutation()' is stable
-            if ((node.parent.type === 'MemberExpression' || node.parent.type === 'OptionalMemberExpression') && node.parent.object === node && node.parent.property.name !== 'current' && !node.parent.computed && node.parent.property.name === 'mutate') {
-              return getDependency(node.parent)
-            }
-            // END HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it
+      const newReactHooksPluginCode =
+        parts[0] +
+        insertAfter +
+        `
+          // BEGIN HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it by saying the dependency for 'foo.mutate' is 'foo.mutate' rather than 'foo' (techincally this could cause problems if 'foo.mutate()' relied on this-binding, but react-query doesn't)
+          if ((node.parent.type === 'MemberExpression' || node.parent.type === 'OptionalMemberExpression') && node.parent.object === node && node.parent.property.name !== 'current' && !node.parent.computed && node.parent.property.name === 'mutate') {
+            return getDependency(node.parent)
+          }
+          // END HACK HACK HACK - react-hooks plugin is annoying about useMutation, this shims it
   
-          ` +
-          parts[1]
+        ` +
+        parts[1]
 
-        if (process.env.DEBUG_REACT_HOOKS_HACK) {
-          writeFileSync(reactHooksPluginPath + '.changed.js', newReactHooksPluginCode)
-          // eslint-disable-next-line no-console
-          console.log('Wrote changed react-hooks plugin to', reactHooksPluginPath + '.changed.js')
-        }
+      if (process.env.DEBUG_REACT_HOOKS_HACK) {
+        const changedPath = reactHooksPluginPath + '.changed.js'
+        writeFileSync(changedPath, newReactHooksPluginCode)
+        // eslint-disable-next-line no-console
+        console.log('Wrote changed react-hooks plugin to', changedPath)
+      }
 
-        eval(newReactHooksPluginCode) // this sets to exports.abc = ... as a side effect 😬
+      eval(newReactHooksPluginCode) // this sets to exports.rules = ... as a side effect 😬
 
-        if (!exports.rules?.['exhaustive-deps']) {
-          throw new Error(`Failed to shim react-hooks plugin. Exports: ${JSON.stringify(Object.keys(exports))}`)
-        }
-        console.log('exports', exports)
+      if (!exports.rules?.['exhaustive-deps']) {
+        throw new Error(`Failed to shim react-hooks plugin. Exports: ${JSON.stringify(Object.keys(exports))}`)
       }
 
       return [
@@ -455,162 +421,7 @@ const configsRecord = (() => {
           plugins: {
             mmkal: {
               rules: {
-                exhaustive2: exports.rules!['exhaustive-deps'],
-                // exhaustive2: {
-                //   ...originalRule,
-                //   create(context) {
-                //     return originalRule.create(context)
-                //     // console.log(reactHooks)
-                //     // console.log(originalRule.create.toString())
-
-                //     let copied!: typeof originalRule.create
-                //     eval('copied = ' + originalRule.create.toString()) as typeof originalRule.create
-                //     try {
-                //       return copied(context)
-                //     } catch (err) {
-                //       console.error(err)
-                //       throw err
-                //     }
-                //     type Node = {type: string; parent: Node}
-                //     function traverse(node: Node, change: (n: Node) => Node) {
-                //       // Call the callback for this node
-                //       node = change(node)
-
-                //       const replacement = {} as Record<string, unknown>
-
-                //       // Recursively traverse child nodes
-                //       for (const key of Object.keys(node)) {
-                //         if (key === 'parent') continue // Skip parent references to avoid cycles
-
-                //         const child = node[key as keyof Node] as Node | Node[] | string | number | null | undefined
-
-                //         if (child && typeof child === 'object') {
-                //           if (Array.isArray(child)) {
-                //             replacement[key] = child.map(item => {
-                //               if (item && typeof item === 'object' && item.type) {
-                //                 return traverse(item, change)
-                //               }
-                //               return item
-                //             })
-                //           } else if (child.type) {
-                //             // Handle single node
-                //             replacement[key] = traverse(child, change)
-                //           }
-                //         } else {
-                //           replacement[key] = child
-                //         }
-                //       }
-                //       return replacement as Node
-                //     }
-                //     const originalVisitor = originalRule.create(context)
-
-                //     // Wrap the original CallExpression visitor
-                //     const originalCallExpression = originalVisitor.CallExpression
-                //     if (false)
-                //       originalVisitor.CallExpression = function (node) {
-                //         // Traverse the AST to find and transform mutate calls
-                //         try {
-                //           console.log('og node', node, Object.keys(node))
-                //           const changedNode = traverse(node, (node: any) => {
-                //             if (
-                //               node.type === 'CallExpression' &&
-                //               node.callee.type === 'MemberExpression' &&
-                //               node.callee.property.type === 'Identifier' &&
-                //               node.callee.property.name === 'mutate'
-                //             ) {
-                //               // Create a transformed node
-                //               return {
-                //                 ...node,
-                //                 callee: {
-                //                   type: 'Identifier',
-                //                   name: `${node.callee.object.name}_mutate`,
-                //                   range: node.callee.range,
-                //                   loc: node.callee.loc,
-                //                 },
-                //               } as Node
-                //             }
-                //             return node
-                //           })
-                //           console.log('changed node', changedNode)
-                //           return void originalCallExpression(changedNode)
-                //         } catch (err) {
-                //           console.error(err)
-                //           throw err
-                //         }
-                //       }
-
-                //     return originalVisitor
-                //   },
-                // },
-                'exhaustive-deps': {
-                  ...reactHooksExhaustiveDeps,
-                  create: _context => {
-                    type Node = {type: string; parent: Node}
-                    const context = _context as typeof _context & {getSource: (node: Node) => string}
-
-                    const getSourceCalls = new Map<number, Node>()
-                    const getSourceShim = (node: Node) => {
-                      const id = getSourceCalls.size
-                      getSourceCalls.set(id, node)
-                      return `${context.getSource(node)}[getSource_nodeId=${id}]`
-                    }
-                    const reportShim = (obj: Parameters<typeof context.report>[0]) => {
-                      let message = 'message' in obj ? `${obj?.message}` : ''
-                      if (message?.includes('getSource_nodeId=') && message.includes('has a missing dependency')) {
-                        const sourceNodeId = Number(message.split('getSource_nodeId=')[1].split(']')[0])
-                        message = message.replace(/\[getSource_nodeId=\d+]/, '')
-                        const reactiveHook = getSourceCalls.get(sourceNodeId)
-                        const hookSource = reactiveHook?.parent ? context.getSource(reactiveHook?.parent) : ''
-                        const missingDependencyName = message
-                          .split('has a missing dependency')[1]
-                          .split(/\W/)
-                          .find(Boolean)!
-
-                        if (missingDependencyName && /^\w+$/.test(missingDependencyName)) {
-                          const dependencyDotSomething = new RegExp(`\\b${missingDependencyName}\\.(\\w+)\\b`, 'g')
-                          const suggestionDescription =
-                            obj.suggest?.[0] && 'desc' in obj.suggest[0] ? obj.suggest[0].desc : ''
-                          const listWithoutSuggestion = suggestionDescription
-                            .split('to be: ')[1]
-                            .replace(new RegExp(`\\b${missingDependencyName},`), '')
-                          const dependencyDotSomethingMatches = Array.from(
-                            hookSource.replaceAll(/\s+\./g, '.').matchAll(dependencyDotSomething),
-                          )
-
-                          const seemsToBeUsedButNotInDepsList = dependencyDotSomethingMatches.flatMap(([something]) => {
-                            return listWithoutSuggestion.includes(something) ? [] : [something]
-                          })
-                          const atLeastOneMutateUsage = dependencyDotSomethingMatches.some(([something]) => {
-                            return something.endsWith('.mutate')
-                          })
-                          if (seemsToBeUsedButNotInDepsList.length === 0 && atLeastOneMutateUsage) {
-                            return
-                          }
-
-                          context.report({
-                            ...obj,
-                            message: `${message} (prop(s) used but not in deps list: ${seemsToBeUsedButNotInDepsList.join(', ')})`,
-                          })
-                          return
-                        }
-
-                        context.report({...obj, message})
-                      }
-                    }
-                    const shimmedContext = new Proxy<typeof context>({} as typeof context, {
-                      get(target, prop, receiver) {
-                        if (prop === 'getSource') {
-                          return getSourceShim
-                        }
-                        if (prop === 'report') {
-                          return reportShim
-                        }
-                        return Reflect.get(context, prop, receiver) as {}
-                      },
-                    })
-                    return reactHooksExhaustiveDeps.create(shimmedContext)
-                  },
-                },
+                'exhaustive-deps': exports.rules['exhaustive-deps'],
                 'no-any': {
                   meta: {
                     messages: Object.fromEntries(
@@ -657,7 +468,6 @@ const configsRecord = (() => {
           rules: {
             'mmkal/no-any': 'error',
             'mmkal/exhaustive-deps': 'error',
-            'mmkal/exhaustive2': 'error',
             'react-hooks/exhaustive-deps': 'off',
             ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
           },
