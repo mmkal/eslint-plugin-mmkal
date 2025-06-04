@@ -35,7 +35,7 @@ export const getShimmedReactHooks = () => {
     parts[1]
 
   if (process.env.DEBUG_REACT_HOOKS_HACK) {
-    // to debug this code-shimming, write the code to a file so we can look at it using eyeballs
+    // to debug this code-shimming, write the code to a file so we can look at it with our eyeballs
     const changedPath = reactHooksPluginPath + '.changed.js'
     fs.writeFileSync(changedPath, newReactHooksPluginCode)
     // eslint-disable-next-line no-console
@@ -47,6 +47,50 @@ export const getShimmedReactHooks = () => {
   if (!exports.rules?.['exhaustive-deps']) {
     throw new Error(`Failed to shim react-hooks plugin. Exports: ${JSON.stringify(Object.keys(exports))}`)
   }
+
+  // make rules-of-hooks understand trpc.foo.useQuery() calls
+  exports.rules['rules-of-hooks'] = {
+    create: (context, ...args) => {
+      const rule = exports.rules['rules-of-hooks'] as import('eslint').Rule.RuleModule
+      const original = rule.create(context, ...args)
+      return Object.fromEntries(
+        Object.keys(original).map(k => {
+          if (k === 'CallExpression') {
+            // HACK: Just for this listener of this rule, pretend CallExpressions like trpc.foo.useQuery() look like Trpc.useQuery() because rules-of-hooks considers that a hook 🤷
+            // This should just be made configurable in eslint-plugin-react-hooks, but no movement on the issue for this: https://github.com/facebook/react/issues/25065. For now this works.
+            return [
+              k,
+              (node: import('eslint').Rule.Node) => {
+                if (!('callee' in node))
+                  throw new Error(`Expected node to have a callee property, but got ${JSON.stringify(node.type)}`)
+                const calleeProxy = new Proxy(node.callee, {
+                  get(calleeTarget, calleeProp, calleeReceiver) {
+                    if (calleeProp === 'object') {
+                      return {type: 'Identifier', name: 'Trpc'}
+                    }
+
+                    return Reflect.get(calleeTarget, calleeProp, calleeReceiver) as {}
+                  },
+                })
+                const nodeProxy = new Proxy(node, {
+                  get(target, prop, receiver) {
+                    if (prop === 'callee') {
+                      return calleeProxy
+                    }
+
+                    return Reflect.get(target, prop, receiver) as {}
+                  },
+                })
+
+                return original[k]?.(nodeProxy)
+              },
+            ]
+          }
+          return [k, original[k]]
+        }),
+      )
+    },
+  } satisfies import('eslint').Rule.RuleModule
 
   return exports as typeof import('eslint-plugin-react-hooks')
 }
