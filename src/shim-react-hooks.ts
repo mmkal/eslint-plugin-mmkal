@@ -9,7 +9,9 @@ export const getShimmedReactHooks = () => {
 
   const reactHooksPluginPath = require.resolve('eslint-plugin-react-hooks/cjs/eslint-plugin-react-hooks.development.js')
   const reactHooksPluginCode = fs.readFileSync(reactHooksPluginPath, 'utf8')
-  const exports = {} // this needs to be in scope for the eval below - it will set exports.rules = ... as a side effect
+
+  // !!! avert your eyes - eval hack below !!!
+  const exports = {} as {rules: Record<string, unknown>} // this needs to be in scope for the eval below - it will set exports.rules = ... as a side effect
 
   const insertAfter = `function getDependency(node) {`
   const parts = reactHooksPluginCode.split(insertAfter)
@@ -33,6 +35,7 @@ export const getShimmedReactHooks = () => {
     parts[1]
 
   if (process.env.DEBUG_REACT_HOOKS_HACK) {
+    // to debug this code-shimming, write the code to a file so we can look at it using eyeballs
     const changedPath = reactHooksPluginPath + '.changed.js'
     fs.writeFileSync(changedPath, newReactHooksPluginCode)
     // eslint-disable-next-line no-console
@@ -41,7 +44,6 @@ export const getShimmedReactHooks = () => {
 
   eval(newReactHooksPluginCode) // this sets to exports.rules = ... as a side effect 😬
 
-  // @ts-expect-error exports has type {}
   if (!exports.rules?.['exhaustive-deps']) {
     throw new Error(`Failed to shim react-hooks plugin. Exports: ${JSON.stringify(Object.keys(exports))}`)
   }

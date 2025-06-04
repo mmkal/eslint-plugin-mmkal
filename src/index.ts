@@ -425,6 +425,7 @@ const configsRecord = (() => {
           },
         },
         {
+          files: typescriptGlobs,
           rules: {
             'mmkal/no-any': 'error',
             ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
