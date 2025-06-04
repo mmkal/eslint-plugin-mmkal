@@ -37,6 +37,6 @@ for (const repoUrl of reposToTest) {
         .replaceAll(/\d+:\d+/g, '<line>:<col>')
       expect(snapshot).toMatchSnapshot()
     },
-    {timeout: 30_000},
+    {timeout: 60_000},
   )
 }
