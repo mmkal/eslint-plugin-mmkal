@@ -49,12 +49,12 @@ export const getShimmedReactHooks = () => {
   }
 
   // make rules-of-hooks understand trpc.foo.useQuery() calls
+  const originalRule = exports.rules['rules-of-hooks'] as import('eslint').Rule.RuleModule
   exports.rules['rules-of-hooks'] = {
     create: (context, ...args) => {
-      const rule = exports.rules['rules-of-hooks'] as import('eslint').Rule.RuleModule
-      const original = rule.create(context, ...args)
+      const originalRuleListener = originalRule.create(context, ...args)
       return Object.fromEntries(
-        Object.keys(original).map(k => {
+        Object.keys(originalRuleListener).map(k => {
           if (k === 'CallExpression') {
             // HACK: Just for this listener of this rule, pretend CallExpressions like trpc.foo.useQuery() look like Trpc.useQuery() because rules-of-hooks considers that a hook 🤷
             // This should just be made configurable in eslint-plugin-react-hooks, but no movement on the issue for this: https://github.com/facebook/react/issues/25065. For now this works.
@@ -82,11 +82,11 @@ export const getShimmedReactHooks = () => {
                   },
                 })
 
-                return original[k]?.(nodeProxy)
+                return originalRuleListener[k]?.(nodeProxy)
               },
             ]
           }
-          return [k, original[k]]
+          return [k, originalRuleListener[k]]
         }),
       )
     },
