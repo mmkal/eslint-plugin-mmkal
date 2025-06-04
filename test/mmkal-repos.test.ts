@@ -9,18 +9,18 @@ const reposToTest = [
 
 const ts = Date.now().toString()
 
-for (const repo of reposToTest) {
+for (const repoUrl of reposToTest) {
   test(
-    `lint ${repo}`,
+    `lint ${repoUrl}`,
     async () => {
       const {execa} = await import('execa')
       await execa('pnpm', ['build'])
       const tmp = path.join(`/tmp/eslint-plugin-mmkal-testing`, ts)
       fs.mkdirSync(tmp, {recursive: true})
-      await execa('git', ['clone', repo], {cwd: tmp})
-      const [cloneName, ...otherFiles] = fs.readdirSync(tmp).filter(f => f === repo.split('/').pop())
-      const clone = path.join(tmp, cloneName)
-      expect(otherFiles).toEqual([])
+      await execa('git', ['clone', repoUrl], {cwd: tmp})
+      const repoName = repoUrl.split('/').pop()!
+      const clone = path.join(tmp, repoName)
+      expect(fs.existsSync(clone)).toBe(true)
       await execa('pnpm', ['install'], {cwd: clone})
       await execa(path.join(process.cwd(), 'node_modules', '.bin', 'link'), [process.cwd()], {cwd: clone})
       const {all: lint} = await execa('pnpm', ['eslint', '.', '--fix', '--max-warnings', '0'], {
@@ -30,6 +30,7 @@ for (const repo of reposToTest) {
       })
 
       const snapshot = lint
+        .replaceAll(new RegExp(`${repoName}@\\S+`, 'g'), `${repoName}@<version>`)
         .replaceAll(tmp, '<dir>')
         .replaceAll('/private<dir>/', '<dir>/')
         .replaceAll(ts, '<timestamp>')
