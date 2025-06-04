@@ -4,6 +4,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "jsx": "react-jsx",
     "lib": [
       "es2017",
       "DOM"
