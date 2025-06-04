@@ -22,7 +22,7 @@ for (const repoUrl of reposToTest) {
       const clone = path.join(tmp, repoName)
       expect(fs.existsSync(clone)).toBe(true)
       await execa('pnpm', ['install'], {cwd: clone})
-      await execa(path.join(process.cwd(), 'node_modules', '.bin', 'link'), [process.cwd()], {cwd: clone})
+      await execa(path.join(process.cwd(), 'node_modules/.bin/link'), [process.cwd()], {cwd: clone})
       const {all: lint} = await execa('pnpm', ['eslint', '.', '--fix', '--max-warnings', '0'], {
         all: true,
         cwd: clone,
