@@ -3,7 +3,7 @@ require('tsx/cjs')
 const library = require('./src')
 
 module.exports = [
-  ...library.recommendedFlatConfigs,
+  ...library.recommendedReactConfigs,
   ...library.crazyConfigs, // experimental stuff
 ]
 
