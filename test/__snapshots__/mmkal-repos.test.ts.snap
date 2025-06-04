@@ -2,8 +2,8 @@
 
 exports[`lint https://github.com/mmkal/expect-type 1`] = `
 "
-> expect-type@1.1.0 eslint <dir>/expect-type
-> eslint --max-warnings 0 "." "--fix" "--max-warnings" "0"
+> expect-type@1.2.0 eslint <dir>/expect-type
+> eslint --max-warnings 0 . --fix --max-warnings 0
 
 
 <dir>/expect-type/src/branding.ts
@@ -17,6 +17,9 @@ Prefer explicitly defining any function parameters and return type  @typescript-
 <dir>/expect-type/src/utils.ts
   <line>:<col>  error  'secret' is assigned a value but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
 
+<dir>/expect-type/test/deprecations.test.ts
+  <line>:<col>  warning  Use default import for module \`node:path\`  unicorn/import-style
+
 <dir>/expect-type/test/ts-output.ts
   <line>:<col>  warning  Use default import for module \`node:path\`  unicorn/import-style
 
@@ -29,7 +32,7 @@ Prefer explicitly defining any function parameters and return type  @typescript-
   <line>:<col>  error  'B' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
   <line>:<col>  error  'C' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
 
-✖ 9 problems (8 errors, 1 warning)
+✖ 10 problems (8 errors, 2 warnings)
 
  ELIFECYCLE  Command failed with exit code 1."
 `;
