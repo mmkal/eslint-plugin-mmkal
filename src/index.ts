@@ -15,6 +15,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import {
   ANTFU_GLOB_EXCLUDE,
+  cliIgnoreGlobs,
   codegenFileGlobs,
   codegenProcessedGlobs,
   nonProdGlobs,
@@ -326,6 +327,10 @@ const ignoreCommonNonSourceFiles: ConfigLike = {
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
+const ignoreDebugFilesButNotInIDE: ConfigLike = {
+  ignores: process.env?.VSCODE_CWD ? [] : cliIgnoreGlobs,
+}
+
 const prettierrcConfig: ConfigLike = {
   rules: {
     'prettier/prettier': ['warn', prettierrc],
@@ -562,6 +567,7 @@ const configsRecord = (() => {
     fullTypescriptConfig,
     nonProdTypescript: [nonProdTypescript],
     ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
+    ignoreDebugFilesButNotInIDE: [ignoreDebugFilesButNotInIDE],
     codegenSpecialFiles,
   } satisfies Record<string, ConfigLike[]>
 
@@ -623,6 +629,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettierPreset,
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
+  ...configs.ignoreDebugFilesButNotInIDE,
   ...configs.codegenSpecialFiles,
 ]
 
