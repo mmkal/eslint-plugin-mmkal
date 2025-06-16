@@ -171,7 +171,8 @@ const externalPluginRuleOverrides: ConfigLike = {
       },
     ],
 
-    'prefer-arrow-callback': 'error',
+    'prefer-arrow-callback': 'off', // usually prefer, but nbd and sometimes nice to give a name to a middleware or some such
+
     'prefer-const': ['error', {destructuring: 'all'}],
     'no-console': 'warn',
     'no-var': 'error',
