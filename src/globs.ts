@@ -47,3 +47,4 @@ export const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts
 
 /** globs that should be linted in an IDE, but not via CLI */
 export const cliIgnoreGlobs = ['*ignoreme*']
+export const eslintIgnoreGlobs = ['*eslintignoreme*']

@@ -18,6 +18,7 @@ import {
   cliIgnoreGlobs,
   codegenFileGlobs,
   codegenProcessedGlobs,
+  eslintIgnoreGlobs,
   nonProdGlobs,
   sourceCodeGlobs,
   typescriptGlobs,
@@ -327,8 +328,9 @@ const ignoreCommonNonSourceFiles: ConfigLike = {
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
+/** i like to add `*ignoreme*` to .gitignore - and I like those files to be linted when I'm looking at them, but not when I'm running `pnpm eslint .` */
 const ignoreDebugFilesButNotInIDE: ConfigLike = {
-  ignores: process.env?.VSCODE_CWD ? [] : cliIgnoreGlobs,
+  ignores: process.env?.VSCODE_CWD ? eslintIgnoreGlobs : [...cliIgnoreGlobs, ...eslintIgnoreGlobs],
 }
 
 const prettierrcConfig: ConfigLike = {
