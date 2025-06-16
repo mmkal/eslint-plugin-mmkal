@@ -36,6 +36,9 @@ const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K
 /** Re-export of the `Preset` type from `eslint-plugin-codegen`. Useful for adding types to custom codegen functions */
 export type CodegenPreset<T extends object = object> = codegen.Preset<T>
 
+/** Re-export of the `DefinePreset` type from `eslint-plugin-codegen`. Useful for defining custom codegen presets with input validation via arktype */
+export type CodegenDefinePreset = codegen.DefinePreset
+
 export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
 export type NamedConfigLike = ConfigLike & {name: string}
