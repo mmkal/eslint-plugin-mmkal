@@ -15,8 +15,10 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 import {
   ANTFU_GLOB_EXCLUDE,
+  cliIgnoreGlobs,
   codegenFileGlobs,
   codegenProcessedGlobs,
+  eslintIgnoreGlobs,
   nonProdGlobs,
   sourceCodeGlobs,
   typescriptGlobs,
@@ -326,6 +328,11 @@ const ignoreCommonNonSourceFiles: ConfigLike = {
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
+/** i like to add `*ignoreme*` to .gitignore - and I like those files to be linted when I'm looking at them, but not when I'm running `pnpm eslint .` */
+const ignoreDebugFilesButNotInIDE: ConfigLike = {
+  ignores: process.env?.VSCODE_CWD ? eslintIgnoreGlobs : [...cliIgnoreGlobs, ...eslintIgnoreGlobs],
+}
+
 const prettierrcConfig: ConfigLike = {
   rules: {
     'prettier/prettier': ['warn', prettierrc],
@@ -562,6 +569,7 @@ const configsRecord = (() => {
     fullTypescriptConfig,
     nonProdTypescript: [nonProdTypescript],
     ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
+    ignoreDebugFilesButNotInIDE: [ignoreDebugFilesButNotInIDE],
     codegenSpecialFiles,
   } satisfies Record<string, ConfigLike[]>
 
@@ -623,6 +631,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettierPreset,
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
+  ...configs.ignoreDebugFilesButNotInIDE,
   ...configs.codegenSpecialFiles,
 ]
 
