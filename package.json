@@ -44,7 +44,7 @@
     "@eslint/js": "^9.0.0",
     "@next/eslint-plugin-next": "^15.0.0",
     "@rushstack/eslint-config": "^4.0.0",
-    "@rushstack/eslint-plugin": "^0.18.0",
+    "@rushstack/eslint-plugin": "^0.19.0",
     "@rushstack/eslint-plugin-packlets": "^0.8.1",
     "@rushstack/eslint-plugin-security": "^0.10.0",
     "@types/eslint": "^8.44.7",
