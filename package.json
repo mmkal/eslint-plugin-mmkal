@@ -37,7 +37,7 @@
     "np": "^10.0.7",
     "pkg-pr-new": "^0.0.54",
     "tsx": "^4.7.1",
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "vitest": "^3.0.0"
   },
   "dependencies": {
