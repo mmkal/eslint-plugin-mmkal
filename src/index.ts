@@ -377,10 +377,11 @@ const configsRecord = (() => {
         'no-unsafe-member-access',
       ]
       const rules = ruleNames.map(ruleName => {
-        const rule = tseslint.plugin.rules![ruleName] as import('eslint').Rule.RuleModule
+        const tseslintRules = (tseslint.plugin as {} as {rules: Record<string, import('eslint').Rule.RuleModule>}).rules
+        const rule = tseslintRules[ruleName]
         if (!rule)
           throw new Error(
-            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslint.plugin.rules!).join(' '),
+            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslintRules).join(' '),
           )
         return {
           ruleName,
@@ -444,53 +445,53 @@ const configsRecord = (() => {
         },
       ]
     })(),
-    packlets: [
-      {
-        plugins: {
-          '@rushstack/packlets': {
-            ...packlets,
-            rules: {
-              ...Object.fromEntries(
-                Object.entries(packlets.rules as {}).map(([name, _rule]) => {
-                  const rule = _rule as import('eslint').Rule.RuleModule
-                  const create: import('eslint').Rule.RuleModule['create'] = context => {
-                    try {
-                      return rule.create(context)
-                    } catch (err: unknown) {
-                      // todo[@rushstack/eslint-plugin-packlets@>0.8.1]: hopefully we can remove this. Right now, packlets throws an error if *any* files don't have parser services.
-                      // Change the runtime error into a lint warning so we can avoid it by just not running the rule on those files. No point crashing the whole of eslint.
-                      const parserServicesError = /You have used a rule which requires parserServices to be generated./
-                      if (parserServicesError.test(String(err))) {
-                        return {
-                          Program: node => {
-                            const messages = [
-                              `This rule requires parser services, so can't be run on ${context.filename}.`,
-                              `Try disabling this rule for this file, or fix the parser services error.`,
-                              `Error: ${err as string}`,
-                            ]
-                            context.report({node, message: messages.join(' ')})
-                          },
-                        }
-                      }
-                      throw err
-                    }
-                  }
+    // packlets: [
+    //   {
+    //     plugins: {
+    //       '@rushstack/packlets': {
+    //         ...packlets,
+    //         rules: {
+    //           ...Object.fromEntries(
+    //             Object.entries(packlets.rules as {}).map(([name, _rule]) => {
+    //               const rule = _rule as import('eslint').Rule.RuleModule
+    //               const create: import('eslint').Rule.RuleModule['create'] = context => {
+    //                 try {
+    //                   return rule.create(context)
+    //                 } catch (err: unknown) {
+    //                   // todo[@rushstack/eslint-plugin-packlets@>0.8.1]: hopefully we can remove this. Right now, packlets throws an error if *any* files don't have parser services.
+    //                   // Change the runtime error into a lint warning so we can avoid it by just not running the rule on those files. No point crashing the whole of eslint.
+    //                   const parserServicesError = /You have used a rule which requires parserServices to be generated./
+    //                   if (parserServicesError.test(String(err))) {
+    //                     return {
+    //                       Program: node => {
+    //                         const messages = [
+    //                           `This rule requires parser services, so can't be run on ${context.filename}.`,
+    //                           `Try disabling this rule for this file, or fix the parser services error.`,
+    //                           `Error: ${err as string}`,
+    //                         ]
+    //                         context.report({node, message: messages.join(' ')})
+    //                       },
+    //                     }
+    //                   }
+    //                   throw err
+    //                 }
+    //               }
 
-                  return [name, {...rule, create}]
-                }),
-              ),
-            },
-          },
-        },
-      },
-      {
-        files: sourceCodeGlobs,
-        rules: {
-          '@rushstack/packlets/mechanics': 'off', //'warn',
-          '@rushstack/packlets/circular-deps': 'off', // 'warn',
-        },
-      },
-    ],
+    //               return [name, {...rule, create}]
+    //             }),
+    //           ),
+    //         },
+    //       },
+    //     },
+    //   },
+    //   {
+    //     files: sourceCodeGlobs,
+    //     rules: {
+    //       '@rushstack/packlets/mechanics': 'off', //'warn',
+    //       '@rushstack/packlets/circular-deps': 'off', // 'warn',
+    //     },
+    //   },
+    // ],
     unicorn: [
       {
         ...flatify('unicorn', unicorn),
@@ -619,7 +620,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.eslintRecommended,
   ...configs.codegen,
   ...configs.unicorn,
-  ...configs.packlets,
+  // ...configs.packlets,
   ...configs['import_x'].map(cfg => ({
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
