@@ -431,6 +431,48 @@ const configsRecord = (() => {
                     )
                   },
                 } satisfies import('eslint').Rule.RuleModule,
+                /**
+                 * Banning non-null asssertions would make sense if typescript and all the types we use were perfect.
+                 * But there are lots of resaons that types are just wrong, and a non-null assertion is sometimes OK
+                 * if you are sure you know better than the compiler. This encourages you to use `!!!` instead of the
+                 * insanely verbose `// eslint-disable-next-line mmkal/@typescript-eslint/no-non-null-assertions`.
+                 * Rationale: `!!!` still stands out and is clearly deliberate, but it's easy to type and grok.
+                 */
+                'bang-bang-bang': (() => {
+                  const parentDef = tseslint.plugin.rules!['no-non-null-assertion'] as import('eslint').Rule.RuleModule
+                  /** @type {import('eslint-plugin-wrapper').Plugin['rules'][string]} */
+                  return {
+                    ...parentDef,
+                    meta: {
+                      ...parentDef.meta,
+                      messages: {
+                        ...parentDef.meta?.messages,
+                        noNonNull: `Use "!!!" instead of a single non-null assertion, if you want to avoid a noisy lint suppression.`,
+                      },
+                    },
+                    create(context) {
+                      const parentRule = parentDef.create(context)
+                      /* eslint-disable mmkal/no-any */
+                      const isNNE = (node: any) => node && node.type === 'TSNonNullExpression'
+
+                      return {
+                        TSNonNullExpression(node: any) {
+                          if (isNNE(node.expression) && isNNE(node.expression.expression)) {
+                            return // !!!, permitted
+                          }
+
+                          if (isNNE(node.parent)) {
+                            return // probably the child of a !!!, rely on parent for linting
+                          }
+
+                          // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+                          return void (parentRule.TSNonNullExpression as Function)(node)
+                        },
+                      }
+                      /* eslint-enable mmkal/no-any */
+                    },
+                  }
+                })(),
               },
             },
           },
