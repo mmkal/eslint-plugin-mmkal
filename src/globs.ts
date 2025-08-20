@@ -46,5 +46,5 @@ export const codegenFileGlobs = ['*.md', '*.mdx', '*.yml', '*.yaml']
 export const codegenProcessedGlobs = codegenFileGlobs.map(f => `**/${f}/*.{js,ts,jsx,tsx,cjs,mjs,cts,mts}`)
 
 /** globs that should be linted in an IDE, but not via CLI */
-export const cliIgnoreGlobs = ['*ignoreme*']
+export const cliIgnoreGlobs = ['*ignoreme*', '**/*ignoreme*']
 export const eslintIgnoreGlobs = ['*eslintignoreme*']
