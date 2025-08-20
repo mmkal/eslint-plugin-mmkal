@@ -2,7 +2,7 @@
 
 exports[`lint https://github.com/mmkal/expect-type 1`] = `
 "
-> expect-type@1.2.0 eslint <dir>/expect-type
+> expect-type@<version> eslint <dir>/expect-type
 > eslint --max-warnings 0 . --fix --max-warnings 0
 
 
@@ -37,17 +37,4 @@ Prefer explicitly defining any function parameters and return type  @typescript-
  ELIFECYCLE  Command failed with exit code 1."
 `;
 
-exports[`lint https://github.com/mmkal/trpc-cli 1`] = `
-"
-<dir>/trpc-cli/src/index.ts
-  <line>:<col>  error  The \`Function\` type accepts any function-like value.
-Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
-  <line>:<col>  error  Expected an error object to be thrown                                                                                    @typescript-eslint/only-throw-error
-
-<dir>/trpc-cli/src/util.ts
-  <line>:<col>  error  The \`Function\` type accepts any function-like value.
-Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
-
-✖ 3 problems (3 errors, 0 warnings)
-"
-`;
+exports[`lint https://github.com/mmkal/trpc-cli 1`] = `""`;

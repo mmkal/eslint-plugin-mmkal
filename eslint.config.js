@@ -3,7 +3,10 @@ import 'tsx/esm'
 import * as library from './src/index.ts'
 
 const getDefaultExport = () => {
-  let exp = library.recommendedFlatConfigs
+  let exp = [
+    ...library.recommendedFlatConfigs,
+    ...library.crazyConfigs, // experimental stuff
+  ]
 
   if (process.env.ALT_CONFIG in library) {
     exp = library[process.env.ALT_CONFIG]

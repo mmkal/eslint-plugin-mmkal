@@ -7,7 +7,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
 import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
 import promise from 'eslint-plugin-promise'
-import reactHooks from 'eslint-plugin-react-hooks'
+import reactRecommended from 'eslint-plugin-react/configs/recommended'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
@@ -15,18 +15,18 @@ import module from 'node:module'
 import tseslint from 'typescript-eslint'
 import {
   ANTFU_GLOB_EXCLUDE,
+  cliIgnoreGlobs,
   codegenFileGlobs,
   codegenProcessedGlobs,
+  eslintIgnoreGlobs,
   nonProdGlobs,
   sourceCodeGlobs,
   typescriptGlobs,
-} from './globs.ts'
-import {prettierrc} from './prettierrc.ts'
+} from './globs'
+import {prettierrc} from './prettierrc'
+import {getShimmedReactHooks} from './shim-react-hooks'
 
-const require = module.createRequire(import.meta.url)
-// import reactRecommended from 'eslint-plugin-react/configs/recommended'
-const reactRecommended = require('eslint-plugin-react/configs/recommended') as ConfigLike
-const packlets = require('@rushstack/eslint-plugin-packlets') as import('eslint').ESLint.Plugin
+const reactHooks = getShimmedReactHooks()
 
 const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
   const omitted = new Set(keys)
@@ -35,6 +35,9 @@ const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K
 
 /** Re-export of the `Preset` type from `eslint-plugin-codegen`. Useful for adding types to custom codegen functions */
 export type CodegenPreset<T extends object = object> = codegen.Preset<T>
+
+/** Re-export of the `DefinePreset` type from `eslint-plugin-codegen`. Useful for defining custom codegen presets with input validation via arktype */
+export type CodegenDefinePreset = codegen.DefinePreset
 
 export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
@@ -168,7 +171,8 @@ const externalPluginRuleOverrides: ConfigLike = {
       },
     ],
 
-    'prefer-arrow-callback': 'error',
+    'prefer-arrow-callback': 'off', // usually prefer, but nbd and sometimes nice to give a name to a middleware or some such
+
     'prefer-const': ['error', {destructuring: 'all'}],
     'no-console': 'warn',
     'no-var': 'error',
@@ -218,7 +222,16 @@ const externalPluginRuleOverrides: ConfigLike = {
     'unicorn/no-await-expression-member': 'off',
     'unicorn/explicit-length-check': 'off', // why should i
     'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
+    'unicorn/prefer-ternary': 'off', // teraries are sometimes better, sometimes worse. linter does not know best.
+    'unicorn/no-null': 'off', // get real m8 nulls are a thing
+    'unicorn/no-push-push': 'off', // depends what makes it more readable
+    'unicorn/prefer-switch': 'off', // wut
 
+    '@typescript-eslint/no-namespace': 'off',
+    'unicorn/prefer-event-target': 'off', // why
+    'no-unsued-vars': 'off', // covered by typescript
+    // 'unicorn/prefer-string-replace-all': 'off', // maybe this one is ok, makes the intention a bit clearer, don't disable for now
+    'unicorn/prefer-at': 'off', // not always better
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     // 'react/no-unescaped-entities': ['error', {forbid: ['>', '}']}],
@@ -237,7 +250,6 @@ const externalPluginRuleOverrides: ConfigLike = {
       },
     ],
     'unicorn/no-fn-reference-in-iterator': 'off',
-    'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/no-useless-undefined': 'off',
     'unicorn/no-array-for-each': 'off',
@@ -320,6 +332,11 @@ const ignoreCommonNonSourceFiles: ConfigLike = {
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
+/** i like to add `*ignoreme*` to .gitignore - and I like those files to be linted when I'm looking at them, but not when I'm running `pnpm eslint .` */
+const ignoreDebugFilesButNotInIDE: ConfigLike = {
+  ignores: process.env?.VSCODE_CWD ? eslintIgnoreGlobs : [...cliIgnoreGlobs, ...eslintIgnoreGlobs],
+}
+
 const prettierrcConfig: ConfigLike = {
   rules: {
     'prettier/prettier': ['warn', prettierrc],
@@ -348,6 +365,85 @@ const configsRecord = (() => {
       flatify('@rushstack/security', rushSecurity as {} as import('eslint').ESLint.Plugin),
       {rules: {'@#rushstack/security/no-unsafe-regex': 'warn'}},
     ],
+    oneAnyToRuleThemAll: (() => {
+      const ruleNames = [
+        'no-explicit-any',
+        'no-unsafe-assignment',
+        'no-unsafe-call',
+        'no-unsafe-member-access',
+        'no-unsafe-argument',
+        'no-unsafe-return',
+        'no-unsafe-function-type',
+        'no-unsafe-member-access',
+      ]
+      const rules = ruleNames.map(ruleName => {
+        const rule = tseslint.plugin.rules![ruleName] as import('eslint').Rule.RuleModule
+        if (!rule)
+          throw new Error(
+            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslint.plugin.rules!).join(' '),
+          )
+        return {
+          ruleName,
+          rule,
+        }
+      })
+
+      return [
+        {
+          plugins: {
+            mmkal: {
+              rules: {
+                'no-any': {
+                  meta: {
+                    messages: Object.fromEntries(
+                      rules.flatMap(rule => {
+                        const messages = Object.entries(rule.rule.meta?.messages || {})
+                        return messages.map(([key, message]) => [key, `${rule.ruleName}: ${message}`])
+                      }),
+                    ),
+                    hasSuggestions: true,
+                  },
+                  create: context => {
+                    const rulesInfo = rules.map(rule => {
+                      // eslint-disable-next-line mmkal/no-any
+                      const created = (rule.rule.create as Function)(context) as import('eslint').Rule.RuleListener
+                      return {...rule, created}
+                    })
+
+                    const keysToRules = {} as Record<string, typeof rulesInfo>
+                    for (const rule of rulesInfo) {
+                      for (const key of Object.keys(rule.created)) {
+                        keysToRules[key] = keysToRules[key] ?? []
+                        keysToRules[key].push(rule)
+                      }
+                    }
+
+                    return Object.fromEntries(
+                      Object.entries(keysToRules).map(([key, rulesForKey]) => {
+                        const listener = (...args: [never, never, never]) => {
+                          for (const ruleInfo of rulesForKey) {
+                            // console.log('ruleInfo', key, ruleInfo)
+                            ruleInfo.created[key]!(...args)
+                          }
+                        }
+                        return [key, listener] as [string, import('eslint').Rule.RuleListener[string]]
+                      }),
+                    )
+                  },
+                } satisfies import('eslint').Rule.RuleModule,
+              },
+            },
+          },
+        },
+        {
+          files: typescriptGlobs,
+          rules: {
+            'mmkal/no-any': 'error',
+            ...Object.fromEntries(ruleNames.map(ruleName => [`@typescript-eslint/${ruleName}`, 'off'])),
+          },
+        },
+      ]
+    })(),
     packlets: [
       {
         plugins: {
@@ -477,6 +573,7 @@ const configsRecord = (() => {
     fullTypescriptConfig,
     nonProdTypescript: [nonProdTypescript],
     ignoreCommonNonSourceFiles: [ignoreCommonNonSourceFiles],
+    ignoreDebugFilesButNotInIDE: [ignoreDebugFilesButNotInIDE],
     codegenSpecialFiles,
   } satisfies Record<string, ConfigLike[]>
 
@@ -538,7 +635,12 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.prettierPreset,
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
+  ...configs.ignoreDebugFilesButNotInIDE,
   ...configs.codegenSpecialFiles,
+]
+
+export const crazyConfigs: ConfigLike[] = [
+  ...configs.oneAnyToRuleThemAll, // replaces the various no-any/no-unsafe-* rules with a single mmkal/no-any
 ]
 
 export const jsxStyleConfigs: ConfigLike[] = [

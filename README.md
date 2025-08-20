@@ -32,8 +32,11 @@ The following plugins/libraries are usable and should "just work" without needin
 
 1. prettier
 1. typescript-eslint
+   1. with opinionated disables
+   1. with a super-rule `no-any` which merges all `no-unsafe-*` rules
 1. embedded js/ts in markdown
 1. eslint-plugin-codegen
+   1. `CodegenPreset` export for getting types
 1. eslint-plugin-unicorn
 1. eslint-plugin-import
 1. eslint-plugin-vitest
@@ -41,12 +44,13 @@ The following plugins/libraries are usable and should "just work" without needin
 1. @rushstack/eslint-plugin-packlets
 1. eslint-plugin-react
 1. eslint-plugin-react-hooks
+   1. with some shims to work with trpc and react-query better
 1. @next/eslint-plugin-next
 1. eslint-plugin-jsx-a11y
 
 There's some effort to make sure the rules only aplly to relevant files, but of course there are many different possible projedt setups. 
 
-Not enabled currently but may be soon:
+Not enabled currently but may be one day:
 
 1. eslint-plugin-functional
 
