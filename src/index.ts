@@ -12,6 +12,7 @@ import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import {inspect} from 'util'
 import {
   ANTFU_GLOB_EXCLUDE,
   cliIgnoreGlobs,
@@ -328,11 +329,13 @@ const nonProdTypescript: ConfigLike = {
 }
 
 const ignoreCommonNonSourceFiles: ConfigLike = {
+  name: 'ignoreCommonNonSourceFiles',
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
 /** i like to add `*ignoreme*` to .gitignore - and I like those files to be linted when I'm looking at them, but not when I'm running `pnpm eslint .` */
 const ignoreDebugFilesButNotInIDE: ConfigLike = {
+  name: 'ignoreDebugFilesButNotInIDE',
   ignores: process.env?.VSCODE_CWD ? eslintIgnoreGlobs : [...cliIgnoreGlobs, ...eslintIgnoreGlobs],
 }
 
@@ -486,7 +489,7 @@ const configsRecord = (() => {
     jsxA11y: [flatify('jsx-a11y', jsxA11y)],
     next: [flatify('@next/next', next)],
     promiseRecommended: [stripConfig(promise.configs!.recommended as ConfigLike)],
-    reactRecommended: [reactRecommended],
+    reactRecommended: [reactRecommended as never],
     reactHooksRecommended: [stripConfig(reactHooks.configs!.recommended as ConfigLike)],
     jsxA11yRecommended: [stripConfig(jsxA11y.configs!.recommended as ConfigLike)],
     nextRecommended: [stripConfig(next.configs!.recommended as ConfigLike)],
@@ -575,6 +578,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.unicorn,
   // ...configs.packlets,
   ...configs['import_x'].map(cfg => ({
+    name: cfg.name,
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
   ...configs.promise,
@@ -599,6 +603,7 @@ export const crazyConfigs: ConfigLike[] = [
 
 export const jsxStyleConfigs: ConfigLike[] = [
   {
+    name: 'jsxStyleConfigs',
     files: ['**/*.jsx', '**/*.tsx'],
     ignores: codegenProcessedGlobs,
     rules: {
@@ -615,12 +620,11 @@ export const recommendedReactConfigs = [
   ...configs.jsxA11y,
   ...configs.reactHooksRecommended,
   ...configs.jsxA11yRecommended,
-  {settings: {react: {version: '18'}}},
+  {name: 'reactVersion', settings: {react: {version: '18'}}},
   ...jsxStyleConfigs,
   {
-    rules: {
-      'react/prop-types': 'off', // prop-types are soo 2015
-    },
+    name: 'reactPropTypesAreSoo2015',
+    rules: {'react/prop-types': 'off'},
   },
 ]
 
@@ -639,14 +643,13 @@ const validate = (flatConfigs: NamedConfigLike[]) => {
     arrayPlugins: (cfg: ConfigLike) => Array.isArray(cfg.plugins),
     usesEnv: usesProp('env'),
     usesOverrides: usesProp('overrides'),
-    // todo[eslint@>=8]: remove this on eslint 9. `ignores` as the only key means a global ignore, and eslint 9 is smart enought to ignore `name`, but eslint 8 isn't.
-    namedGlobalIgnore: (cfg: ConfigLike) => Object.keys(cfg).sort().join(',') === 'ignores,name',
+    unnamedConfig: (cfg: ConfigLike) => !cfg.name,
   }
 
   const errors = flatConfigs.flatMap(cfg => {
     return Object.entries(rules).flatMap(([rule, fn]) => {
       const bad = fn(cfg)
-      return bad ? [`config ${cfg.name} violates rule ${rule}`] : []
+      return bad ? [`config ${cfg.name || inspect(cfg)} violates rule ${rule}`] : []
     })
   })
 
