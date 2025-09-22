@@ -12,6 +12,7 @@ const ts = Date.now().toString()
 for (const repoUrl of reposToTest) {
   test(
     `lint ${repoUrl}`,
+    {timeout: 60_000},
     async () => {
       const {execa} = await import('execa')
       await execa('pnpm', ['build'])
@@ -23,7 +24,7 @@ for (const repoUrl of reposToTest) {
       expect(fs.existsSync(clone)).toBe(true)
       await execa('pnpm', ['install'], {cwd: clone})
       await execa(path.join(process.cwd(), 'node_modules/.bin/link'), [process.cwd()], {cwd: clone})
-      const {all: lint} = await execa('pnpm', ['eslint', '.', '--fix', '--max-warnings', '0'], {
+      const {all: lint} = await execa(path.join(process.cwd(), 'node_modules/.bin/eslint'), ['.', '--fix', '--max-warnings', '0'], {
         all: true,
         cwd: clone,
         reject: false,
@@ -35,8 +36,11 @@ for (const repoUrl of reposToTest) {
         .replaceAll('/private<dir>/', '<dir>/')
         .replaceAll(ts, '<timestamp>')
         .replaceAll(/\d+:\d+/g, '<line>:<col>')
-      expect(snapshot).toMatchSnapshot()
+      try {
+        expect(snapshot).toMatchSnapshot()
+      } catch (error) {
+        console.error(`\n\nFailed to match snapshot for ${repoUrl}\n\n${snapshot}\n\n`)
+      }
     },
-    {timeout: 60_000},
   )
 }
