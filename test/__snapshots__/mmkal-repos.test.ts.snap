@@ -2,10 +2,6 @@
 
 exports[`lint https://github.com/mmkal/expect-type 1`] = `
 "
-> expect-type@<version> eslint <dir>/expect-type
-> eslint --max-warnings 0 . --fix --max-warnings 0
-
-
 <dir>/expect-type/src/branding.ts
   <line>:<col>  error  The \`Function\` type accepts any function-like value.
 Prefer explicitly defining any function parameters and return type  @typescript-eslint/no-unsafe-function-type
@@ -33,8 +29,22 @@ Prefer explicitly defining any function parameters and return type  @typescript-
   <line>:<col>  error  'C' is defined but only used as a type. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
 
 ✖ 10 problems (8 errors, 2 warnings)
-
- ELIFECYCLE  Command failed with exit code 1."
+"
 `;
 
-exports[`lint https://github.com/mmkal/trpc-cli 1`] = `""`;
+exports[`lint https://github.com/mmkal/trpc-cli 1`] = `
+"
+<dir>/trpc-cli/src/index.ts
+  <line>:<col>  error  Use \`Array#toSorted()\` instead of \`Array#sort()\`  unicorn/no-array-sort
+  <line>:<col>   error  Use \`Array#toSorted()\` instead of \`Array#sort()\`  unicorn/no-array-sort
+
+<dir>/trpc-cli/src/json-schema.ts
+  <line>:<col>  error  Use \`Array#toSorted()\` instead of \`Array#sort()\`  unicorn/no-array-sort
+  <line>:<col>   error  Use \`Array#toSorted()\` instead of \`Array#sort()\`  unicorn/no-array-sort
+
+<dir>/trpc-cli/src/standard-schema/errors.ts
+  <line>:<col>  error  Use \`Array#toSorted()\` instead of \`Array#sort()\`  unicorn/no-array-sort
+
+✖ 5 problems (5 errors, 0 warnings)
+"
+`;

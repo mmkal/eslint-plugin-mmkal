@@ -1,4 +1,7 @@
 import * as fs from 'fs'
+import {createRequire} from 'module'
+
+const require = createRequire(import.meta.url)
 
 /**
  * see https://github.com/facebook/react/issues/27160#issuecomment-2813423512

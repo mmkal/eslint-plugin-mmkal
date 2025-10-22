@@ -8,8 +8,11 @@
       "es2017",
       "DOM"
     ],
+    "allowArbitraryExtensions": true,
+    "rewriteRelativeImportExtensions": true,
     "target": "ES2022",
-    "module": "NodeNext",
+    "module": "Preserve",
+    "moduleResolution": "bundler",
     "strict": true,
     "noErrorTruncation": true,
     "esModuleInterop": true

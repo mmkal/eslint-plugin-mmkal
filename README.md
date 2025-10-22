@@ -41,7 +41,7 @@ The following plugins/libraries are usable and should "just work" without needin
 1. eslint-plugin-import
 1. eslint-plugin-vitest
 1. eslint-plugin-promise
-1. @rushstack/eslint-plugin-packlets
+1. ~@rushstack/eslint-plugin-packlets~ - packlets plugin not working since eslint v9 🤷
 1. eslint-plugin-react
 1. eslint-plugin-react-hooks
    1. with some shims to work with trpc and react-query better
