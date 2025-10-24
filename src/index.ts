@@ -1,18 +1,18 @@
 import eslint from '@eslint/js'
 import next from '@next/eslint-plugin-next'
-import * as packlets from '@rushstack/eslint-plugin-packlets'
 import * as rushSecurity from '@rushstack/eslint-plugin-security'
 import * as codegen from 'eslint-plugin-codegen'
 import * as importX from 'eslint-plugin-import-x'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import prettier from 'eslint-plugin-prettier'
-import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
+// import prettierRecommended from 'eslint-plugin-prettier/recommended' // disables rules that conflict with prettier
 import promise from 'eslint-plugin-promise'
-import reactRecommended from 'eslint-plugin-react/configs/recommended'
+import reactPlugin from 'eslint-plugin-react'
 import unicorn from 'eslint-plugin-unicorn'
 import vitest from 'eslint-plugin-vitest'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+import {inspect} from 'util'
 import {
   ANTFU_GLOB_EXCLUDE,
   cliIgnoreGlobs,
@@ -20,12 +20,12 @@ import {
   codegenProcessedGlobs,
   eslintIgnoreGlobs,
   nonProdGlobs,
-  sourceCodeGlobs,
   typescriptGlobs,
-} from './globs'
-import {prettierrc} from './prettierrc'
-import {getShimmedReactHooks} from './shim-react-hooks'
+} from './globs.ts'
+import {prettierrc} from './prettierrc.ts'
+import {getShimmedReactHooks} from './shim-react-hooks.ts'
 
+const reactRecommended = reactPlugin.configs!.recommended
 const reactHooks = getShimmedReactHooks()
 
 const omit = <T extends object, K extends keyof T | PropertyKey>(obj: T, keys: K[]) => {
@@ -329,11 +329,13 @@ const nonProdTypescript: ConfigLike = {
 }
 
 const ignoreCommonNonSourceFiles: ConfigLike = {
+  name: 'ignoreCommonNonSourceFiles',
   ignores: ANTFU_GLOB_EXCLUDE,
 }
 
 /** i like to add `*ignoreme*` to .gitignore - and I like those files to be linted when I'm looking at them, but not when I'm running `pnpm eslint .` */
 const ignoreDebugFilesButNotInIDE: ConfigLike = {
+  name: 'ignoreDebugFilesButNotInIDE',
   ignores: process.env?.VSCODE_CWD ? eslintIgnoreGlobs : [...cliIgnoreGlobs, ...eslintIgnoreGlobs],
 }
 
@@ -360,7 +362,7 @@ const globalsConfigs = Object.fromEntries(
 const configsRecord = (() => {
   const record = {
     ...globalsConfigs,
-    codegen: [flatify('codegen', codegen)],
+    codegen: [flatify('codegen', codegen as {})],
     rushSecurity: [
       flatify('@rushstack/security', rushSecurity as {} as import('eslint').ESLint.Plugin),
       {rules: {'@#rushstack/security/no-unsafe-regex': 'warn'}},
@@ -377,10 +379,11 @@ const configsRecord = (() => {
         'no-unsafe-member-access',
       ]
       const rules = ruleNames.map(ruleName => {
-        const rule = tseslint.plugin.rules![ruleName] as import('eslint').Rule.RuleModule
+        const tseslintPlugin = tseslint.plugin as import('eslint').ESLint.Plugin
+        const rule = tseslintPlugin.rules![ruleName] as import('eslint').Rule.RuleModule
         if (!rule)
           throw new Error(
-            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslint.plugin.rules!).join(' '),
+            `Rule ${ruleName} not found. Available rules: ` + Object.keys(tseslintPlugin.rules!).join(' '),
           )
         return {
           ruleName,
@@ -444,53 +447,7 @@ const configsRecord = (() => {
         },
       ]
     })(),
-    packlets: [
-      {
-        plugins: {
-          '@rushstack/packlets': {
-            ...packlets,
-            rules: {
-              ...Object.fromEntries(
-                Object.entries(packlets.rules).map(([name, _rule]) => {
-                  const rule = _rule as unknown as import('eslint').Rule.RuleModule
-                  const create: import('eslint').Rule.RuleModule['create'] = context => {
-                    try {
-                      return rule.create(context)
-                    } catch (err: unknown) {
-                      // todo[@rushstack/eslint-plugin-packlets@>0.8.1]: hopefully we can remove this. Right now, packlets throws an error if *any* files don't have parser services.
-                      // Change the runtime error into a lint warning so we can avoid it by just not running the rule on those files. No point crashing the whole of eslint.
-                      const parserServicesError = /You have used a rule which requires parserServices to be generated./
-                      if (parserServicesError.test(String(err))) {
-                        return {
-                          Program: node => {
-                            const messages = [
-                              `This rule requires parser services, so can't be run on ${context.filename}.`,
-                              `Try disabling this rule for this file, or fix the parser services error.`,
-                              `Error: ${err as string}`,
-                            ]
-                            context.report({node, message: messages.join(' ')})
-                          },
-                        }
-                      }
-                      throw err
-                    }
-                  }
-
-                  return [name, {...rule, create}]
-                }),
-              ),
-            },
-          },
-        },
-      },
-      {
-        files: sourceCodeGlobs,
-        rules: {
-          '@rushstack/packlets/mechanics': 'warn',
-          '@rushstack/packlets/circular-deps': 'warn',
-        },
-      },
-    ],
+    // @rushstack/eslint-plugin-packlets plugin removed for now
     unicorn: [
       {
         ...flatify('unicorn', unicorn),
@@ -532,7 +489,7 @@ const configsRecord = (() => {
     jsxA11y: [flatify('jsx-a11y', jsxA11y)],
     next: [flatify('@next/next', next)],
     promiseRecommended: [stripConfig(promise.configs!.recommended as ConfigLike)],
-    reactRecommended: [reactRecommended],
+    reactRecommended: [reactRecommended as never],
     reactHooksRecommended: [stripConfig(reactHooks.configs!.recommended as ConfigLike)],
     jsxA11yRecommended: [stripConfig(jsxA11y.configs!.recommended as ConfigLike)],
     nextRecommended: [stripConfig(next.configs!.recommended as ConfigLike)],
@@ -554,7 +511,7 @@ const configsRecord = (() => {
                       return Reflect.get(context, newProp, receiver) as {}
                     },
                   })
-                  const rule = prettier.rules!.prettier as import('eslint').Rule.RuleModule
+                  const rule = prettier.rules!.prettier as {} as import('eslint').Rule.RuleModule
                   return rule.create(shimmedContext, ...args)
                 }) as import('eslint').Rule.RuleModule['create'],
               },
@@ -563,7 +520,7 @@ const configsRecord = (() => {
         },
       },
     ],
-    prettierRecommended: [omit(prettierRecommended, ['plugins'])],
+    // prettierRecommended: [omit(prettierRecommended, ['plugins'])],
     /** my subjective preferreed prettier config */
     prettierPreset: [prettierrcConfig],
     eslintRecommended: [eslint.configs.recommended],
@@ -619,8 +576,9 @@ export const recommendedFlatConfigs: ConfigLike[] = [
   ...configs.eslintRecommended,
   ...configs.codegen,
   ...configs.unicorn,
-  ...configs.packlets,
+  // ...configs.packlets,
   ...configs['import_x'].map(cfg => ({
+    name: cfg.name,
     plugins: cfg.plugins, // various problems related to parserOptions with import recommended
   })),
   ...configs.promise,
@@ -631,7 +589,7 @@ export const recommendedFlatConfigs: ConfigLike[] = [
     ...cfg,
     files: nonProdGlobs,
   })),
-  ...configs.prettierRecommended,
+  // ...configs.prettierRecommended,
   ...configs.prettierPreset,
   ...configs.externalPluginRuleOverrides,
   ...configs.ignoreCommonNonSourceFiles,
@@ -645,6 +603,7 @@ export const crazyConfigs: ConfigLike[] = [
 
 export const jsxStyleConfigs: ConfigLike[] = [
   {
+    name: 'jsxStyleConfigs',
     files: ['**/*.jsx', '**/*.tsx'],
     ignores: codegenProcessedGlobs,
     rules: {
@@ -656,17 +615,16 @@ export const jsxStyleConfigs: ConfigLike[] = [
 export const recommendedReactConfigs = [
   ...recommendedFlatConfigs,
   ...configs.globals_react,
-  ...configs.reactRecommended,
+  // ...configs.reactRecommended,
   ...configs.reactHooks,
   ...configs.jsxA11y,
   ...configs.reactHooksRecommended,
   ...configs.jsxA11yRecommended,
-  {settings: {react: {version: '18'}}},
+  {name: 'reactVersion', settings: {react: {version: '18'}}},
   ...jsxStyleConfigs,
   {
-    rules: {
-      'react/prop-types': 'off', // prop-types are soo 2015
-    },
+    name: 'reactPropTypesAreSoo2015',
+    rules: {'react/prop-types': 'off'},
   },
 ]
 
@@ -685,14 +643,13 @@ const validate = (flatConfigs: NamedConfigLike[]) => {
     arrayPlugins: (cfg: ConfigLike) => Array.isArray(cfg.plugins),
     usesEnv: usesProp('env'),
     usesOverrides: usesProp('overrides'),
-    // todo[eslint@>=8]: remove this on eslint 9. `ignores` as the only key means a global ignore, and eslint 9 is smart enought to ignore `name`, but eslint 8 isn't.
-    namedGlobalIgnore: (cfg: ConfigLike) => Object.keys(cfg).sort().join(',') === 'ignores,name',
+    unnamedConfig: (cfg: ConfigLike) => !cfg.name,
   }
 
   const errors = flatConfigs.flatMap(cfg => {
     return Object.entries(rules).flatMap(([rule, fn]) => {
       const bad = fn(cfg)
-      return bad ? [`config ${cfg.name} violates rule ${rule}`] : []
+      return bad ? [`config ${cfg.name || inspect(cfg)} violates rule ${rule}`] : []
     })
   })
 
