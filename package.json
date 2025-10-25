@@ -33,7 +33,7 @@
     "@next/eslint-plugin-next": "^15.2.1",
     "@rushstack/eslint-config": "^4.2.0",
     "@rushstack/eslint-plugin": "^0.22.0",
-    "@rushstack/eslint-plugin-packlets": "^0.10.0",
+    "@rushstack/eslint-plugin-packlets": "^0.14.0",
     "@rushstack/eslint-plugin-security": "^0.9.0",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.21.0",
