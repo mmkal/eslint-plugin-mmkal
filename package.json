@@ -39,7 +39,7 @@
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-config-xo": "^0.49.0",
-    "eslint-config-xo-react": "^0.28.0",
+    "eslint-config-xo-react": "^0.29.0",
     "eslint-config-xo-typescript": "^9.0.0",
     "eslint-plugin-codegen": "^0.34.0",
     "eslint-plugin-functional": "^9.0.0",
