@@ -219,6 +219,8 @@ const externalPluginRuleOverrides: ConfigLike = {
       ? ['warn', {allowWarningComments: false, ignoreDatesOnPullRequests: true}]
       : 'off',
     'unicorn/consistent-destructuring': 'off',
+    'unicorn/consistent-existence-index-check': 'off',
+    'unicorn/no-array-sort': 'off', // (maybe make smarter - ignore if following a .map/.filter/.slice etc.)
     'unicorn/no-await-expression-member': 'off',
     'unicorn/explicit-length-check': 'off', // why should i
     'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
