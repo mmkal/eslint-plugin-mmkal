@@ -39,6 +39,8 @@ export type CodegenPreset<T extends object = object> = codegen.Preset<T>
 /** Re-export of the `DefinePreset` type from `eslint-plugin-codegen`. Useful for defining custom codegen presets with input validation via arktype */
 export type CodegenDefinePreset = codegen.DefinePreset
 
+export * as codegen from "eslint-plugin-codegen"
+
 export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
 export type NamedConfigLike = ConfigLike & {name: string}
@@ -219,6 +221,8 @@ const externalPluginRuleOverrides: ConfigLike = {
       ? ['warn', {allowWarningComments: false, ignoreDatesOnPullRequests: true}]
       : 'off',
     'unicorn/consistent-destructuring': 'off',
+    'unicorn/consistent-existence-index-check': 'off',
+    'unicorn/no-array-sort': 'off', // (maybe make smarter - ignore if following a .map/.filter/.slice etc.)
     'unicorn/no-await-expression-member': 'off',
     'unicorn/explicit-length-check': 'off', // why should i
     'unicorn/prefer-type-error': 'off', // sindre doesn't know when my typeof x === 'string' checks actually mean something is a type error
