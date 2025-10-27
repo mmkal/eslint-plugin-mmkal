@@ -39,6 +39,8 @@ export type CodegenPreset<T extends object = object> = codegen.Preset<T>
 /** Re-export of the `DefinePreset` type from `eslint-plugin-codegen`. Useful for defining custom codegen presets with input validation via arktype */
 export type CodegenDefinePreset = codegen.DefinePreset
 
+export * as codegen from "eslint-plugin-codegen"
+
 export type ConfigLike = import('eslint').Linter.FlatConfig
 // todo[eslint@>8.57.0]: remove - name will be built in to eslint https://github.com/eslint/eslint/issues/18231
 export type NamedConfigLike = ConfigLike & {name: string}
