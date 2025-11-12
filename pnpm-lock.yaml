@@ -16,7 +16,7 @@ importers:
         version: 16.0.1
       '@rushstack/eslint-config':
         specifier: ^4.2.0
-        version: 4.5.4(eslint@9.39.1)(typescript@5.9.3)
+        version: 4.6.1(eslint@9.39.1)(typescript@5.9.3)
       '@rushstack/eslint-plugin':
         specifier: ^0.22.0
         version: 0.22.1(eslint@9.39.1)(typescript@5.9.3)
@@ -796,11 +796,11 @@ packages:
     resolution: {integrity: sha512-f5DRIOZf7wxogefH03RjMPMdBF7ADTWUMoOs9kaJo06EfwF+aFhMZMDZxHg/Xe12hptN9xoZjGso2fdjapBRIA==}
     engines: {node: '>=10'}
 
-  '@microsoft/tsdoc-config@0.17.1':
-    resolution: {integrity: sha512-UtjIFe0C6oYgTnad4q1QP4qXwLhe6tIpNTRStJ2RZEPIkqQPREAwE5spzVxsdn9UaEMUqhh0AqSx3X4nWAKXWw==}
+  '@microsoft/tsdoc-config@0.18.0':
+    resolution: {integrity: sha512-8N/vClYyfOH+l4fLkkr9+myAoR6M7akc8ntBJ4DJdWH2b09uVfr71+LTMpNyG19fNqWDg8KEDZhx5wxuqHyGjw==}
 
-  '@microsoft/tsdoc@0.15.1':
-    resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
+  '@microsoft/tsdoc@0.16.0':
+    resolution: {integrity: sha512-xgAyonlVVS+q7Vc7qLW0UrJU7rSFcETRWsqdXZtjzRU8dF+6CkozTK4V4y1LwOX7j8r/vHphjDeMeGI4tNGeGA==}
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -1022,14 +1022,14 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rushstack/eslint-config@4.5.4':
-    resolution: {integrity: sha512-RPyaW9BPZI4fnfg+uLrYvmP2TYbVOIxWEGjJGvtbGZeMP2VWwEW4kn0OqztkDtHItphln/tMANsrwLW+pmJKyQ==}
+  '@rushstack/eslint-config@4.6.1':
+    resolution: {integrity: sha512-LysvSmBjHK8yqp9dtlafYoetNFsYEkYxsAaGYKxzclwXWpeaPgi/EYJtpReFBCsWTR12wxgCDICrDgMUjgynVg==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.25.1
       typescript: '>=4.7.0'
 
-  '@rushstack/eslint-patch@1.14.1':
-    resolution: {integrity: sha512-jGTk8UD/RdjsNZW8qq10r0RBvxL8OWtoT+kImlzPDFilmozzM+9QmIJsmze9UiSBrFU45ZxhTYBypn9q9z/VfQ==}
+  '@rushstack/eslint-patch@1.15.0':
+    resolution: {integrity: sha512-ojSshQPKwVvSMR8yT2L/QtUkV5SXi/IfDiJ4/8d6UbTPjiHVmxZzUAzGD8Tzks1b9+qQkZa0isUOvYObedITaw==}
 
   '@rushstack/eslint-plugin-packlets@0.14.0':
     resolution: {integrity: sha512-o1udsL8lPAVmNEfjUOAoBcOATVs9RpFY6D/Lv2jfQ3ZqpmuDiNb4mNdB9AkI8I/01viyrIWz/iq08p31q/EIZg==}
@@ -2149,8 +2149,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-tsdoc@0.4.0:
-    resolution: {integrity: sha512-MT/8b4aKLdDClnS8mP3R/JNjg29i0Oyqd/0ym6NnQf+gfKbJJ4ZcSh2Bs1H0YiUMTBwww5JwXGTWot/RwyJ7aQ==}
+  eslint-plugin-tsdoc@0.5.0:
+    resolution: {integrity: sha512-ush8ehCwub2rgE16OIgQPFyj/o0k3T8kL++9IrAI4knsmupNo8gvfO2ERgDHWWgTC5MglbwLVRswU93HyXqNpw==}
 
   eslint-plugin-unicorn@61.0.2:
     resolution: {integrity: sha512-zLihukvneYT7f74GNbVJXfWIiNQmkc/a9vYBTE4qPkQZswolWNdu+Wsp9sIXno1JOzdn6OUwLPd19ekXVkahRA==}
@@ -4786,14 +4786,14 @@ snapshots:
       string-argv: 0.3.2
       type-detect: 4.1.0
 
-  '@microsoft/tsdoc-config@0.17.1':
+  '@microsoft/tsdoc-config@0.18.0':
     dependencies:
-      '@microsoft/tsdoc': 0.15.1
+      '@microsoft/tsdoc': 0.16.0
       ajv: 8.12.0
       jju: 1.4.0
       resolve: 1.22.11
 
-  '@microsoft/tsdoc@0.15.1': {}
+  '@microsoft/tsdoc@0.16.0': {}
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
@@ -4987,9 +4987,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.53.0':
     optional: true
 
-  '@rushstack/eslint-config@4.5.4(eslint@9.39.1)(typescript@5.9.3)':
+  '@rushstack/eslint-config@4.6.1(eslint@9.39.1)(typescript@5.9.3)':
     dependencies:
-      '@rushstack/eslint-patch': 1.14.1
+      '@rushstack/eslint-patch': 1.15.0
       '@rushstack/eslint-plugin': 0.22.1(eslint@9.39.1)(typescript@5.9.3)
       '@rushstack/eslint-plugin-packlets': 0.14.0(eslint@9.39.1)(typescript@5.9.3)
       '@rushstack/eslint-plugin-security': 0.13.0(eslint@9.39.1)(typescript@5.9.3)
@@ -5000,12 +5000,12 @@ snapshots:
       eslint: 9.39.1
       eslint-plugin-promise: 7.2.1(eslint@9.39.1)
       eslint-plugin-react: 7.37.5(eslint@9.39.1)
-      eslint-plugin-tsdoc: 0.4.0
+      eslint-plugin-tsdoc: 0.5.0(eslint@9.39.1)(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@rushstack/eslint-patch@1.14.1': {}
+  '@rushstack/eslint-patch@1.15.0': {}
 
   '@rushstack/eslint-plugin-packlets@0.14.0(eslint@9.39.1)(typescript@5.9.3)':
     dependencies:
@@ -6345,10 +6345,15 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-tsdoc@0.4.0:
+  eslint-plugin-tsdoc@0.5.0(eslint@9.39.1)(typescript@5.9.3):
     dependencies:
-      '@microsoft/tsdoc': 0.15.1
-      '@microsoft/tsdoc-config': 0.17.1
+      '@microsoft/tsdoc': 0.16.0
+      '@microsoft/tsdoc-config': 0.18.0
+      '@typescript-eslint/utils': 8.46.4(eslint@9.39.1)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
 
   eslint-plugin-unicorn@61.0.2(eslint@9.39.1):
     dependencies:
