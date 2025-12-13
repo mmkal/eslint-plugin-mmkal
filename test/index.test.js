@@ -35,6 +35,7 @@ test('rules-of-hooks shim', async () => {
   const testfile = path.join(testdir, 'testfile.tsx')
 
   fs.mkdirSync(testdir, {recursive: true})
+
   fs.readdirSync(testdir).forEach(file => fs.unlinkSync(path.join(testdir, file)))
   fs.writeFileSync(
     testfile,
