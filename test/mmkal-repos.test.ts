@@ -32,7 +32,7 @@ for (const repoUrl of reposToTest) {
     )
 
     const snapshot = lint
-      .replaceAll(new RegExp(`${repoName}@\\S+`, 'g'), `${repoName}@<version>`)
+      .replaceAll(new RegExp(String.raw`${repoName}@\S+`, 'g'), `${repoName}@<version>`)
       .replaceAll(tmp, '<dir>')
       .replaceAll('/private<dir>/', '<dir>/')
       .replaceAll(ts, '<timestamp>')
