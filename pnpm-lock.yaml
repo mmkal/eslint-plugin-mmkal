@@ -24,8 +24,8 @@ importers:
         specifier: ^0.15.0
         version: 0.15.1(eslint@9.39.2)(typescript@5.9.3)
       '@rushstack/eslint-plugin-security':
-        specifier: ^0.13.0
-        version: 0.13.0(eslint@9.39.2)(typescript@5.9.3)
+        specifier: ^0.14.0
+        version: 0.14.1(eslint@9.39.2)(typescript@5.9.3)
       '@types/eslint':
         specifier: ^9.6.1
         version: 9.6.1
@@ -1074,11 +1074,6 @@ packages:
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
 
-  '@rushstack/eslint-plugin-security@0.13.0':
-    resolution: {integrity: sha512-0ixotA+4NSvmTN4dq8mEKInj6kYE5q6SvySbggvDPUtJWBjmTbt4bdh9thxvAqNZWoflAMdX4FV+ixJ3CEx/cQ==}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
-
   '@rushstack/eslint-plugin-security@0.14.1':
     resolution: {integrity: sha512-Dy9tuIE45Dd9Xg7P91X625gUggHDcdk3u7txqeLhezyS65tvkIY9nTKr/ORqzUbJIdjLQ3lB2gTWY4VcKegZIQ==}
     peerDependencies:
@@ -1088,9 +1083,6 @@ packages:
     resolution: {integrity: sha512-iOdzErUG4n9zVXX9Fa0RFkVml4BT1i8roSFbRb31lUyWUpYsKmjy2Z+q5TOiE1L+V7/8MdShqN3wMgrkh8SeKA==}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
-
-  '@rushstack/tree-pattern@0.3.4':
-    resolution: {integrity: sha512-9uROnkiHWsQqxW6HirXABfTRlgzhYp6tevbYIGkwKQ09VaayUBkvFvt/urDKMwlo+tGU0iQQLuVige6c48wTgw==}
 
   '@rushstack/tree-pattern@0.4.1':
     resolution: {integrity: sha512-eFuLBUWUfWQ42u5i25qO1VpTOg6nW2PXaLVwpmjm5tHpPREht0k0L2jsYht8iVvQ732odEeVnkXVcf2nIwbGxA==}
@@ -5157,15 +5149,6 @@ snapshots:
       - supports-color
       - typescript
 
-  '@rushstack/eslint-plugin-security@0.13.0(eslint@9.39.2)(typescript@5.9.3)':
-    dependencies:
-      '@rushstack/tree-pattern': 0.3.4
-      '@typescript-eslint/utils': 8.46.2(eslint@9.39.2)(typescript@5.9.3)
-      eslint: 9.39.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   '@rushstack/eslint-plugin-security@0.14.1(eslint@9.39.2)(typescript@5.9.3)':
     dependencies:
       '@rushstack/tree-pattern': 0.4.1
@@ -5183,8 +5166,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - typescript
-
-  '@rushstack/tree-pattern@0.3.4': {}
 
   '@rushstack/tree-pattern@0.4.1': {}
 
