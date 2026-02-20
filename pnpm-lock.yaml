@@ -22,7 +22,7 @@ importers:
         version: 0.23.1(eslint@9.39.2)(typescript@5.9.3)
       '@rushstack/eslint-plugin-packlets':
         specifier: ^0.15.0
-        version: 0.15.0(eslint@9.39.2)(typescript@5.9.3)
+        version: 0.15.1(eslint@9.39.2)(typescript@5.9.3)
       '@rushstack/eslint-plugin-security':
         specifier: ^0.13.0
         version: 0.13.0(eslint@9.39.2)(typescript@5.9.3)
@@ -1069,11 +1069,6 @@ packages:
   '@rushstack/eslint-patch@1.16.1':
     resolution: {integrity: sha512-TvZbIpeKqGQQ7X0zSCvPH9riMSFQFSggnfBjFZ1mEoILW+UuXCKwOoPcgjMwiUtRqFZ8jWhPJc4um14vC6I4ag==}
 
-  '@rushstack/eslint-plugin-packlets@0.15.0':
-    resolution: {integrity: sha512-E71+B3OnurEGVIpHKzhrn6ELvVV9ZDQM9M7fqg32W12ZG7StQ2XVlwtB1T7X4kksk1UQ5XtkA7u5NlP5l+ijpw==}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
-
   '@rushstack/eslint-plugin-packlets@0.15.1':
     resolution: {integrity: sha512-mr0TS5PjXJv3OE/c5RYArtm/F0+HYO8C6Vg2XVw4OzvRHXtyLuEWFPpCpAyRyioHSNMmnbmKrmKbU80CMMaSZQ==}
     peerDependencies:
@@ -1096,9 +1091,6 @@ packages:
 
   '@rushstack/tree-pattern@0.3.4':
     resolution: {integrity: sha512-9uROnkiHWsQqxW6HirXABfTRlgzhYp6tevbYIGkwKQ09VaayUBkvFvt/urDKMwlo+tGU0iQQLuVige6c48wTgw==}
-
-  '@rushstack/tree-pattern@0.4.0':
-    resolution: {integrity: sha512-2US1h3CfgIjISjPqpczyY4VKfMJfocQZAgzYRWQvKLJQ8VjB/sg/xar5/B2YvfUGa/CcMH8NgnEj9E9SxDog7Q==}
 
   '@rushstack/tree-pattern@0.4.1':
     resolution: {integrity: sha512-eFuLBUWUfWQ42u5i25qO1VpTOg6nW2PXaLVwpmjm5tHpPREht0k0L2jsYht8iVvQ732odEeVnkXVcf2nIwbGxA==}
@@ -5156,15 +5148,6 @@ snapshots:
 
   '@rushstack/eslint-patch@1.16.1': {}
 
-  '@rushstack/eslint-plugin-packlets@0.15.0(eslint@9.39.2)(typescript@5.9.3)':
-    dependencies:
-      '@rushstack/tree-pattern': 0.4.0
-      '@typescript-eslint/utils': 8.46.4(eslint@9.39.2)(typescript@5.9.3)
-      eslint: 9.39.2
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   '@rushstack/eslint-plugin-packlets@0.15.1(eslint@9.39.2)(typescript@5.9.3)':
     dependencies:
       '@rushstack/tree-pattern': 0.4.1
@@ -5202,8 +5185,6 @@ snapshots:
       - typescript
 
   '@rushstack/tree-pattern@0.3.4': {}
-
-  '@rushstack/tree-pattern@0.4.0': {}
 
   '@rushstack/tree-pattern@0.4.1': {}
 
