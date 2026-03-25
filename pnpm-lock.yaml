@@ -39,8 +39,8 @@ importers:
         specifier: ^0.51.0
         version: 0.51.0(@typescript-eslint/utils@8.57.2(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
       eslint-config-xo-react:
-        specifier: ^0.29.0
-        version: 0.29.0(eslint@9.39.4)
+        specifier: ^0.30.0
+        version: 0.30.0(eslint@9.39.4)
       eslint-config-xo-typescript:
         specifier: ^10.0.0
         version: 10.0.0(eslint@9.39.4)(typescript@5.9.3)
@@ -2310,8 +2310,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-config-xo-react@0.29.0:
-    resolution: {integrity: sha512-OiA3fnGu5tkQkcFhXV1J9ZTUr25DDVoGpBdA2dowH6rNZFDed+WtxzcoUNwQNFXqWRAjsFjuxAzw3c1iAHom0Q==}
+  eslint-config-xo-react@0.30.0:
+    resolution: {integrity: sha512-jOHxOsQmaoBTF5vp4+Eu3TaTsUAp/XWnnhfrCTtNwznmEB41WaR6G/7eezxf+8AOW5lMrafUnFvmgae3LPQ+LA==}
     engines: {node: '>=18.18'}
     peerDependencies:
       eslint: '>=9.18.0'
@@ -4554,7 +4554,7 @@ snapshots:
 
   '@babel/core@7.28.5':
     dependencies:
-      '@babel/code-frame': 7.27.1
+      '@babel/code-frame': 7.28.6
       '@babel/generator': 7.28.5
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-module-transforms': 7.28.3(@babel/core@7.28.5)
@@ -6676,7 +6676,7 @@ snapshots:
     dependencies:
       eslint: 9.39.4
 
-  eslint-config-xo-react@0.29.0(eslint@9.39.4):
+  eslint-config-xo-react@0.30.0(eslint@9.39.4):
     dependencies:
       eslint: 9.39.4
       eslint-plugin-react: 7.37.5(eslint@9.39.4)
