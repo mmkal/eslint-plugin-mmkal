@@ -42,8 +42,8 @@ importers:
         specifier: ^0.30.0
         version: 0.30.0(eslint@9.39.4)
       eslint-config-xo-typescript:
-        specifier: ^10.0.0
-        version: 10.0.0(eslint@9.39.4)(typescript@5.9.3)
+        specifier: ^11.0.0
+        version: 11.0.0(eslint@9.39.4)(typescript@5.9.3)
       eslint-plugin-codegen:
         specifier: ^0.34.1
         version: 0.34.1(eslint@9.39.4)
@@ -743,10 +743,6 @@ packages:
     resolution: {integrity: sha512-QUPblTtE51/7/Zhfv8BDwO0qkkzQL7P/aWWbqcf4xWLEYn1oKjdO0gglQBB4GAsu7u6wjijbCmzsUTy6mnk6oQ==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@eslint/css-tree@3.6.6':
-    resolution: {integrity: sha512-C3YiJMY9OZyZ/3vEMFWJIesdGaRY6DmIYvmtyxMT934CbrOKqRs+Iw7NWSRlJQEaK4dPYy2lZ2y1zkaj8z0p5A==}
-    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
-
   '@eslint/css-tree@3.6.9':
     resolution: {integrity: sha512-3D5/OHibNEGk+wKwNwMbz63NMf367EoR4mVNNpxddCHKEb2Nez7z62J2U6YjtErSsZDoY0CsccmoUpdEbkogNA==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
@@ -767,10 +763,6 @@ packages:
     resolution: {integrity: sha512-nE7DEIchvtiFTwBw4Lfbu59PG+kCofhjsKaCWzxTpt4lfRjRMqG6uMBzKXuEcyXhOHoUp9riAm7/aWYGhXZ9cw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/json@1.0.0':
-    resolution: {integrity: sha512-x0YjhxhUIG9yiS6KcB2SRmyzDM/eSac2IuhfLMyjAyxyCzH0gFjrHGPFahJlgiOt8dfaCpPDygcCmoCm9rzlyA==}
-    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
-
   '@eslint/json@1.2.0':
     resolution: {integrity: sha512-CEFEyNgvzu8zn5QwVYDg3FaG+ZKUeUsNYitFpMYJAqoAlnw68EQgNbUfheSmexZr4n0wZPrAkPLuvsLaXO6wRw==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
@@ -786,10 +778,6 @@ packages:
   '@eslint/plugin-kit@0.4.1':
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@eslint/plugin-kit@0.5.1':
-    resolution: {integrity: sha512-hZ2uC1jbf6JMSsF2ZklhRQqf6GLpYyux6DlzegnW/aFlpu6qJj5GO7ub7WOETCrEl6pl6DAX7RgTgj/fyG+6BQ==}
-    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
   '@eslint/plugin-kit@0.6.1':
     resolution: {integrity: sha512-iH1B076HoAshH1mLpHMgwdGeTs0CYwL0SPMkGuSebZrwBp16v415e9NZXg2jtrqPVQjf6IANe2Vtlr5KswtcZQ==}
@@ -2316,9 +2304,10 @@ packages:
     peerDependencies:
       eslint: '>=9.18.0'
 
-  eslint-config-xo-typescript@10.0.0:
-    resolution: {integrity: sha512-WoyK93F9WCoEv4teY+Ah6PttfS+ckRkpTeasWJ/VYD5IfONzAx9muRrn3VQXf0zUJUEPGrujz02ghgGKdpsTfw==}
+  eslint-config-xo-typescript@11.0.0:
+    resolution: {integrity: sha512-I+BzmzklViJDvXFZLI4Nw3OBuHjNGqg/RsVEk0yBmVmBrbZiS3Tn1bgmD/kCcx2xrFZap5TrfVlguVBXwpr5UQ==}
     engines: {node: '>=20.19'}
+    deprecated: The config has been merged into eslint-config-xo. Migrate to that package.
     peerDependencies:
       eslint: '>=10'
       typescript: '>=5.9.0'
@@ -4957,11 +4946,6 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
-  '@eslint/css-tree@3.6.6':
-    dependencies:
-      mdn-data: 2.23.0
-      source-map-js: 1.2.1
-
   '@eslint/css-tree@3.6.9':
     dependencies:
       mdn-data: 2.23.0
@@ -4970,7 +4954,7 @@ snapshots:
   '@eslint/css@0.14.1':
     dependencies:
       '@eslint/core': 0.17.0
-      '@eslint/css-tree': 3.6.6
+      '@eslint/css-tree': 3.6.9
       '@eslint/plugin-kit': 0.4.1
 
   '@eslint/css@1.0.0':
@@ -4995,13 +4979,6 @@ snapshots:
 
   '@eslint/js@9.39.4': {}
 
-  '@eslint/json@1.0.0':
-    dependencies:
-      '@eslint/core': 1.1.1
-      '@eslint/plugin-kit': 0.5.1
-      '@humanwhocodes/momoa': 3.3.10
-      natural-compare: 1.4.0
-
   '@eslint/json@1.2.0':
     dependencies:
       '@eslint/core': 1.1.1
@@ -5019,11 +4996,6 @@ snapshots:
   '@eslint/plugin-kit@0.4.1':
     dependencies:
       '@eslint/core': 0.17.0
-      levn: 0.4.1
-
-  '@eslint/plugin-kit@0.5.1':
-    dependencies:
-      '@eslint/core': 1.1.1
       levn: 0.4.1
 
   '@eslint/plugin-kit@0.6.1':
@@ -6684,7 +6656,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-config-xo-typescript@10.0.0(eslint@9.39.4)(typescript@5.9.3):
+  eslint-config-xo-typescript@11.0.0(eslint@9.39.4)(typescript@5.9.3):
     dependencies:
       '@stylistic/eslint-plugin': 5.10.0(eslint@9.39.4)
       eslint: 9.39.4
@@ -6697,7 +6669,7 @@ snapshots:
   eslint-config-xo@0.50.0(eslint@9.39.4):
     dependencies:
       '@eslint/css': 0.14.1
-      '@eslint/json': 1.0.0
+      '@eslint/json': 1.2.0
       '@stylistic/eslint-plugin': 5.10.0(eslint@9.39.4)
       confusing-browser-globals: 1.0.11
       eslint: 9.39.4
