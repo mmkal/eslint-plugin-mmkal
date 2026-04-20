@@ -462,7 +462,7 @@ const configsRecord = (() => {
               ...unicorn.rules,
               'filename-case': {
                 ...unicorn.rules!['filename-case'],
-                create: ((context, ...args) => {
+                create: (context, ...args) => {
                   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
                   const shimmedContext = new Proxy<typeof context>({} as typeof context, {
                     get(_target, prop, receiver) {
@@ -472,7 +472,7 @@ const configsRecord = (() => {
                   })
                   const rule = unicorn.rules!['filename-case'] as import('eslint').Rule.RuleModule
                   return rule.create(shimmedContext, ...args)
-                }) as import('eslint').Rule.RuleModule['create'],
+                },
               },
             },
           },
@@ -507,7 +507,7 @@ const configsRecord = (() => {
               // workaround prettier refusing to fix markdown files which have js snippets extracted by processors, it thinks it's smart enough to run on the whole file but it's not
               processed: {
                 ...prettier.rules!.prettier,
-                create: ((context, ...args) => {
+                create: (context, ...args) => {
                   // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
                   const shimmedContext = new Proxy<typeof context>({} as typeof context, {
                     get(_target, prop, receiver) {
@@ -517,7 +517,7 @@ const configsRecord = (() => {
                   })
                   const rule = prettier.rules!.prettier as {} as import('eslint').Rule.RuleModule
                   return rule.create(shimmedContext, ...args)
-                }) as import('eslint').Rule.RuleModule['create'],
+                },
               },
             },
           },
