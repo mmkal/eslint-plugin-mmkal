@@ -36,8 +36,8 @@ importers:
         specifier: ^10.0.2
         version: 10.1.8(eslint@9.39.4(jiti@2.7.0))
       eslint-config-xo:
-        specifier: ^0.53.0
-        version: 0.53.2(@types/eslint@9.6.1)(@typescript-eslint/utils@8.61.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(prettier@3.8.4)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
+        specifier: ^0.54.0
+        version: 0.54.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.61.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(prettier@3.8.4)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
       eslint-config-xo-react:
         specifier: ^0.30.0
         version: 0.30.1(eslint@9.39.4(jiti@2.7.0))
@@ -2656,8 +2656,8 @@ packages:
     peerDependencies:
       eslint: '>=10'
 
-  eslint-config-xo@0.53.2:
-    resolution: {integrity: sha512-Txgh9x7fIvpqgks68/Z5iZtcg32vK9IvZb1ARtc50f3bNRHXTx0T0LNwgUg7QxTUeIDcPNQJoJghpEsQBk4xsA==}
+  eslint-config-xo@0.54.0:
+    resolution: {integrity: sha512-9V3G1lAAbTG2ycfmgg/UjDUvBeEscf+wzO/bjTFpfrpA8HTN0qWNGHqWAUcmVt5udnZsahrJlak7kunoU9UFSw==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10'
@@ -2828,8 +2828,8 @@ packages:
     peerDependencies:
       eslint: '>=9.29.0'
 
-  eslint-plugin-unicorn@67.0.0:
-    resolution: {integrity: sha512-XEYhNfAFFFYQLq++53iqpgIPFqvjasf5lsUJuCdmd/QvbRfcLbmPTjcTyVEXc5yBudWIg08SSEGgqJtEojk1ug==}
+  eslint-plugin-unicorn@68.0.0:
+    resolution: {integrity: sha512-mHYWvX948Q4H3bGc39bsNMxD/leOuNI+Iws9NVsoSz5VA7EGP86wnz7mZ/SPSvRhefT8L4hd8DHfDuGC+lIoCQ==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10.4'
@@ -5187,13 +5187,13 @@ snapshots:
 
   '@babel/code-frame@7.27.1':
     dependencies:
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
   '@babel/code-frame@7.28.6':
     dependencies:
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
@@ -5299,7 +5299,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.28.5
       '@babel/helper-module-imports': 7.27.1
-      '@babel/helper-validator-identifier': 7.28.5
+      '@babel/helper-validator-identifier': 7.29.7
       '@babel/traverse': 7.28.5
     transitivePeerDependencies:
       - supports-color
@@ -6446,7 +6446,7 @@ snapshots:
   '@typescript-eslint/project-service@8.56.1(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@5.9.3)
-      '@typescript-eslint/types': 8.59.4
+      '@typescript-eslint/types': 8.61.1
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -6455,7 +6455,7 @@ snapshots:
   '@typescript-eslint/project-service@8.58.2(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.58.2(typescript@5.9.3)
-      '@typescript-eslint/types': 8.59.4
+      '@typescript-eslint/types': 8.61.1
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -6463,8 +6463,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.59.4(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.59.4(typescript@5.9.3)
-      '@typescript-eslint/types': 8.59.4
+      '@typescript-eslint/tsconfig-utils': 8.61.1(typescript@5.9.3)
+      '@typescript-eslint/types': 8.61.1
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -6588,7 +6588,7 @@ snapshots:
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.9
-      semver: 7.8.0
+      semver: 7.8.4
       ts-api-utils: 1.4.3(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
@@ -6603,7 +6603,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.56.1
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.0
+      semver: 7.8.4
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -6618,7 +6618,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.58.2
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.0
+      semver: 7.8.4
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -6633,7 +6633,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.59.4
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.0
+      semver: 7.8.4
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -7739,7 +7739,7 @@ snapshots:
       eslint: 9.39.4(jiti@2.7.0)
       globals: 17.6.0
 
-  eslint-config-xo@0.53.2(@types/eslint@9.6.1)(@typescript-eslint/utils@8.61.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(prettier@3.8.4)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3):
+  eslint-config-xo@0.54.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.61.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.4(jiti@2.7.0))(prettier@3.8.4)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.7.2(eslint@9.39.4(jiti@2.7.0))
       '@eslint/compat': 2.1.0(eslint@9.39.4(jiti@2.7.0))
@@ -7758,7 +7758,7 @@ snapshots:
       eslint-plugin-n: 18.1.0(eslint@9.39.4(jiti@2.7.0))(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
       eslint-plugin-prettier: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.4(jiti@2.7.0)))(eslint@9.39.4(jiti@2.7.0))(prettier@3.8.4)
       eslint-plugin-regexp: 3.1.0(eslint@9.39.4(jiti@2.7.0))
-      eslint-plugin-unicorn: 67.0.0(eslint@9.39.4(jiti@2.7.0))
+      eslint-plugin-unicorn: 68.0.0(eslint@9.39.4(jiti@2.7.0))
       globals: 17.6.0
       typescript-eslint: 8.61.1(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
     optionalDependencies:
@@ -8055,7 +8055,7 @@ snapshots:
       semver: 7.7.3
       strip-indent: 4.1.1
 
-  eslint-plugin-unicorn@67.0.0(eslint@9.39.4(jiti@2.7.0)):
+  eslint-plugin-unicorn@68.0.0(eslint@9.39.4(jiti@2.7.0)):
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4(jiti@2.7.0))
@@ -9039,7 +9039,7 @@ snapshots:
 
   macos-version@6.0.0:
     dependencies:
-      semver: 7.8.0
+      semver: 7.8.4
 
   magic-string@0.30.21:
     dependencies:
@@ -9707,7 +9707,7 @@ snapshots:
       ky: 1.14.3
       registry-auth-token: 5.1.1
       registry-url: 6.0.1
-      semver: 7.8.0
+      semver: 7.8.4
 
   parent-module@1.0.1:
     dependencies:
