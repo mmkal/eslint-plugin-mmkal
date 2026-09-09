@@ -19,7 +19,7 @@ importers:
         version: 4.6.5(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       '@rushstack/eslint-plugin':
         specifier: ^0.23.0
-        version: 0.23.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+        version: 0.23.4(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       '@rushstack/eslint-plugin-packlets':
         specifier: ^0.15.0
         version: 0.15.2(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
@@ -1139,6 +1139,12 @@ packages:
 
   '@rushstack/eslint-plugin@0.23.3':
     resolution: {integrity: sha512-9C3l6zN/493xbiKU4by6X31RE0DSTeQl0uwjaGmr+dCXGPaF9FIK98lNF/UlCVFCavQr/DO0wmV5fUzbuPJybQ==}
+    engines: {node: '>=20.9.0'}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+
+  '@rushstack/eslint-plugin@0.23.4':
+    resolution: {integrity: sha512-+VKbR1X8auzoAJB+zUZSWLJQWq3KW11wb9TAuZ6buzvKLfTu+gTx9NnD95ArHik+RXhWIVbkWv3NB/+MQfamVQ==}
     engines: {node: '>=20.9.0'}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -4116,8 +4122,8 @@ packages:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
 
-  postcss@8.5.26:
-    resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
+  postcss@8.5.28:
+    resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
 
   powershell-utils@0.1.0:
@@ -6014,6 +6020,15 @@ snapshots:
       - typescript
 
   '@rushstack/eslint-plugin@0.23.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)':
+    dependencies:
+      '@rushstack/tree-pattern': 0.4.1
+      '@typescript-eslint/utils': 8.56.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+      eslint: 9.39.5(jiti@2.7.0)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@rushstack/eslint-plugin@0.23.4(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
       '@rushstack/tree-pattern': 0.4.1
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
@@ -9593,7 +9608,7 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss@8.5.26:
+  postcss@8.5.28:
     dependencies:
       nanoid: 3.3.18
       picocolors: 1.1.1
@@ -10423,7 +10438,7 @@ snapshots:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.7)
       picomatch: 4.0.7
-      postcss: 8.5.26
+      postcss: 8.5.28
       rollup: 4.63.1
       tinyglobby: 0.2.17
     optionalDependencies:
