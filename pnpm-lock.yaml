@@ -22,7 +22,7 @@ importers:
         version: 0.23.5(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       '@rushstack/eslint-plugin-packlets':
         specifier: ^0.15.0
-        version: 0.15.2(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+        version: 0.15.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       '@rushstack/eslint-plugin-security':
         specifier: ^0.14.0
         version: 0.14.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
@@ -1137,6 +1137,12 @@ packages:
 
   '@rushstack/eslint-plugin-packlets@0.15.2':
     resolution: {integrity: sha512-mSW24B5Q1xGm/ANNlzZ+hPIqz8A1JCNeJwHOWOh7dcf43RxcRPqguhllE/7LhwIaly3IH43lUWFBwcamSvJzgw==}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+
+  '@rushstack/eslint-plugin-packlets@0.15.3':
+    resolution: {integrity: sha512-PtCbmas5/bkORVoyDbgwHJ+jNSUJz24esCT13nHtyHCW8LOKQ4WjTc97x53bpb/swzPncZMR44TzpvGJfOff6g==}
+    engines: {node: '>=20.9.0'}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
 
@@ -6024,6 +6030,15 @@ snapshots:
   '@rushstack/eslint-patch@1.16.1': {}
 
   '@rushstack/eslint-plugin-packlets@0.15.2(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)':
+    dependencies:
+      '@rushstack/tree-pattern': 0.4.1
+      '@typescript-eslint/utils': 8.56.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+      eslint: 9.39.5(jiti@2.7.0)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@rushstack/eslint-plugin-packlets@0.15.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
       '@rushstack/tree-pattern': 0.4.1
       '@typescript-eslint/utils': 8.56.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
