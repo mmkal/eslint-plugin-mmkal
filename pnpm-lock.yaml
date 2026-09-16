@@ -37,7 +37,7 @@ importers:
         version: 10.1.8(eslint@9.39.5(jiti@2.7.0))
       eslint-config-xo:
         specifier: ^2.0.0
-        version: 2.0.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.6)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
+        version: 2.0.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.7)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
       eslint-config-xo-react:
         specifier: ^0.31.0
         version: 0.31.0(eslint@9.39.5(jiti@2.7.0))
@@ -61,7 +61,7 @@ importers:
         version: 5.1.0(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-prettier:
         specifier: ^5.2.3
-        version: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.6)
+        version: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.7)
       eslint-plugin-promise:
         specifier: ^7.2.1
         version: 7.3.0(eslint@9.39.5(jiti@2.7.0))
@@ -88,7 +88,7 @@ importers:
         version: 4.18.1
       prettier:
         specifier: ^3.5.3
-        version: 3.9.6
+        version: 3.9.7
       typescript-eslint:
         specifier: ^8.44.1
         version: 8.58.2(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
@@ -4163,8 +4163,8 @@ packages:
     resolution: {integrity: sha512-SxToR7P8Y2lWmv/kTzVLC1t/GDI2WGjMwNhLLE9qtH8Q13C+aEmuRlzDst4Up4s0Wc8sF2M+J57iB3cMLqftfg==}
     engines: {node: '>=6.0.0'}
 
-  prettier@3.9.6:
-    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+  prettier@3.9.7:
+    resolution: {integrity: sha512-T3mF5P7HFzZVLDQuCUNtJj6WK1pcpLMweMNUVwGb01bLNkH9AkKxtZvmInw8K6bnn2O3d6/5RHl6zSHiBAD0Og==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7538,7 +7538,7 @@ snapshots:
       eslint: 9.39.5(jiti@2.7.0)
       globals: 17.12.0
 
-  eslint-config-xo@2.0.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.6)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3):
+  eslint-config-xo@2.0.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.7)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.7.2(eslint@9.39.5(jiti@2.7.0))
       '@eslint/compat': 2.1.0(eslint@9.39.5(jiti@2.7.0))
@@ -7557,13 +7557,13 @@ snapshots:
       eslint-plugin-import-x: 4.17.1(@typescript-eslint/utils@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-jsdoc: 64.3.3(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       eslint-plugin-n: 18.3.0(eslint@9.39.5(jiti@2.7.0))(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
-      eslint-plugin-prettier: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.6)
+      eslint-plugin-prettier: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.7)
       eslint-plugin-regexp: 3.2.0(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-unicorn: 74.0.0(eslint@9.39.5(jiti@2.7.0))
       globals: 17.12.0
       typescript-eslint: 8.69.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
     optionalDependencies:
-      prettier: 3.9.6
+      prettier: 3.9.7
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@types/eslint'
@@ -7767,10 +7767,10 @@ snapshots:
       ts-declaration-location: 1.0.7(typescript@5.9.3)
       typescript: 5.9.3
 
-  eslint-plugin-prettier@5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.6):
+  eslint-plugin-prettier@5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.7):
     dependencies:
       eslint: 9.39.5(jiti@2.7.0)
-      prettier: 3.9.6
+      prettier: 3.9.7
       prettier-linter-helpers: 1.0.1
       synckit: 0.11.13
     optionalDependencies:
@@ -9673,7 +9673,7 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier@3.9.6: {}
+  prettier@3.9.7: {}
 
   pretty-format@29.7.0:
     dependencies:
