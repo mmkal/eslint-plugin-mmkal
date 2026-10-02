@@ -82,7 +82,7 @@ importers:
         version: 0.1.0-1
       globals:
         specifier: ^17.0.0
-        version: 17.12.0
+        version: 17.13.0
       lodash:
         specifier: ^4.17.21
         version: 4.18.1
@@ -3070,8 +3070,8 @@ packages:
     resolution: {integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ==}
     engines: {node: '>=18'}
 
-  globals@17.12.0:
-    resolution: {integrity: sha512-cezEd/DTyyht9cvSSURyygXPfy04GtWO/5e6ZPvH7fCtjKz9PYOmuawphw1Ctd1f6C+5JypXfGD7ahNMXvevBA==}
+  globals@17.13.0:
+    resolution: {integrity: sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -7696,7 +7696,7 @@ snapshots:
       '@stylistic/eslint-plugin': 5.10.0(eslint@9.39.5(jiti@2.7.0))
       confusing-browser-globals: 1.0.11
       eslint: 9.39.5(jiti@2.7.0)
-      globals: 17.12.0
+      globals: 17.13.0
 
   eslint-config-xo@4.0.1(@types/eslint@9.6.1)(@typescript-eslint/utils@8.70.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.9)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
@@ -7720,7 +7720,7 @@ snapshots:
       eslint-plugin-prettier: 5.5.6(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))(prettier@3.9.9)
       eslint-plugin-regexp: 3.3.1(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-unicorn: 76.0.0(eslint@9.39.5(jiti@2.7.0))
-      globals: 17.12.0
+      globals: 17.13.0
       typescript-eslint: 8.70.1(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
     optionalDependencies:
       prettier: 3.9.9
@@ -8159,7 +8159,7 @@ snapshots:
       entities: 8.1.0
       eslint: 9.39.5(jiti@2.7.0)
       find-up-simple: 1.0.1
-      globals: 17.12.0
+      globals: 17.13.0
       identifier-regex: 1.1.0
       indent-string: 5.0.0
       is-builtin-module: 5.0.0
@@ -8534,7 +8534,7 @@ snapshots:
 
   globals@16.5.0: {}
 
-  globals@17.12.0: {}
+  globals@17.13.0: {}
 
   globalthis@1.0.4:
     dependencies:
