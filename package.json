@@ -32,7 +32,7 @@
     "@eslint/js": "^9.21.0",
     "@next/eslint-plugin-next": "^16.0.0",
     "@rushstack/eslint-config": "^4.2.0",
-    "@rushstack/eslint-plugin": "^0.23.0",
+    "@rushstack/eslint-plugin": "^0.24.0",
     "@rushstack/eslint-plugin-packlets": "^0.15.0",
     "@rushstack/eslint-plugin-security": "^0.14.0",
     "@types/eslint": "^9.6.1",
