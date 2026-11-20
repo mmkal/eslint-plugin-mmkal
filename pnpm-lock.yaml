@@ -39,8 +39,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(@types/eslint@9.6.1)(@typescript-eslint/utils@8.73.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(prettier@3.10.1)(ts-declaration-location@1.0.7(typescript@5.9.3))(typescript@5.9.3)
       eslint-config-xo-react:
-        specifier: ^0.33.0
-        version: 0.33.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+        specifier: ^0.34.0
+        version: 0.34.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       eslint-config-xo-typescript:
         specifier: ^11.0.0
         version: 11.0.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
@@ -2500,8 +2500,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-config-xo-react@0.33.0:
-    resolution: {integrity: sha512-9uO42LO36JJ73rDFtPJBTBuskumULs/jvHWs1kRg+OHruLh4cH5SzKrK3xNMUszMhphDHVfoX+okeFIV4KwmYg==}
+  eslint-config-xo-react@0.34.0:
+    resolution: {integrity: sha512-pAuudSbvUvSN3BrIMrOaFHfF6ySaXD9bgxla7VcTD8bZYUVshh2OrxlGDHTTqd8/4VTs23Cw2/O3MAV6YquGyA==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10.4'
@@ -5792,7 +5792,7 @@ snapshots:
   '@eslint/css-tree@4.1.2':
     dependencies:
       mdn-data: 2.37.2
-      source-map-js: 1.2.2
+      source-map-js: 1.2.4
 
   '@eslint/css@0.14.1':
     dependencies:
@@ -6118,7 +6118,7 @@ snapshots:
 
   '@modelcontextprotocol/core@2.0.0':
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@modelcontextprotocol/server@2.0.0':
     dependencies:
@@ -7352,7 +7352,7 @@ snapshots:
   css-tree@3.2.1:
     dependencies:
       mdn-data: 2.27.1
-      source-map-js: 1.2.2
+      source-map-js: 1.2.4
 
   css-what@6.2.2: {}
 
@@ -7708,7 +7708,7 @@ snapshots:
     dependencies:
       eslint: 9.39.5(jiti@2.7.0)
 
-  eslint-config-xo-react@0.33.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3):
+  eslint-config-xo-react@0.34.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3):
     dependencies:
       '@eslint-react/eslint-plugin': 5.30.4(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       '@stylistic/eslint-plugin': 6.0.1(eslint@9.39.5(jiti@2.7.0))
@@ -7716,6 +7716,7 @@ snapshots:
       eslint-plugin-jsx-a11y-x: 0.2.0(eslint@9.39.5(jiti@2.7.0))
       eslint-plugin-perfectionist: 5.14.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
       eslint-plugin-react-hooks: 7.1.1(eslint@9.39.5(jiti@2.7.0))
+      eslint-plugin-unicorn: 80.0.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
     transitivePeerDependencies:
       - '@typescript/native'
       - oxlint
@@ -8046,8 +8047,8 @@ snapshots:
       '@babel/parser': 7.29.2
       eslint: 9.39.5(jiti@2.7.0)
       hermes-parser: 0.25.1
-      zod: 4.6.5
-      zod-validation-error: 4.0.2(zod@4.6.5)
+      zod: 4.6.7
+      zod-validation-error: 4.0.2(zod@4.6.7)
     transitivePeerDependencies:
       - supports-color
 
@@ -10962,9 +10963,9 @@ snapshots:
 
   yoctocolors@2.2.0: {}
 
-  zod-validation-error@4.0.2(zod@4.6.5):
+  zod-validation-error@4.0.2(zod@4.6.7):
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   zod@3.25.76: {}
 
